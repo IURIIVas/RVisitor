@@ -41,7 +41,7 @@ typedef enum
 /* GPIO Init structure definition */
 typedef struct
 {
-  uint16_t GPIO_Pin;             /* Specifies the GPIO pins to be configured.
+  uint16_t GPIO_Pins;             /* Specifies the GPIO pins to be configured.
                                     This parameter can be any value of @ref GPIO_pins_define */
 
   GPIOSpeed_TypeDef GPIO_Speed;  /* Specifies the speed for the selected pins.
@@ -49,7 +49,7 @@ typedef struct
 
   GPIOMode_TypeDef GPIO_Mode;    /* Specifies the operating mode for the selected pins.
                                     This parameter can be a value of @ref GPIOMode_TypeDef */
-}GPIO_InitTypeDef;
+}gpio_init_t;
 
 /* Bit_SET and Bit_RESET enumeration */
 typedef enum
@@ -166,8 +166,8 @@ typedef enum
 
 void GPIO_DeInit(GPIO_TypeDef* GPIOx);
 void GPIO_AFIODeInit(void);
-void GPIO_Init(GPIO_TypeDef* GPIOx, GPIO_InitTypeDef* GPIO_InitStruct);
-void GPIO_StructInit(GPIO_InitTypeDef* GPIO_InitStruct);
+void GPIO_Init(GPIO_TypeDef* GPIOx, gpio_init_t* GPIO_InitStruct);
+void GPIO_StructInit(gpio_init_t* GPIO_InitStruct);
 uint8_t GPIO_ReadInputDataBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 uint16_t GPIO_ReadInputData(GPIO_TypeDef* GPIOx);
 uint8_t GPIO_ReadOutputDataBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);

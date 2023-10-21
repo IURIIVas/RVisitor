@@ -66,11 +66,11 @@ typedef int32_t  s32;
 typedef int16_t s16;
 typedef int8_t  s8;
 
-typedef enum {NoREADY = 0, READY = !NoREADY} ErrorStatus;
+typedef enum {NoREADY = 0, READY = 1} ErrorStatus;
 
-typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
+typedef enum {DISABLE = 0, ENABLE = 1} FunctionalState;
 
-typedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus;
+typedef enum {RESET = 0, SET = 1} FlagStatus, ITStatus;
 
 #define   RV_STATIC_INLINE  static  inline
 

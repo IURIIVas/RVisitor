@@ -1,5 +1,5 @@
-/// \file blink_led.h
-/// \brief Blink Led Header
+/// \file m_string.h
+/// \brief lib to help with strings in c
 /// \author 1jura.vas@gmail.com
 ///
 /// \details
@@ -7,26 +7,21 @@
 
 //--------------------------------------------------- Include guards ---------------------------------------------------
 
-#ifndef TASKS_BLINK_LED_H_
-#define TASKS_BLINK_LED_H_
+#ifndef M_STRING_H_
+#define M_STRING_H_
 
 //----------------------------------------------------- Includes -------------------------------------------------------
 
-//------------------------------------------------------ Macros --------------------------------------------------------
+#include <stdint.h>
 
-#define LED1_BLINK_TASK_PRIO     	  (5)
-#define LED1_BLINK_TASK_STK_SIZE      (256)
+//------------------------------------------------------ Macros --------------------------------------------------------
 
 //----------------------------------------------------- Typedefs -------------------------------------------------------
 
 //---------------------------------------------------- Variables -------------------------------------------------------
 
-extern TaskHandle_t blink_led1_task_handler;
-
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
-void led1_blink_task(void *pvParameters);
-void blink_led_tasks_init(void);
+int8_t m_strcmp(const char *x, const char *y);
 
-
-#endif /* TASKS_BLINK_LED_H_ */
+#endif /* M_STRING_H_ */

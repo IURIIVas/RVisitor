@@ -48,7 +48,7 @@ void NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup)
  *
  * @return  none
  */
-void NVIC_Init(NVIC_InitTypeDef *NVIC_InitStruct)
+void NVIC_Init(nvic_init_t *NVIC_InitStruct)
 {
     uint8_t tmppre = 0;
 

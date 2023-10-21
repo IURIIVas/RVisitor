@@ -83,7 +83,7 @@ void GPIO_AFIODeInit(void)
  *
  * @return  none
  */
-void GPIO_Init(GPIO_TypeDef *GPIOx, GPIO_InitTypeDef *GPIO_InitStruct)
+void GPIO_Init(GPIO_TypeDef *GPIOx, gpio_init_t *GPIO_InitStruct)
 {
     uint32_t currentmode = 0x00, currentpin = 0x00, pinpos = 0x00, pos = 0x00;
     uint32_t tmpreg = 0x00, pinmask = 0x00;
@@ -95,14 +95,14 @@ void GPIO_Init(GPIO_TypeDef *GPIOx, GPIO_InitTypeDef *GPIO_InitStruct)
         currentmode |= (uint32_t)GPIO_InitStruct->GPIO_Speed;
     }
 
-    if(((uint32_t)GPIO_InitStruct->GPIO_Pin & ((uint32_t)0x00FF)) != 0x00)
+    if(((uint32_t)GPIO_InitStruct->GPIO_Pins & ((uint32_t)0x00FF)) != 0x00)
     {
         tmpreg = GPIOx->CFGLR;
 
         for(pinpos = 0x00; pinpos < 0x08; pinpos++)
         {
             pos = ((uint32_t)0x01) << pinpos;
-            currentpin = (GPIO_InitStruct->GPIO_Pin) & pos;
+            currentpin = (GPIO_InitStruct->GPIO_Pins) & pos;
 
             if(currentpin == pos)
             {
@@ -127,14 +127,14 @@ void GPIO_Init(GPIO_TypeDef *GPIOx, GPIO_InitTypeDef *GPIO_InitStruct)
         GPIOx->CFGLR = tmpreg;
     }
 
-    if(GPIO_InitStruct->GPIO_Pin > 0x00FF)
+    if(GPIO_InitStruct->GPIO_Pins > 0x00FF)
     {
         tmpreg = GPIOx->CFGHR;
 
         for(pinpos = 0x00; pinpos < 0x08; pinpos++)
         {
             pos = (((uint32_t)0x01) << (pinpos + 0x08));
-            currentpin = ((GPIO_InitStruct->GPIO_Pin) & pos);
+            currentpin = ((GPIO_InitStruct->GPIO_Pins) & pos);
 
             if(currentpin == pos)
             {
@@ -168,9 +168,9 @@ void GPIO_Init(GPIO_TypeDef *GPIOx, GPIO_InitTypeDef *GPIO_InitStruct)
  *
  * @return  none
  */
-void GPIO_StructInit(GPIO_InitTypeDef *GPIO_InitStruct)
+void GPIO_StructInit(gpio_init_t *GPIO_InitStruct)
 {
-    GPIO_InitStruct->GPIO_Pin = GPIO_Pin_All;
+    GPIO_InitStruct->GPIO_Pins = GPIO_Pin_All;
     GPIO_InitStruct->GPIO_Speed = GPIO_Speed_2MHz;
     GPIO_InitStruct->GPIO_Mode = GPIO_Mode_IN_FLOATING;
 }
