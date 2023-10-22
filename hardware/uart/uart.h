@@ -168,6 +168,7 @@ void USART_LINBreakDetectLengthConfig(USART_TypeDef* USARTx, uint16_t USART_LINB
 void USART_LINCmd(USART_TypeDef* USARTx, FunctionalState NewState);
 void USART_SendData(USART_TypeDef* USARTx, uint16_t Data);
 void uart_send_str(USART_TypeDef *USARTx, const char *str_to_send);
+void uart_send_int(USART_TypeDef *uart, int32_t int_num);
 uint16_t USART_ReceiveData(USART_TypeDef* USARTx);
 void USART_SendBreak(USART_TypeDef* USARTx);
 void USART_SetGuardTime(USART_TypeDef* USARTx, uint8_t USART_GuardTime);

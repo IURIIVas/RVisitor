@@ -11,6 +11,7 @@
 *******************************************************************************/
 #include "rcc.h"
 #include "uart.h"
+#include "m_string.h"
 
 /* USART_Private_Defines */
 #define CTLR1_UE_Set              ((uint16_t)0x2000) /* USART Enable Mask */
@@ -476,6 +477,17 @@ void uart_send_str(USART_TypeDef *USARTx, const char *str_to_send)
 		USART_SendData(USARTx, (uint16_t)tmp_char);
 		str_to_send++;
 	}
+}
+
+/// \brief Send int to UART
+/// \param UART, int to send
+/// \retval None
+/// \return None
+void uart_send_int(USART_TypeDef *uart, int32_t int_num)
+{
+	char str_num[12];
+	m_itoa(int_num, str_num);
+	uart_send_str(uart, str_num);
 }
 
 /*********************************************************************

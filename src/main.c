@@ -10,8 +10,10 @@
 #include "global_inc.h"
 #include "misc.h"
 #include "system_ch32v30x.h"
+
 #include "blink_led.h"
 #include "cmd_interface.h"
+#include "hw_201_survey.h"
 
 //------------------------------------------------------ Macros --------------------------------------------------------
 
@@ -30,9 +32,9 @@
 
 void tasks_init(void)
 {
-
 	blink_led_tasks_init();
 	cmd_iface_listening_task_init();
+	hw_201_task_init();
 }
 
 

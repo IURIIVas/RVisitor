@@ -16,6 +16,7 @@
 
 #include "m_string.h"
 #include "cmd_interface.h"
+#include "hw_201_survey.h"
 
 //------------------------------------------------------ Macros --------------------------------------------------------
 
@@ -28,7 +29,8 @@ uint8_t received_cmd_pos = 0;
 char received_cmd[50];
 
 const char *help_cmd = "help";
-const char *print_hello_cmd = "print_hello";
+const char *print_hello_cmd = "print hello";
+const char *hw_201_state_cmd = "hw-201 state";
 
 TaskHandle_t cmd_interface_task_handler;
 
@@ -44,7 +46,7 @@ void USART2_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 /// \param None
 /// \retval None
 /// \return None
-static void _gpio_cmd_iface_uart_clk_init(void)
+static void _rcc_gpio_cmd_iface_clk_init(void)
 {
 	RCC_APB2PeriphClockCmd(CMD_IFACE_RCC_APB2_GPIO, ENABLE);
 	RCC_APB1PeriphClockCmd(CMD_IFACE_RCC_APB1_UART, ENABLE);
@@ -110,6 +112,43 @@ static void _print_hello(void)
 	uart_send_str(CMD_IFACE_UART, hello_string);
 }
 
+static void _print_hw_201_state(void)
+{
+	uint8_t hw_201_sensor = HW_201_FRONT_LEFT;
+	char *obstacle_found_state = "obstacle found !!\n";
+	char *obstacle_not_found_state = "obstacle not found !!\n";
+
+	for (hw_201_sensor = HW_201_FRONT_LEFT; hw_201_sensor < HW_201_SENSORS_NUM; hw_201_sensor++)
+	{
+		switch (hw_201_sensor)
+		{
+		case HW_201_FRONT_LEFT:
+			uart_send_str(CMD_IFACE_UART, "front left sensor data: ");
+			break;
+		case HW_201_FRONT_RIGHT:
+			uart_send_str(CMD_IFACE_UART, "front right sensor data: ");
+			break;
+		case HW_201_BACK_LEFT:
+			uart_send_str(CMD_IFACE_UART, "back left sensor data: ");
+			break;
+		case HW_201_BACK_RIGHT:
+			uart_send_str(CMD_IFACE_UART, "back right sensor data: ");
+			break;
+		default:
+			uart_send_str(CMD_IFACE_UART, "YOU SHOUD NOT SEE THAT. ERR. No such sensor\n");
+		}
+
+		if (IS_OBSTACLE == hw_201_sensors_state[hw_201_sensor])
+		{
+			uart_send_str(CMD_IFACE_UART, obstacle_found_state);
+		}
+		else
+		{
+			uart_send_str(CMD_IFACE_UART, obstacle_not_found_state);
+		}
+	}
+}
+
 /// \brief print unknown cmd
 /// \param None
 /// \retval None
@@ -135,6 +174,10 @@ static void _cmd_parse()
 	{
 		_print_hello();
 	}
+	else if (m_strcmp(received_cmd, hw_201_state_cmd))
+	{
+		_print_hw_201_state();
+	}
 	else
 	{
 		_print_unknown_cmd();
@@ -146,6 +189,10 @@ static void _cmd_parse()
 
 //---------------------------------------------------- Functions -------------------------------------------------------
 
+/// \brief USART2 Handler
+/// \param None
+/// \retval None
+/// \return None
 void USART2_IRQHandler(void)
 {
     if(USART_GetITStatus(CMD_IFACE_UART, USART_IT_RXNE) != RESET)
@@ -185,7 +232,7 @@ void cmd_iface_listening_task(void *pvParameters)
 /// \return None
 void cmd_iface_listening_task_init(void)
 {
-	_gpio_cmd_iface_uart_clk_init();
+	_rcc_gpio_cmd_iface_clk_init();
 	_gpio_cmd_iface_uart_init();
 	_uart_cmd_iface_init();
 	_nvic_enable_uart_interrupt();
