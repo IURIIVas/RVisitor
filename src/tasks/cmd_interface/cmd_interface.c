@@ -17,6 +17,7 @@
 #include "m_string.h"
 #include "cmd_interface.h"
 #include "hw_201_survey.h"
+#include "dc_motor_driver.h"
 
 //------------------------------------------------------ Macros --------------------------------------------------------
 
@@ -29,8 +30,11 @@ uint8_t received_cmd_pos = 0;
 char received_cmd[50];
 
 const char *help_cmd = "help";
-const char *print_hello_cmd = "print hello";
-const char *hw_201_state_cmd = "hw-201 state";
+const char *print_hello_cmd = "print_hello";
+const char *hw_201_state_cmd = "hw-201_state";
+const char *dc0_motor_forward_cmd = "dc0_forward";
+const char *dc0_motor_backward_cmd = "dc0_backward";
+const char *dc0_motor_stop_cmd = "dc0_stop";
 
 TaskHandle_t cmd_interface_task_handler;
 
@@ -149,6 +153,27 @@ static void _print_hw_201_state(void)
 	}
 }
 
+static inline void _dc0_set_forward(void)
+{
+	uart_send_str(CMD_IFACE_UART, "DC0 FORWARD\n");
+	dc0_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
+	dc0_set_direction[MOTOR_STATE_IDX_DIR] = FORWARD_DIRECTION;
+}
+
+static inline void _dc0_set_backward(void)
+{
+	uart_send_str(CMD_IFACE_UART, "DC0 BACKWARD\n");
+	dc0_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
+	dc0_set_direction[MOTOR_STATE_IDX_DIR] = BACKWARD_DIRECTION;
+}
+
+static inline void _dc0_stop(void)
+{
+	uart_send_str(CMD_IFACE_UART, "DC0 STOP\n");
+	dc0_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
+	dc0_set_direction[MOTOR_STATE_IDX_DIR] = MOTOR_STOP;
+}
+
 /// \brief print unknown cmd
 /// \param None
 /// \retval None
@@ -178,6 +203,18 @@ static void _cmd_parse()
 	{
 		_print_hw_201_state();
 	}
+	else if (m_strcmp(received_cmd, dc0_motor_forward_cmd))
+	{
+		_dc0_set_forward();
+	}
+	else if (m_strcmp(received_cmd, dc0_motor_backward_cmd))
+	{
+		_dc0_set_backward();
+	}
+	else if (m_strcmp(received_cmd, dc0_motor_stop_cmd))
+	{
+		_dc0_stop();
+	}
 	else
 	{
 		_print_unknown_cmd();
@@ -201,6 +238,7 @@ void USART2_IRQHandler(void)
         if('\n' == tmp_char)
         {
         	is_read_complete = 1;
+        	received_cmd[received_cmd_pos] = '\0';
         	received_cmd_pos = 0;
         	return;
         }
