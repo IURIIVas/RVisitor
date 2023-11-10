@@ -19,8 +19,12 @@
 
 #define PWM_MODE 					(TIM_OCMode_PWM1)
 
+#define MOTOR_MAX_VALUE				(1000)
+#define MOTOR_PWM_PRESCALER			(1)
+
 #define MOTOR_STATE_IDX_SET			(0)
 #define MOTOR_STATE_IDX_DIR 		(1)
+#define MOTOR_STATE_IDX_SPEED 		(1)
 
 #define SET_STATE					(1)
 #define STATE_SETTED				(0)
@@ -54,6 +58,7 @@
 
 extern TaskHandle_t dc_motor_driver_task_handler;
 extern uint8_t dc0_set_direction[];
+extern int32_t dc0_set_speed[];
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 

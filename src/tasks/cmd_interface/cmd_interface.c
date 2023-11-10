@@ -27,7 +27,8 @@
 
 uint8_t is_read_complete = 0;
 uint8_t received_cmd_pos = 0;
-char received_cmd[50];
+char received_cmd[CMD_MAX_LEN];
+int32_t subcmd[10];
 
 const char *help_cmd = "help";
 const char *print_hello_cmd = "print_hello";
@@ -35,6 +36,7 @@ const char *hw_201_state_cmd = "hw-201_state";
 const char *dc0_motor_forward_cmd = "dc0_forward";
 const char *dc0_motor_backward_cmd = "dc0_backward";
 const char *dc0_motor_stop_cmd = "dc0_stop";
+const char *dc0_motor_set_speed = "dc0_set_speed";
 
 TaskHandle_t cmd_interface_task_handler;
 
@@ -45,6 +47,52 @@ void USART2_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 //------------------------------------------------- Inline Functions ---------------------------------------------------
 
 //------------------------------------------------- Static Functions ---------------------------------------------------
+
+static int32_t _cmd_get_subcmd(const char *cmd)
+{
+	uint32_t idx_number = 0;
+	int32_t number;
+
+	while (cmd[idx_number] && cmd[idx_number] != ' ')
+	{
+		idx_number++;
+	}
+
+	number = m_strtol(cmd, idx_number);
+	return number;
+}
+
+static void _cmd_parse_for_subcmd(const char *cmd)
+{
+	uint8_t subcmd_idx = 0;
+
+	while (*cmd)
+	{
+		if (' ' == *cmd)
+		{
+			subcmd[subcmd_idx] = _cmd_get_subcmd(cmd + 1);
+		}
+		cmd++;
+	}
+}
+
+static void _cmd_parse_for_cmd(const char *cmd, char *cmd_word)
+{
+	uint32_t idx = 0;
+	while (*cmd)
+	{
+		if (' ' == *cmd)
+		{
+			cmd_word[idx] = '\0';
+			return;
+		}
+		cmd_word[idx] = *cmd;
+
+		idx++;
+		cmd++;
+	}
+	cmd_word[idx] = '\0';
+}
 
 /// \brief Enable clock on UART and its GPIO
 /// \param None
@@ -153,25 +201,38 @@ static void _print_hw_201_state(void)
 	}
 }
 
-static inline void _dc0_set_forward(void)
+static void _dc0_set_forward(void)
 {
 	uart_send_str(CMD_IFACE_UART, "DC0 FORWARD\n");
 	dc0_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
 	dc0_set_direction[MOTOR_STATE_IDX_DIR] = FORWARD_DIRECTION;
 }
 
-static inline void _dc0_set_backward(void)
+static void _dc0_set_backward(void)
 {
 	uart_send_str(CMD_IFACE_UART, "DC0 BACKWARD\n");
 	dc0_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
 	dc0_set_direction[MOTOR_STATE_IDX_DIR] = BACKWARD_DIRECTION;
 }
 
-static inline void _dc0_stop(void)
+static void _dc0_stop(void)
 {
 	uart_send_str(CMD_IFACE_UART, "DC0 STOP\n");
 	dc0_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
 	dc0_set_direction[MOTOR_STATE_IDX_DIR] = MOTOR_STOP;
+}
+
+static void _dc0_set_state_speed(void)
+{
+	char speed_str[10];
+	m_itoa(subcmd[0], speed_str);
+
+	uart_send_str(CMD_IFACE_UART, "SET SPEED: ");
+	uart_send_str(CMD_IFACE_UART, speed_str);
+	uart_send_str(CMD_IFACE_UART, "\n");
+
+	dc0_set_speed[MOTOR_STATE_IDX_SET] = SET_STATE;
+	dc0_set_speed[MOTOR_STATE_IDX_SPEED] = subcmd[0];
 }
 
 /// \brief print unknown cmd
@@ -191,29 +252,38 @@ static void _print_unknown_cmd(void)
 /// \return None
 static void _cmd_parse()
 {
-	if (m_strcmp(received_cmd, help_cmd))
+	char cmd_word[CMD_MAX_LEN];
+	_cmd_parse_for_cmd(received_cmd, cmd_word);
+
+	if (m_strcmp(cmd_word, help_cmd))
 	{
 		;
 	}
-	else if (m_strcmp(received_cmd, print_hello_cmd))
+	else if (m_strcmp(cmd_word, print_hello_cmd))
 	{
 		_print_hello();
 	}
-	else if (m_strcmp(received_cmd, hw_201_state_cmd))
+	else if (m_strcmp(cmd_word, hw_201_state_cmd))
 	{
 		_print_hw_201_state();
 	}
-	else if (m_strcmp(received_cmd, dc0_motor_forward_cmd))
+	else if (m_strcmp(cmd_word, dc0_motor_forward_cmd))
 	{
 		_dc0_set_forward();
 	}
-	else if (m_strcmp(received_cmd, dc0_motor_backward_cmd))
+	else if (m_strcmp(cmd_word, dc0_motor_backward_cmd))
 	{
 		_dc0_set_backward();
 	}
-	else if (m_strcmp(received_cmd, dc0_motor_stop_cmd))
+	else if (m_strcmp(cmd_word, dc0_motor_stop_cmd))
 	{
 		_dc0_stop();
+	}
+	else if (m_strcmp(cmd_word, dc0_motor_set_speed))
+	{
+		_cmd_parse_for_subcmd(received_cmd);
+
+		_dc0_set_state_speed();
 	}
 	else
 	{

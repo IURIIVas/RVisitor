@@ -15,6 +15,8 @@
 
 //------------------------------------------------------ Macros --------------------------------------------------------
 
+#define CMD_MAX_LEN						  (50)
+
 #define CMD_IFACE_UART					  (USART2)
 #define CMD_IFACE_BAUDRATE				  (115200)
 #define CMD_IFACE_GPIO					  (GPIOA)

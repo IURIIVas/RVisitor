@@ -19,6 +19,7 @@
 
 TaskHandle_t dc_motor_driver_task_handler;
 uint8_t dc0_set_direction[] = {STATE_SETTED, MOTOR_STOP};
+int32_t dc0_set_speed[] = {STATE_SETTED, MOTOR_MAX_VALUE};
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
@@ -32,8 +33,8 @@ static inline void _dc0_dir_forward_run(void)
 
 static inline void _dc0_dir_backward_run(void)
 {
-	TIM1->CCER &= (uint16_t)(DC0_TIM1_CH2_OUTPUT_ENABLE);
-	TIM1->CCER |= (uint16_t)(~DC0_TIM1_CH1_OUTPUT_ENABLE);
+	TIM1->CCER &= (uint16_t)(~DC0_TIM1_CH1_OUTPUT_ENABLE);
+	TIM1->CCER |= (uint16_t)(DC0_TIM1_CH2_OUTPUT_ENABLE);
 }
 
 static inline void _dc0_stop(void)
@@ -58,10 +59,11 @@ static void _gpio_tim_init(void)
 	GPIO_Init(DC0_TIM1_GPIO, &gpio_dc0_tim1_init_struct);
 }
 
-/// \brief Timer init for PWM mode
-/// \param	period - perido value
-/// 		prescaler - prescaler value
-/// 		pulse - pulse value
+/// \brief  Timer init for PWM mode
+/// 	    duty cycle = pulse/period
+/// \param	period - autoreload value
+/// 		prescaler - f_pwm = f_apb2 / (psc + 1)
+/// 		pulse - compare this value with period. If equal, change output.
 /// \retval None
 /// \return None
 static void _tim_init(uint16_t period, uint16_t prescaler, uint16_t pulse)
@@ -118,6 +120,15 @@ void dc_motor_driver_task(void *pvParameters)
 				dc0_set_direction[MOTOR_STATE_IDX_SET] = STATE_SETTED;
 			}
 		}
+		if (SET_STATE == dc0_set_speed[MOTOR_STATE_IDX_SET])
+		{
+			TIM_CtrlPWMOutputs(TIM1, DISABLE);
+			_tim_init(MOTOR_MAX_VALUE, MOTOR_PWM_PRESCALER-1,
+					dc0_set_speed[MOTOR_STATE_IDX_SPEED]);
+			dc0_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
+
+			dc0_set_speed[MOTOR_STATE_IDX_SET] = STATE_SETTED;
+		}
 	}
 }
 
@@ -128,7 +139,7 @@ void dc_motor_driver_task(void *pvParameters)
 void dc_motor_driver_task_init(void)
 {
 	_gpio_tim_init();
-	_tim_init(100, 48000-1, 50);
+	_tim_init(MOTOR_MAX_VALUE, MOTOR_PWM_PRESCALER-1, MOTOR_MAX_VALUE);
 
     xTaskCreate((TaskFunction_t )dc_motor_driver_task,
 				(const char*    )"cmd interface listening",

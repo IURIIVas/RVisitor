@@ -43,6 +43,32 @@ void reverse(char *str)
 	}
 }
 
+int32_t m_strtol(const char* str, uint32_t num_end_idx)
+{
+	uint32_t idx = 0;
+	int32_t num = 0;
+	uint8_t neg = 0;
+	uint8_t base = 10;
+
+	if (str[idx] == '-')
+	{
+		neg = 1;
+		idx++;
+	}
+
+	while (idx != num_end_idx)
+	{
+		num *= base;
+		num += str[idx] - '0';
+		idx++;
+	}
+	if (neg)
+	{
+		num = -num;
+	}
+	return num;
+}
+
 /// \brief Transform int to string
 /// \param int32_t n - number to convert, char* str - string where to convert
 /// \retval None
