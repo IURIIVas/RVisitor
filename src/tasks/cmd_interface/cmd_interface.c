@@ -101,6 +101,7 @@ static void _cmd_parse_for_cmd(const char *cmd, char *cmd_word)
 static void _rcc_gpio_cmd_iface_clk_init(void)
 {
 	RCC_APB2PeriphClockCmd(CMD_IFACE_RCC_APB2_GPIO, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 	RCC_APB1PeriphClockCmd(CMD_IFACE_RCC_APB1_UART, ENABLE);
 }
 
@@ -110,6 +111,8 @@ static void _rcc_gpio_cmd_iface_clk_init(void)
 /// \return None
 static void _gpio_cmd_iface_uart_init(void)
 {
+	AFIO->PCFR1 |= GPIO_Remap_USART2;
+
 	gpio_init_t gpio_init_struct = {0};
 
 	gpio_init_struct.GPIO_Pins = CMD_IFACE_GPIO_TX_PIN;
@@ -296,7 +299,7 @@ static void _cmd_parse()
 
 //---------------------------------------------------- Functions -------------------------------------------------------
 
-/// \brief USART2 Handler
+/// \brief UART5 Handler
 /// \param None
 /// \retval None
 /// \return None
@@ -304,7 +307,7 @@ void USART2_IRQHandler(void)
 {
     if(USART_GetITStatus(CMD_IFACE_UART, USART_IT_RXNE) != RESET)
     {
-    	char tmp_char = USART_ReceiveData(USART2);
+    	char tmp_char = USART_ReceiveData(CMD_IFACE_UART);
         if('\n' == tmp_char)
         {
         	is_read_complete = 1;

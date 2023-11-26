@@ -37,7 +37,7 @@ static void _gpio_mux_select_init(void)
 	gpio_init_t gpio_init_struct = {0};
 
 	gpio_init_struct.GPIO_Pins = HW_201_MUX_GPIO_PINS;
-	gpio_init_struct.GPIO_Mode = GPIO_Mode_AF_PP;
+	gpio_init_struct.GPIO_Mode = GPIO_Mode_Out_PP;
 	gpio_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(HW_201_GPIO_PORT, &gpio_init_struct);
 }

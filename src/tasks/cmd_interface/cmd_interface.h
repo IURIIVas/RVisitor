@@ -19,11 +19,11 @@
 
 #define CMD_IFACE_UART					  (USART2)
 #define CMD_IFACE_BAUDRATE				  (115200)
-#define CMD_IFACE_GPIO					  (GPIOA)
-#define CMD_IFACE_GPIO_TX_PIN			  (GPIO_Pin_2)
-#define CMD_IFACE_GPIO_RX_PIN			  (GPIO_Pin_3)
+#define CMD_IFACE_GPIO					  (GPIOD)
+#define CMD_IFACE_GPIO_TX_PIN			  (GPIO_Pin_5)
+#define CMD_IFACE_GPIO_RX_PIN			  (GPIO_Pin_6)
 #define CMD_IFACE_RCC_APB1_UART  		  (RCC_APB1Periph_USART2)
-#define CMD_IFACE_RCC_APB2_GPIO  		  (RCC_APB2Periph_GPIOA)
+#define CMD_IFACE_RCC_APB2_GPIO  		  (RCC_APB2Periph_GPIOD)
 #define CMD_IFACE_NVIC_IRQ_CHANNEL		  (USART2_IRQn)
 
 #define CMD_IFACE_LISTENING_PRIO     	  (5)

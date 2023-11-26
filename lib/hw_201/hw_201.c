@@ -54,7 +54,7 @@ void hw_201_gpio_signal_in_init(GPIO_TypeDef *GPIO_PORT, uint16_t GPIO_IN_PIN)
 	gpio_init_t gpio_init_struct = {0};
 
 	gpio_init_struct.GPIO_Pins = GPIO_IN_PIN;
-	gpio_init_struct.GPIO_Mode = GPIO_Mode_IPD;
+	gpio_init_struct.GPIO_Mode = GPIO_Mode_IN_FLOATING;
 	GPIO_Init(GPIO_PORT, &gpio_init_struct);
 }
 
