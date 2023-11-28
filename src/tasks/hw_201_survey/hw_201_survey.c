@@ -94,7 +94,7 @@ void hw_201_task_init(void)
 	_gpio_mux_select_init();
 
     xTaskCreate((TaskFunction_t )hw_201_survey_task,
-				(const char*    )"cmd interface listening",
+				(const char*    )"hw_201 sensors get signal",
 				(uint16_t       )HW_201_SURVEY_TASK_STK_SIZE,
 				(void*          )NULL,
 				(UBaseType_t    )HW_201_SURVEY_TASK_PRIORITY,
