@@ -23,9 +23,8 @@
 #define HC_SR04_MUX_S1_GPIO_PIN				  (GPIO_Pin_5)
 #define HC_SR04_RCC_GPIO					  (RCC_APB2Periph_GPIOC)
 
-#define HC_SR04_TRIG_TIMER					  (TIM7)
-#define HC_SR04_TRIG_TIMER_RCC			      (RCC_APB1Periph_TIM7)
-#define HC_SR04_TRIG_TIMER_IRQ				  (TIM7_IRQn)
+#define HC_SR04_TRIG_TIMER					  (TIM9)
+#define HC_SR04_TRIG_TIMER_RCC			      (RCC_APB2Periph_TIM9)
 
 #define HC_SR04_SURVEY_TASK_PRIORITY     	  (5)
 #define HC_SR04_SURVEY_TASK_STK_SIZE      	  (256)
