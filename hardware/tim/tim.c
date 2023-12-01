@@ -393,13 +393,29 @@ void TIM_PWMIConfig(TIM_TypeDef *TIMx, tim_ic_init_t *TIM_ICInitStruct)
         TI2_Config(TIMx, icoppositepolarity, icoppositeselection, TIM_ICInitStruct->TIM_ICFilter);
         TIM_SetIC2Prescaler(TIMx, TIM_ICInitStruct->TIM_ICPrescaler);
     }
-    else
+    else if (TIM_ICInitStruct->TIM_Channel == TIM_Channel_2)
     {
         TI2_Config(TIMx, TIM_ICInitStruct->TIM_ICPolarity, TIM_ICInitStruct->TIM_ICSelection,
                    TIM_ICInitStruct->TIM_ICFilter);
         TIM_SetIC2Prescaler(TIMx, TIM_ICInitStruct->TIM_ICPrescaler);
         TI1_Config(TIMx, icoppositepolarity, icoppositeselection, TIM_ICInitStruct->TIM_ICFilter);
         TIM_SetIC1Prescaler(TIMx, TIM_ICInitStruct->TIM_ICPrescaler);
+    }
+    else if (TIM_ICInitStruct->TIM_Channel == TIM_Channel_3)
+    {
+        TI3_Config(TIMx, TIM_ICInitStruct->TIM_ICPolarity, TIM_ICInitStruct->TIM_ICSelection,
+                   TIM_ICInitStruct->TIM_ICFilter);
+        TIM_SetIC3Prescaler(TIMx, TIM_ICInitStruct->TIM_ICPrescaler);
+        TI4_Config(TIMx, icoppositepolarity, icoppositeselection, TIM_ICInitStruct->TIM_ICFilter);
+        TIM_SetIC4Prescaler(TIMx, TIM_ICInitStruct->TIM_ICPrescaler);
+    }
+    else if (TIM_ICInitStruct->TIM_Channel == TIM_Channel_4)
+    {
+        TI4_Config(TIMx, TIM_ICInitStruct->TIM_ICPolarity, TIM_ICInitStruct->TIM_ICSelection,
+                   TIM_ICInitStruct->TIM_ICFilter);
+        TIM_SetIC4Prescaler(TIMx, TIM_ICInitStruct->TIM_ICPrescaler);
+        TI3_Config(TIMx, icoppositepolarity, icoppositeselection, TIM_ICInitStruct->TIM_ICFilter);
+        TIM_SetIC3Prescaler(TIMx, TIM_ICInitStruct->TIM_ICPrescaler);
     }
 }
 

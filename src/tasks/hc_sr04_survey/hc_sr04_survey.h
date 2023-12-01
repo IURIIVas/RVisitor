@@ -26,7 +26,10 @@
 #define HC_SR04_TRIG_TIMER					  (TIM9)
 #define HC_SR04_TRIG_TIMER_RCC			      (RCC_APB2Periph_TIM9)
 
-#define HC_SR04_SURVEY_TASK_PRIORITY     	  (5)
+#define HC_SR04_ECHO_TIMER					  (TIM10)
+#define HC_SR04_ECHO_TIMER_RCC			      (RCC_APB2Periph_TIM10)
+
+#define HC_SR04_SURVEY_TASK_PRIORITY     	  (6)
 #define HC_SR04_SURVEY_TASK_STK_SIZE      	  (256)
 #define HC_SR04_DELAY_TICKS					  (1000)
 

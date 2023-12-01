@@ -21,11 +21,41 @@
 //---------------------------------------------------- Variables -------------------------------------------------------
 
 TaskHandle_t hc_sr04_survey_task_handler;
-uint8_t hc_sr04_sensors_distance[] = {0, 0, 0, 0};
+uint8_t hc_sr04_sensors_distance[4] = {0, 0, 0, 0};
+uint16_t hc_sr04_data_get = 0;
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
+void TIM10_CC_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+
 //------------------------------------------------- Inline Functions ---------------------------------------------------
+
+/// \brief CLK Enable to selected GPIO
+/// \param APB Periph addr
+/// \retval None
+/// \return None
+static inline void _hc_sr04_rcc_gpio_clk_init(void)
+{
+	RCC_APB2PeriphClockCmd(HC_SR04_RCC_GPIO, ENABLE);
+}
+
+/// \brief CLK Enable to selected timer
+/// \param APB Periph addr
+/// \retval None
+/// \return None
+static inline void _hc_sr04_trig_base_tim_clk_init(void)
+{
+	RCC_APB2PeriphClockCmd(HC_SR04_TRIG_TIMER_RCC, ENABLE);
+}
+
+/// \brief CLK Enable to selected timer
+/// \param APB Periph addr
+/// \retval None
+/// \return None
+static inline void _hc_sr04_echo_tim_clk_init(void)
+{
+	RCC_APB2PeriphClockCmd(HC_SR04_ECHO_TIMER_RCC, ENABLE);
+}
 
 //------------------------------------------------- Static Functions ---------------------------------------------------
 
@@ -75,12 +105,32 @@ void hc_sr04_survey_task(void *pvParameters)
 		}
 
 		GPIO_SetBits(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
-		HC_SR04_TRIG_TIMER->CNT = 0;
-		while (HC_SR04_TRIG_TIMER->CNT != 10) {};
+		TIM_SetCounter(HC_SR04_TRIG_TIMER, 0);
+		while (TIM_GetCounter(HC_SR04_TRIG_TIMER) != 10) {};
         GPIO_ResetBits(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
+
+        vTaskDelay(100);
+
+        hc_sr04_sensors_distance[sensor_mux_select] = hc_sr04_data_get;
+        hc_sr04_data_get = 0;
+
+        sensor_mux_select = (sensor_mux_select + 1) % HC_SR04_SENSORS_NUM;
 
 		vTaskDelay(HC_SR04_DELAY_TICKS);
 	}
+}
+
+void TIM10_CC_IRQHandler(void)
+{
+	uint16_t rising = TIM_GetCapture3(HC_SR04_ECHO_TIMER);
+	uint16_t falling = TIM_GetCapture4(HC_SR04_ECHO_TIMER);
+
+	uint16_t impulse_width = falling - rising;
+	uint16_t distance_cm = impulse_width / 58;
+
+	TIM_SetCounter(HC_SR04_ECHO_TIMER, 0);
+	TIM_ClearITPendingBit(HC_SR04_ECHO_TIMER, TIM_IT_CC3 | TIM_IT_CC4);
+	hc_sr04_data_get = distance_cm;
 }
 
 /// \brief
@@ -89,10 +139,12 @@ void hc_sr04_survey_task(void *pvParameters)
 /// \return
 void hc_sr04_task_init(void)
 {
-	hc_sr04_rcc_gpio_clk_init(HC_SR04_RCC_GPIO);
-	hc_sr04_trig_base_tim_clk_init(HC_SR04_TRIG_TIMER_RCC);
+	_hc_sr04_rcc_gpio_clk_init();
+	_hc_sr04_trig_base_tim_clk_init();
+	_hc_sr04_echo_tim_clk_init();
 	hc_sr04_trig_gpio_init(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
 	hc_sr04_trig_base_tim_init(HC_SR04_TRIG_TIMER);
+	hc_sr04_echo_tim_init(HC_SR04_ECHO_TIMER);
 	_gpio_mux_select_init();
 
     xTaskCreate((TaskFunction_t )hc_sr04_survey_task,
