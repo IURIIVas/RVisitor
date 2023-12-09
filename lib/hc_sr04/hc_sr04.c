@@ -40,8 +40,6 @@ void hc_sr04_trig_gpio_init(GPIO_TypeDef *GPIO_PORT, uint16_t GPIO_TRIG_PIN)
 	gpio_init_struct.GPIO_Mode = GPIO_Mode_Out_PP;
 	gpio_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIO_PORT, &gpio_init_struct);
-
-	GPIO_SetBits(GPIO_PORT, GPIO_TRIG_PIN);
 }
 
 /// \brief Init timer to count 10 microsecond for trig signal

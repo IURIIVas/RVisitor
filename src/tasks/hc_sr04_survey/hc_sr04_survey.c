@@ -142,8 +142,9 @@ void hc_sr04_task_init(void)
 	_hc_sr04_rcc_gpio_clk_init();
 	_hc_sr04_trig_base_tim_clk_init();
 	_hc_sr04_echo_tim_clk_init();
-	hc_sr04_trig_gpio_init(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
 	hc_sr04_trig_base_tim_init(HC_SR04_TRIG_TIMER);
+	hc_sr04_trig_gpio_init(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
+	GPIO_SetBits(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
 	hc_sr04_echo_tim_init(HC_SR04_ECHO_TIMER);
 	_gpio_mux_select_init();
 

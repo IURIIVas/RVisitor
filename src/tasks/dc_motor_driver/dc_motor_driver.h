@@ -29,9 +29,11 @@
 #define SET_STATE					(1)
 #define STATE_SETTED				(0)
 
-#define MOTOR_STOP					(2)
+#define MOTOR_STOP					(0)
 #define FORWARD_DIRECTION			(1)
-#define BACKWARD_DIRECTION			(0)
+#define BACKWARD_DIRECTION			(2)
+#define LEFT_DIRECTION				(3)
+#define RIGHT_DIRECTION				(4)
 
 #define DC0_TIM1_GPIO				(GPIOA)
 #define DC0_TIM1_CH1_OUTPUT_ENABLE  (TIM_CC1E)
@@ -41,11 +43,11 @@
 #define DC1_TIM1_CH3_OUTPUT_ENABLE  (TIM_CC3E)
 #define DC1_TIM1_CH4_OUTPUT_ENABLE  (TIM_CC4E)
 
-#define DC2_TIM8_GPIO				(GPIOA)
+#define DC2_TIM8_GPIO				(GPIOC)
 #define DC2_TIM8_CH1_OUTPUT_ENABLE  (TIM_CC1E)
 #define DC2_TIM8_CH2_OUTPUT_ENABLE  (TIM_CC2E)
 
-#define DC3_TIM8_GPIO				(GPIOA)
+#define DC3_TIM8_GPIO				(GPIOC)
 #define DC3_TIM8_CH3_OUTPUT_ENABLE  (TIM_CC3E)
 #define DC3_TIM8_CH4_OUTPUT_ENABLE  (TIM_CC4E)
 
@@ -59,6 +61,8 @@
 extern TaskHandle_t dc_motor_driver_task_handler;
 extern uint8_t dc0_set_direction[];
 extern int32_t dc0_set_speed[];
+extern uint8_t dc_set_direction[];
+extern int32_t dc_set_speed[];
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 

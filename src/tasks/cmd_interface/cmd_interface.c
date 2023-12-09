@@ -33,10 +33,12 @@ int32_t subcmd[10];
 const char *help_cmd = "help";
 const char *print_hello_cmd = "print_hello";
 const char *hw_201_state_cmd = "hw-201_state";
-const char *dc0_motor_forward_cmd = "dc0_forward";
-const char *dc0_motor_backward_cmd = "dc0_backward";
-const char *dc0_motor_stop_cmd = "dc0_stop";
-const char *dc0_motor_set_speed = "dc0_set_speed";
+const char *dc_motor_forward_cmd = "dc_forward";
+const char *dc_motor_backward_cmd = "dc_backward";
+const char *dc_motor_left_cmd = "dc_left";
+const char *dc_motor_right_cmd = "dc_right";
+const char *dc_motor_stop_cmd = "dc_stop";
+const char *dc_motor_set_speed = "dc_set_speed";
 
 TaskHandle_t cmd_interface_task_handler;
 
@@ -204,28 +206,42 @@ static void _print_hw_201_state(void)
 	}
 }
 
-static void _dc0_set_forward(void)
+static void _dc_set_forward(void)
 {
-	uart_send_str(CMD_IFACE_UART, "DC0 FORWARD\n");
-	dc0_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
-	dc0_set_direction[MOTOR_STATE_IDX_DIR] = FORWARD_DIRECTION;
+	uart_send_str(CMD_IFACE_UART, "DC FORWARD\n");
+	dc_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
+	dc_set_direction[MOTOR_STATE_IDX_DIR] = FORWARD_DIRECTION;
 }
 
-static void _dc0_set_backward(void)
+static void _dc_set_backward(void)
 {
-	uart_send_str(CMD_IFACE_UART, "DC0 BACKWARD\n");
-	dc0_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
-	dc0_set_direction[MOTOR_STATE_IDX_DIR] = BACKWARD_DIRECTION;
+	uart_send_str(CMD_IFACE_UART, "DC BACKWARD\n");
+	dc_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
+	dc_set_direction[MOTOR_STATE_IDX_DIR] = BACKWARD_DIRECTION;
 }
 
-static void _dc0_stop(void)
+static void _dc_set_left(void)
 {
-	uart_send_str(CMD_IFACE_UART, "DC0 STOP\n");
-	dc0_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
-	dc0_set_direction[MOTOR_STATE_IDX_DIR] = MOTOR_STOP;
+	uart_send_str(CMD_IFACE_UART, "DC LEFT\n");
+	dc_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
+	dc_set_direction[MOTOR_STATE_IDX_DIR] = LEFT_DIRECTION;
 }
 
-static void _dc0_set_state_speed(void)
+static void _dc_set_right(void)
+{
+	uart_send_str(CMD_IFACE_UART, "DC RIGHT\n");
+	dc_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
+	dc_set_direction[MOTOR_STATE_IDX_DIR] = RIGHT_DIRECTION;
+}
+
+static void _dc_stop(void)
+{
+	uart_send_str(CMD_IFACE_UART, "DC STOP\n");
+	dc_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
+	dc_set_direction[MOTOR_STATE_IDX_DIR] = MOTOR_STOP;
+}
+
+static void _dc_set_state_speed(void)
 {
 	char speed_str[10];
 	m_itoa(subcmd[0], speed_str);
@@ -234,8 +250,8 @@ static void _dc0_set_state_speed(void)
 	uart_send_str(CMD_IFACE_UART, speed_str);
 	uart_send_str(CMD_IFACE_UART, "\n");
 
-	dc0_set_speed[MOTOR_STATE_IDX_SET] = SET_STATE;
-	dc0_set_speed[MOTOR_STATE_IDX_SPEED] = subcmd[0];
+	dc_set_speed[MOTOR_STATE_IDX_SET] = SET_STATE;
+	dc_set_speed[MOTOR_STATE_IDX_SPEED] = subcmd[0];
 }
 
 /// \brief print unknown cmd
@@ -270,23 +286,31 @@ static void _cmd_parse()
 	{
 		_print_hw_201_state();
 	}
-	else if (m_strcmp(cmd_word, dc0_motor_forward_cmd))
+	else if (m_strcmp(cmd_word, dc_motor_forward_cmd))
 	{
-		_dc0_set_forward();
+		_dc_set_forward();
 	}
-	else if (m_strcmp(cmd_word, dc0_motor_backward_cmd))
+	else if (m_strcmp(cmd_word, dc_motor_backward_cmd))
 	{
-		_dc0_set_backward();
+		_dc_set_backward();
 	}
-	else if (m_strcmp(cmd_word, dc0_motor_stop_cmd))
+	else if (m_strcmp(cmd_word, dc_motor_left_cmd))
 	{
-		_dc0_stop();
+		_dc_set_left();
 	}
-	else if (m_strcmp(cmd_word, dc0_motor_set_speed))
+	else if (m_strcmp(cmd_word, dc_motor_right_cmd))
+	{
+		_dc_set_right();
+	}
+	else if (m_strcmp(cmd_word, dc_motor_stop_cmd))
+	{
+		_dc_stop();
+	}
+	else if (m_strcmp(cmd_word, dc_motor_set_speed))
 	{
 		_cmd_parse_for_subcmd(received_cmd);
 
-		_dc0_set_state_speed();
+		_dc_set_state_speed();
 	}
 	else
 	{

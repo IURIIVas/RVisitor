@@ -9,6 +9,7 @@ encoding//hardware/dbgmcu/ch32v30x_dbgmcu.c=GBK
 encoding//hardware/dbgmcu/ch32v30x_dbgmcu.h=GBK
 encoding//hardware/gpio/gpio.c=GBK
 encoding//hardware/gpio/gpio.h=GBK
+encoding//hardware/linker/Link.ld=GBK
 encoding//hardware/misc/misc.c=GBK
 encoding//hardware/misc/misc.h=GBK
 encoding//hardware/rcc/rcc.c=GBK
