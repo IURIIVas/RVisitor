@@ -34,7 +34,7 @@
 
 void tasks_init(void)
 {
-	blink_led_tasks_init();
+//	blink_led_tasks_init();
 	cmd_iface_listening_task_init();
 	hw_201_task_init();
 	dc_motor_driver_task_init();

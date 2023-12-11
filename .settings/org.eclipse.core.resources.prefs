@@ -20,6 +20,7 @@ encoding//hardware/tim/tim.h=GBK
 encoding//hardware/uart/uart.c=GBK
 encoding//hardware/uart/uart.h=GBK
 encoding//lib/FreeRTOS/include/FreeRTOS.h=GBK
+encoding//lib/FreeRTOS/include/croutine.h=GBK
 encoding//lib/FreeRTOS/include/semphr.h=GBK
 encoding//lib/FreeRTOS/include/task.h=GBK
 encoding//lib/FreeRTOS/portable/Common/mpu_wrappers.c=GBK

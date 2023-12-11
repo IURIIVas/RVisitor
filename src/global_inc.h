@@ -14,4 +14,6 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
+#define PI                  (3.14)
+
 #endif

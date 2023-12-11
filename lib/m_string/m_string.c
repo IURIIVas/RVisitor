@@ -78,6 +78,13 @@ void m_itoa(int32_t n, char *str)
 	uint32_t i = 0;
 	int sign = n;
 
+	if (0 == n)
+	{
+	    str[0] = '0';
+	    str[1] = '\0';
+	    return;
+	}
+
 	if (sign < 0)
 	{
 		n = -n;
@@ -97,6 +104,66 @@ void m_itoa(int32_t n, char *str)
 	str[i] = '\0';
 
 	reverse(str);
+}
+
+double m_pow(double n, int32_t p)
+{
+    uint32_t i = 1;
+    double m = n;
+
+    if (p == 0)
+    {
+        return 1;
+    }
+
+    if (p > 0)
+    {
+        while (i != p)
+        {
+            m *= n;
+            i++;
+        }
+    }
+    else
+    {
+        while (i != p)
+        {
+            m /= n;
+            i--;
+        }
+    }
+    return m;
+}
+
+double m_atof(const char *arr)
+{
+    int32_t i, j, flag;
+    double val;
+    char c;
+    i = 0;
+    j = 0;
+    val = 0;
+    flag = 0;
+    while ((c = *(arr + i)) != '\0')
+    {
+        if (c != '.'){
+            val =(val * 10) + (c - '0');
+            if (flag == 1){
+                --j;
+            }
+        }
+        if (c == '.')
+        {
+            if (flag == 1)
+            {
+                return 0;
+            }
+            flag = 1;
+        }
+        ++i;
+    }
+    val = val * m_pow(10, j);
+    return val;
 }
 
 /// \brief Get length of string

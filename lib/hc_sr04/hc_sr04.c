@@ -76,6 +76,8 @@ void hc_sr04_echo_gpio_init(GPIO_TypeDef *GPIO_PORT, uint16_t GPIO_ECHO_PIN)
 	gpio_init_struct.GPIO_Mode = GPIO_Mode_IN_FLOATING;
 	gpio_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIO_PORT, &gpio_init_struct);
+
+    GPIO_SetBits(GPIO_PORT, GPIO_ECHO_PIN);
 }
 
 /// \brief Timer channel enable to echo input

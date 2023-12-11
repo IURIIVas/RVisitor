@@ -21,7 +21,7 @@
 //---------------------------------------------------- Variables -------------------------------------------------------
 
 TaskHandle_t hc_sr04_survey_task_handler;
-uint8_t hc_sr04_sensors_distance[4] = {0, 0, 0, 0};
+uint8_t hc_sr04_sensors_distance[HC_SR04_SENSORS_NUM] = {0, 0, 0, 0};
 uint16_t hc_sr04_data_get = 0;
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
@@ -115,9 +115,8 @@ void hc_sr04_survey_task(void *pvParameters)
         hc_sr04_data_get = 0;
 
         sensor_mux_select = (sensor_mux_select + 1) % HC_SR04_SENSORS_NUM;
-
-		vTaskDelay(HC_SR04_DELAY_TICKS);
 	}
+	vTaskDelay(HC_SR04_DELAY_TICKS);
 }
 
 void TIM10_CC_IRQHandler(void)
@@ -144,7 +143,6 @@ void hc_sr04_task_init(void)
 	_hc_sr04_echo_tim_clk_init();
 	hc_sr04_trig_base_tim_init(HC_SR04_TRIG_TIMER);
 	hc_sr04_trig_gpio_init(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
-	GPIO_SetBits(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
 	hc_sr04_echo_tim_init(HC_SR04_ECHO_TIMER);
 	_gpio_mux_select_init();
 
