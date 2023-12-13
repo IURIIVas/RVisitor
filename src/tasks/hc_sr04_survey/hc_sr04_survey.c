@@ -109,7 +109,10 @@ void hc_sr04_survey_task(void *pvParameters)
 		while (TIM_GetCounter(HC_SR04_TRIG_TIMER) != 10) {};
         GPIO_ResetBits(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
 
-        vTaskDelay(100);
+        while (!hc_sr04_data_get)
+        {
+            __asm__("nop");
+        }
 
         hc_sr04_sensors_distance[sensor_mux_select] = hc_sr04_data_get;
         hc_sr04_data_get = 0;

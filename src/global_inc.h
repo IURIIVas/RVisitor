@@ -14,6 +14,10 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
+#define min(a, b) (((a) < (b)) ? (a) : (b))
+#define max(a, b) (((a) > (b)) ? (a) : (b))
+#define abs(a)    (((a) > 0) ? (a) : -(a))
+
 #define PI                  (3.14)
 
 #endif

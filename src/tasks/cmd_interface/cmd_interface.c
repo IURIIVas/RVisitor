@@ -26,7 +26,6 @@
 
 //---------------------------------------------------- Variables -------------------------------------------------------
 
-uint8_t is_read_complete = 0;
 uint8_t received_cmd_pos = 0;
 char received_cmd[CMD_MAX_LEN];
 double subcmd[10];
@@ -35,28 +34,24 @@ const char *help_cmd = "help";
 const char *print_hello_cmd = "print_hello";
 const char *get_obstacles = "get_obstacles";
 const char *get_distances = "get_distances";
-const char *dc_motor_forward_cmd = "dc_forward";
-const char *dc_motor_backward_cmd = "dc_backward";
-const char *dc_motor_left_cmd = "dc_left";
-const char *dc_motor_right_cmd = "dc_right";
-const char *dc_motor_stop_cmd = "dc_stop";
 const char *dc_motor_set_speed = "dc_set_speed";
-const char *dc0_motor_set_speed = "dc0_set_speed";
-const char *dc1_motor_set_speed = "dc1_set_speed";
-const char *dc2_motor_set_speed = "dc2_set_speed";
-const char *dc3_motor_set_speed = "dc3_set_speed";
+
 
 TaskHandle_t cmd_interface_task_handler;
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
-void USART2_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void UART5_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
 //------------------------------------------------- Inline Functions ---------------------------------------------------
 
 //------------------------------------------------- Static Functions ---------------------------------------------------
 
-static double _cmd_get_subcmd(const char *cmd)
+/// \brief Get params for cmd from uart string
+/// \param const char *cmd - uart string
+/// \retval None
+/// \return None
+static double _parse_str_for_number(const char *cmd)
 {
 	uint32_t idx_number = 0;
 	double number;
@@ -66,11 +61,14 @@ static double _cmd_get_subcmd(const char *cmd)
 		idx_number++;
 	}
 
-//	number = m_strtol(cmd, idx_number);
 	number = m_atof(cmd);
 	return number;
 }
 
+/// \brief Get params for cmd from uart string
+/// \param const char *cmd - uart string
+/// \retval None
+/// \return None
 static void _cmd_parse_for_subcmd(const char *cmd)
 {
 	uint8_t subcmd_idx = 0;
@@ -79,12 +77,17 @@ static void _cmd_parse_for_subcmd(const char *cmd)
 	{
 		if (' ' == *cmd)
 		{
-			subcmd[subcmd_idx++] = _cmd_get_subcmd(cmd + 1);
+			subcmd[subcmd_idx++] = _parse_str_for_number(cmd + 1);
 		}
 		cmd++;
 	}
 }
 
+/// \brief Get CMD word from UART string
+/// \param const char *cmd - uart string
+///        char *cmd_word - string to set cmd word
+/// \retval None
+/// \return None
 static void _cmd_parse_for_cmd(const char *cmd, char *cmd_word)
 {
 	uint32_t idx = 0;
@@ -120,7 +123,8 @@ static void _rcc_gpio_cmd_iface_clk_init(void)
 /// \return None
 static void _gpio_cmd_iface_uart_init(void)
 {
-	AFIO->PCFR1 |= GPIO_Remap_USART2;
+
+	AFIO->PCFR2 = (0x1 << 18);
 
 	gpio_init_t gpio_init_struct = {0};
 
@@ -176,27 +180,28 @@ static void _print_hello(void)
 	uart_send_str(CMD_IFACE_UART, hello_string);
 }
 
-static void _print_hw_201_state(void)
+static void _get_obstacles(void)
 {
 	uint8_t hw_201_sensor = HW_201_FRONT_LEFT;
-	char *obstacle_found_state = "obstacle found !!\n";
-	char *obstacle_not_found_state = "obstacle not found !!\n";
+	char *obstacle_found_state = "ok\n";
+	char *obstacle_not_found_state = "warn\n";
 
+	uart_send_str(CMD_IFACE_UART, "obstacles\n");
 	for (hw_201_sensor = HW_201_FRONT_LEFT; hw_201_sensor < HW_201_SENSORS_NUM; hw_201_sensor++)
 	{
 		switch (hw_201_sensor)
 		{
 		case HW_201_FRONT_LEFT:
-			uart_send_str(CMD_IFACE_UART, "front left sensor data: ");
+			uart_send_str(CMD_IFACE_UART, "fl: ");
 			break;
 		case HW_201_FRONT_RIGHT:
-			uart_send_str(CMD_IFACE_UART, "front right sensor data: ");
+			uart_send_str(CMD_IFACE_UART, "fr: ");
 			break;
 		case HW_201_BACK_LEFT:
-			uart_send_str(CMD_IFACE_UART, "back left sensor data: ");
+			uart_send_str(CMD_IFACE_UART, "rl: ");
 			break;
 		case HW_201_BACK_RIGHT:
-			uart_send_str(CMD_IFACE_UART, "back right sensor data: ");
+			uart_send_str(CMD_IFACE_UART, "rr: ");
 			break;
 		default:
 			uart_send_str(CMD_IFACE_UART, "YOU SHOUD NOT SEE THAT. ERR. No such sensor\n");
@@ -213,111 +218,28 @@ static void _print_hw_201_state(void)
 	}
 }
 
-static void _dc_set_forward(void)
-{
-	uart_send_str(CMD_IFACE_UART, "DC FORWARD\n");
-	dc_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
-	dc_set_direction[MOTOR_STATE_IDX_DIR] = FORWARD_DIRECTION;
-}
-
-static void _dc_set_backward(void)
-{
-	uart_send_str(CMD_IFACE_UART, "DC BACKWARD\n");
-	dc_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
-	dc_set_direction[MOTOR_STATE_IDX_DIR] = BACKWARD_DIRECTION;
-}
-
-static void _dc_set_left(void)
-{
-	uart_send_str(CMD_IFACE_UART, "DC LEFT\n");
-	dc_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
-	dc_set_direction[MOTOR_STATE_IDX_DIR] = LEFT_DIRECTION;
-}
-
-static void _dc_set_right(void)
-{
-	uart_send_str(CMD_IFACE_UART, "DC RIGHT\n");
-	dc_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
-	dc_set_direction[MOTOR_STATE_IDX_DIR] = RIGHT_DIRECTION;
-}
-
-static void _dc_stop(void)
-{
-	uart_send_str(CMD_IFACE_UART, "DC STOP\n");
-	dc_set_direction[MOTOR_STATE_IDX_SET] = SET_STATE;
-	dc_set_direction[MOTOR_STATE_IDX_DIR] = MOTOR_STOP;
-}
-
 static void _dc_set_state_speed(void)
 {
-//    char speed_str[10];
-//    subcmd[0] = m_atof(speed_str);
-//
-//    uart_send_str(CMD_IFACE_UART, "ALL DC SET SPEED: ");
-//    uart_send_str(CMD_IFACE_UART, speed_str);
-//    uart_send_str(CMD_IFACE_UART, "\n");
-
-    target_speed_lin_ms = subcmd[0];
-    dc_set_speed = SET_STATE;
-}
-
-static void _dc0_set_state_speed(void)
-{
-	char speed_str[10];
-	m_itoa(subcmd[0], speed_str);
-
-	uart_send_str(CMD_IFACE_UART, "DC0 SET SPEED: ");
-	uart_send_str(CMD_IFACE_UART, speed_str);
-	uart_send_str(CMD_IFACE_UART, "\n");
-
-	dc0_set_speed = subcmd[0];
-	dc_set_speed = SET_STATE;
-}
-
-static void _dc1_set_state_speed(void)
-{
     char speed_str[10];
-    m_itoa(subcmd[0], speed_str);
+    double target_speed_lin_ms = subcmd[0];
 
-    uart_send_str(CMD_IFACE_UART, "DC1 SET SPEED: ");
+    ftoa(target_speed_lin_ms, speed_str, 3);
+
+    uart_send_str(CMD_IFACE_UART, "LIN SPEED ");
     uart_send_str(CMD_IFACE_UART, speed_str);
-    uart_send_str(CMD_IFACE_UART, "\n");
+    uart_send_str(CMD_IFACE_UART, " m/s\n");
 
-    dc1_set_speed = subcmd[0];
-    dc_set_speed = SET_STATE;
-}
+    double target_speed_lin_rpm = (target_speed_lin_ms * 60) / WHEEL_C_M;
 
-static void _dc2_set_state_speed(void)
-{
-    char speed_str[10];
-    m_itoa(subcmd[0], speed_str);
-
-    uart_send_str(CMD_IFACE_UART, "DC2 SET SPEED: ");
-    uart_send_str(CMD_IFACE_UART, speed_str);
-    uart_send_str(CMD_IFACE_UART, "\n");
-
-    dc2_set_speed = subcmd[0];
-    dc_set_speed = SET_STATE;
-}
-
-static void _dc3_set_state_speed(void)
-{
-    char speed_str[10];
-    m_itoa(subcmd[0], speed_str);
-
-    uart_send_str(CMD_IFACE_UART, "DC3 SET SPEED: ");
-    uart_send_str(CMD_IFACE_UART, speed_str);
-    uart_send_str(CMD_IFACE_UART, "\n");
-
-    dc3_set_speed = subcmd[0];
-    dc_set_speed = SET_STATE;
+    dc_motor_set.target_speed_lin_rpm = target_speed_lin_rpm;
 }
 
 static void _get_distances(void)
 {
+    uart_send_str(CMD_IFACE_UART, "distances\n");
     for (size_t hc_sr_num = 0; hc_sr_num < HC_SR04_SENSORS_NUM; hc_sr_num++)
     {
-        uart_send_str(CMD_IFACE_UART, "distance from sensor ");
+        uart_send_str(CMD_IFACE_UART, "sens ");
         uart_send_int(CMD_IFACE_UART, hc_sr_num);
         uart_send_str(CMD_IFACE_UART, ": ");
         uart_send_int(CMD_IFACE_UART, hc_sr04_sensors_distance[hc_sr_num]);
@@ -355,53 +277,12 @@ static void _cmd_parse()
 	}
 	else if (m_strcmp(cmd_word, get_obstacles))
 	{
-		_print_hw_201_state();
-	}
-	else if (m_strcmp(cmd_word, dc_motor_forward_cmd))
-	{
-		_dc_set_forward();
-	}
-	else if (m_strcmp(cmd_word, dc_motor_backward_cmd))
-	{
-		_dc_set_backward();
-	}
-	else if (m_strcmp(cmd_word, dc_motor_left_cmd))
-	{
-		_dc_set_left();
-	}
-	else if (m_strcmp(cmd_word, dc_motor_right_cmd))
-	{
-		_dc_set_right();
-	}
-	else if (m_strcmp(cmd_word, dc_motor_stop_cmd))
-	{
-		_dc_stop();
+		_get_obstacles();
 	}
 	else if (m_strcmp(cmd_word, dc_motor_set_speed))
 	{
 		_cmd_parse_for_subcmd(received_cmd);
 		_dc_set_state_speed();
-
-//		if (0 == subcmd[1])
-//		{
-//		    _dc0_set_state_speed();
-//		}
-//		else if (1 == subcmd[1])
-//        {
-//            _dc1_set_state_speed();
-//        }
-//		else if (2 == subcmd[1])
-//        {
-//            _dc2_set_state_speed();
-//        }
-//		else if (3 == subcmd[1])
-//        {
-//            _dc3_set_state_speed();
-//        }
-//		else
-//		{
-//	        _dc_set_state_speed();
-//		}
 	}
     else if (m_strcmp(cmd_word, get_distances))
     {
@@ -411,8 +292,6 @@ static void _cmd_parse()
 	{
 		_print_unknown_cmd();
 	}
-
-	is_read_complete = 0;
 }
 
 
@@ -422,16 +301,16 @@ static void _cmd_parse()
 /// \param None
 /// \retval None
 /// \return None
-void USART2_IRQHandler(void)
+void UART5_IRQHandler(void)
 {
     if(USART_GetITStatus(CMD_IFACE_UART, USART_IT_RXNE) != RESET)
     {
     	char tmp_char = USART_ReceiveData(CMD_IFACE_UART);
         if('\n' == tmp_char)
         {
-        	is_read_complete = 1;
         	received_cmd[received_cmd_pos] = '\0';
         	received_cmd_pos = 0;
+        	_cmd_parse();
         	return;
         }
 
@@ -449,10 +328,10 @@ void cmd_iface_listening_task(void *pvParameters)
 
     while(1)
     {
-    	while (!is_read_complete)
-    	{};
+        _get_obstacles();
+        _get_distances();
 
-    	_cmd_parse();
+        vTaskDelay(2000 / portTICK_PERIOD_MS);
     }
 }
 

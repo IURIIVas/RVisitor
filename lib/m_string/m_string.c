@@ -43,6 +43,11 @@ void reverse(char *str)
 	}
 }
 
+/// \brief Convert string to int
+/// \param cosnt char *str - pointer to a string
+///        uint32_t num_end_idx - index where digits ended
+/// \retval None
+/// \return None
 int32_t m_strtol(const char* str, uint32_t num_end_idx)
 {
 	uint32_t idx = 0;
@@ -69,11 +74,12 @@ int32_t m_strtol(const char* str, uint32_t num_end_idx)
 	return num;
 }
 
-/// \brief Transform int to string
-/// \param int32_t n - number to convert, char* str - string where to convert
+/// \brief Convert int to string
+/// \param int32_t n - number to convert
+///        char* str - string where to convert
 /// \retval None
 /// \return None
-void m_itoa(int32_t n, char *str)
+uint32_t m_itoa(int32_t n, char *str)
 {
 	uint32_t i = 0;
 	int sign = n;
@@ -82,7 +88,7 @@ void m_itoa(int32_t n, char *str)
 	{
 	    str[0] = '0';
 	    str[1] = '\0';
-	    return;
+	    return 0;
 	}
 
 	if (sign < 0)
@@ -104,8 +110,14 @@ void m_itoa(int32_t n, char *str)
 	str[i] = '\0';
 
 	reverse(str);
+	return i;
 }
 
+/// \brief Get pow of a number
+/// \params double n - nubmer
+///         int32_t p - power
+/// \retval double
+/// \return powered value
 double m_pow(double n, int32_t p)
 {
     uint32_t i = 1;
@@ -135,6 +147,10 @@ double m_pow(double n, int32_t p)
     return m;
 }
 
+/// \brief String to double
+/// \params char* arr - string
+/// \retval double
+/// \return converted value
 double m_atof(const char *arr)
 {
     int32_t i, j, flag;
@@ -164,6 +180,36 @@ double m_atof(const char *arr)
     }
     val = val * m_pow(10, j);
     return val;
+}
+
+/// \brief Double number to string
+/// \params char* res - string
+///         double n - number to convert
+///         uint32_t afterpoint - number of digits after point
+/// \retval None
+/// \return None
+void ftoa(double n, char* res, uint32_t afterpoint)
+{
+    // Extract integer part
+    int32_t ipart = (int32_t)n;
+
+    // Extract floating part
+    double fpart = n - (double)ipart;
+
+    // convert integer part to string
+    uint32_t i = m_itoa(ipart, res);
+
+    // check for display option after point
+    if (afterpoint != 0) {
+        res[i] = '.'; // add dot
+
+        // Get the value of fraction part upto given no.
+        // of points after dot. The third parameter
+        // is needed to handle cases like 233.007
+        fpart = fpart * m_pow(10, afterpoint);
+
+        m_itoa((int32_t)fpart, res + i + 1);
+    }
 }
 
 /// \brief Get length of string

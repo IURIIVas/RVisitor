@@ -1,5 +1,4 @@
 eclipse.preferences.version=1
-encoding//Debug/makefile=GBK
 encoding//FreeRTOS/portable/Common/mpu_wrappers.c=GBK
 encoding//User/main.c=GBK
 encoding//hardware/ch32v30x.h=GBK

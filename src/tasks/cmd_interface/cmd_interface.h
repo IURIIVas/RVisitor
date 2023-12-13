@@ -17,14 +17,14 @@
 
 #define CMD_MAX_LEN						  (50)
 
-#define CMD_IFACE_UART					  (USART2)
+#define CMD_IFACE_UART					  (UART5)
 #define CMD_IFACE_BAUDRATE				  (115200)
-#define CMD_IFACE_GPIO					  (GPIOD)
-#define CMD_IFACE_GPIO_TX_PIN			  (GPIO_Pin_5)
-#define CMD_IFACE_GPIO_RX_PIN			  (GPIO_Pin_6)
-#define CMD_IFACE_RCC_APB1_UART  		  (RCC_APB1Periph_USART2)
-#define CMD_IFACE_RCC_APB2_GPIO  		  (RCC_APB2Periph_GPIOD)
-#define CMD_IFACE_NVIC_IRQ_CHANNEL		  (USART2_IRQn)
+#define CMD_IFACE_GPIO					  (GPIOB)
+#define CMD_IFACE_GPIO_TX_PIN			  (GPIO_Pin_4)
+#define CMD_IFACE_GPIO_RX_PIN			  (GPIO_Pin_5)
+#define CMD_IFACE_RCC_APB1_UART  		  (RCC_APB1Periph_UART5)
+#define CMD_IFACE_RCC_APB2_GPIO  		  (RCC_APB2Periph_GPIOB)
+#define CMD_IFACE_NVIC_IRQ_CHANNEL		  (UART5_IRQn)
 
 #define CMD_IFACE_LISTENING_PRIO     	  (5)
 #define CMD_IFACE_LISTENING_STK_SIZE      (256)
