@@ -36,7 +36,13 @@ const char *print_hello_cmd = "print_hello";
 const char *get_obstacles = "get_obstacles";
 const char *get_distances = "get_distances";
 const char *dc_motor_set_speed = "dc_set_speed";
+const char *param_cliff_enable = "param_cliff_enable";
+const char *param_obstacles_enable = "param_obstacles_enable";
+const char *param_overcurrent_enable = "param_overcurrent_enable";
+const char *param_speed_get_inf_enable = "param_speed_get_inf_enable";
+const char *param_sens_survey_inf_enable = "param_sens_survey_inf_enable";
 
+module_params_s module_params = {.params = 0x1f};
 
 TaskHandle_t cmd_interface_task_handler;
 
@@ -238,11 +244,6 @@ static void _dc_set_state_speed(void)
     double target_speed_left_side_ms = target_speed_lin_ms + (target_speed_ang_rads * WHEEL_RADIUS_M);
     double target_speed_right_side_ms = target_speed_lin_ms - (target_speed_ang_rads * WHEEL_RADIUS_M);
 
-    if (target_speed_lin_ms == 0)
-    {
-        target_speed_left_side_ms = 0;
-        target_speed_right_side_ms = 0;
-    }
     dc_motor_set.target_speed_rpm[LS] = (target_speed_left_side_ms * 60) / WHEEL_C_M;
     dc_motor_set.target_speed_rpm[RS] = (target_speed_right_side_ms * 60) / WHEEL_C_M;
 }
@@ -257,6 +258,18 @@ static void _get_distances(void)
         uart_send_str(CMD_IFACE_UART, ": ");
         uart_send_int(CMD_IFACE_UART, hc_sr04_sensors_distance[hc_sr_num]);
         uart_send_str(CMD_IFACE_UART, "\n");
+    }
+}
+
+static void _params_set(uint8_t set, uint16_t bit)
+{
+    if (set)
+    {
+        module_params.params |= bit;
+    }
+    else
+    {
+        module_params.params &= ~(bit);
     }
 }
 
@@ -315,6 +328,31 @@ static void _cmd_parse()
     {
         _get_distances();
     }
+    else if (m_strcmp(cmd_word, param_cliff_enable))
+    {
+        _cmd_parse_for_subcmd(received_cmd);
+        _params_set((uint8_t)subcmd[0], PARAM_CLIFF_ENABLE);
+    }
+    else if (m_strcmp(cmd_word, param_obstacles_enable))
+    {
+        _cmd_parse_for_subcmd(received_cmd);
+        _params_set((uint8_t)subcmd[0], PARAM_OBSTACLES_ENABLE);
+    }
+    else if (m_strcmp(cmd_word, param_overcurrent_enable))
+    {
+        _cmd_parse_for_subcmd(received_cmd);
+        _params_set((uint8_t)subcmd[0], PARAM_OVERCURRENT_ENABLE);
+    }
+    else if (m_strcmp(cmd_word, param_speed_get_inf_enable))
+    {
+        _cmd_parse_for_subcmd(received_cmd);
+        _params_set((uint8_t)subcmd[0], PARAM_SPEED_GET_INF_ENABLE);
+    }
+    else if (m_strcmp(cmd_word, param_sens_survey_inf_enable))
+    {
+        _cmd_parse_for_subcmd(received_cmd);
+        _params_set((uint8_t)subcmd[0], PARAM_SENS_SURVEY_INF_ENABLE);
+    }
 	else
 	{
 		_print_unknown_cmd();
@@ -355,11 +393,14 @@ void cmd_iface_listening_task(void *pvParameters)
 
     while(1)
     {
-        _get_obstacles();
-        _get_distances();
-        _get_odometry();
+        if (module_params.params & PARAM_SENS_SURVEY_INF_ENABLE)
+        {
+            _get_obstacles();
+            _get_distances();
+            _get_odometry();
 
-        vTaskDelay(2000 / portTICK_PERIOD_MS);
+            vTaskDelay(CMD_INF_SURVEY_PERIOD_MS / portTICK_PERIOD_MS);
+        }
     }
 }
 

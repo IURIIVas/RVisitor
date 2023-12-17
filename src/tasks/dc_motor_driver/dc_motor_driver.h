@@ -71,7 +71,7 @@
 
 //----------------------------------------------------- Typedefs -------------------------------------------------------
 
-typedef struct m_pid
+typedef struct
 {
     double kp;
     double ki;
@@ -88,7 +88,7 @@ typedef struct m_pid
     double out_max;
 } m_pid_s;
 
-typedef struct dc_motor_set
+typedef struct
 {
     double target_speed_rpm[DC_MOTOR_NUMBER / 2];
 

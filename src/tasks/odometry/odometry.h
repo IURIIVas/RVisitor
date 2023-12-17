@@ -29,14 +29,14 @@
 
 //----------------------------------------------------- Typedefs -------------------------------------------------------
 
-typedef struct odometry
+typedef struct
 {
     double x;
     double y;
     double theta;
 } odometry_s;
 
-typedef struct odometry_set
+typedef struct
 {
     uint32_t cur_ticks[DC_MOTOR_NUMBER_ODOMETRY];
     double interval_s;
