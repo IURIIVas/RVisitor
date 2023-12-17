@@ -23,7 +23,7 @@
 #define LS                          (0)
 #define RS                          (1)
 
-#define MOTOR_MAX_VALUE				(418)
+#define MOTOR_MAX_VALUE				(254)
 #define MOTOR_PWM_PRESCALER			(12)
 
 #define MOTOR_STATE_IDX_SET			(0)

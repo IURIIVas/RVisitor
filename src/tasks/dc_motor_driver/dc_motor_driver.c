@@ -314,8 +314,10 @@ static void _get_speed_rpm(void)
         }
 
         const double interval = 0.1;
+        const double freq_hz = 10; // 10 times per second
 
-        dc_motor_set.dc_motor_speed_rpm[i] = 60 * (ticks / interval) * (1 / (ENC_TICS_ONE_WHEEL * 2.2 * ENC_NUM_PER_DC));
+//        dc_motor_set.dc_motor_speed_rpm[i] = 60 * (ticks / interval) * (1 / (ENC_TICS_ONE_WHEEL * 2.2 * ENC_NUM_PER_DC));
+        dc_motor_set.dc_motor_speed_rpm[i] = 60 * ticks / (ENC_TICS_ONE_WHEEL * interval);
     }
 }
 
@@ -325,13 +327,14 @@ static void _pid_calculate(m_pid_s *pid)
     double error = 0;
     double d_input = 0;
     double output = 0;
-    const double max_output_sum = 500;
+    const double max_output_sum = 300;
+    double interval = 0.1;
 
     input = pid->input;
     error = pid->target - abs(input);
-    d_input = (input - pid->last_input) / 0.1;
+    d_input = (input - pid->last_input) / interval;
 
-    pid->output_sum += error;
+    pid->output_sum += (error * interval);
     pid->output_sum = max(min(pid->output_sum, max_output_sum), -max_output_sum);
 
     output = (pid->kp * error) + (pid->ki * pid->output_sum) + (pid->kd * d_input);
@@ -346,16 +349,16 @@ static void _pid_calculate(m_pid_s *pid)
 
 void dc_motor_driver_task(void *pvParameters)
 {
-    m_pid_s pid_0 = {.kp = 1, .ki = 0.25, .kd = 0, .input = 0, .last_input = 0,
+    m_pid_s pid_0 = {.kp = 1.2, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
                    .out_max = MOTOR_MAX_VALUE, .out_min = 10, .output = 0,
                    .output_sum = 0, .target = dc_motor_set.target_speed_rpm[0]};
-    m_pid_s pid_1 = {.kp = 1, .ki = 0.25, .kd = 0, .input = 0, .last_input = 0,
+    m_pid_s pid_1 = {.kp = 1.2, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
                    .out_max = MOTOR_MAX_VALUE, .out_min = 10, .output = 0,
                    .output_sum = 0, .target = dc_motor_set.target_speed_rpm[0]};
-    m_pid_s pid_2 = {.kp = 1, .ki = 0.25, .kd = 0, .input = 0, .last_input = 0,
+    m_pid_s pid_2 = {.kp = 1.2, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
                    .out_max = MOTOR_MAX_VALUE, .out_min = 10, .output = 0,
                    .output_sum = 0, .target = dc_motor_set.target_speed_rpm[1]};
-    m_pid_s pid_3 = {.kp = 1, .ki = 0.25, .kd = 0, .input = 0, .last_input = 0,
+    m_pid_s pid_3 = {.kp = 1.2, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
                    .out_max = MOTOR_MAX_VALUE, .out_min = 10, .output = 0,
                    .output_sum = 0, .target = dc_motor_set.target_speed_rpm[1]};
 
