@@ -23,15 +23,15 @@
 #define HC_SR04_MUX_S1_GPIO_PIN				  (GPIO_Pin_5)
 #define HC_SR04_RCC_GPIO					  (RCC_APB2Periph_GPIOC)
 
-#define HC_SR04_TRIG_TIMER					  (TIM9)
-#define HC_SR04_TRIG_TIMER_RCC			      (RCC_APB2Periph_TIM9)
+#define HC_SR04_TRIG_TIMER					  (TIM6)
+#define HC_SR04_TRIG_TIMER_RCC			      (RCC_APB1Periph_TIM6)
 
-#define HC_SR04_ECHO_TIMER					  (TIM10)
-#define HC_SR04_ECHO_TIMER_RCC			      (RCC_APB2Periph_TIM10)
+#define HC_SR04_ECHO_TIMER					  (TIM9)
+#define HC_SR04_ECHO_TIMER_RCC			      (RCC_APB2Periph_TIM9)
 
-#define HC_SR04_SURVEY_TASK_PRIORITY     	  (6)
+#define HC_SR04_SURVEY_TASK_PRIORITY     	  (5)
 #define HC_SR04_SURVEY_TASK_STK_SIZE      	  (256)
-#define HC_SR04_DELAY_TICKS					  (1000)
+#define HC_SR04_DELAY_TICKS					  (50 / portTICK_PERIOD_MS)
 
 //----------------------------------------------------- Typedefs -------------------------------------------------------
 

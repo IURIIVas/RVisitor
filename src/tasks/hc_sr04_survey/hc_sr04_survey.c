@@ -26,7 +26,7 @@ uint16_t hc_sr04_data_get = 0;
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
-void TIM10_CC_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void TIM9_CC_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
 //------------------------------------------------- Inline Functions ---------------------------------------------------
 
@@ -78,9 +78,11 @@ static void _gpio_mux_select_init(void)
 void hc_sr04_survey_task(void *pvParameters)
 {
 	uint8_t sensor_mux_select = 0;
+	uint32_t timeout = 1000;
 
 	while (1)
 	{
+	    timeout = 1000;
 		switch (sensor_mux_select)
 		{
 		case 0:
@@ -105,13 +107,14 @@ void hc_sr04_survey_task(void *pvParameters)
 		}
 
 		GPIO_SetBits(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
-		TIM_SetCounter(HC_SR04_TRIG_TIMER, 0);
-		while (TIM_GetCounter(HC_SR04_TRIG_TIMER) != 10) {};
+		vTaskDelay(0.01 / portTICK_PERIOD_MS);
+//		TIM_SetCounter(HC_SR04_TRIG_TIMER, 0);
+//		while (TIM_GetCounter(HC_SR04_TRIG_TIMER) != 10) {};
         GPIO_ResetBits(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
 
-        while (!hc_sr04_data_get)
+        while (!hc_sr04_data_get && timeout)
         {
-            __asm__("nop");
+            timeout--;
         }
 
         hc_sr04_sensors_distance[sensor_mux_select] = hc_sr04_data_get;
@@ -122,7 +125,7 @@ void hc_sr04_survey_task(void *pvParameters)
 	vTaskDelay(HC_SR04_DELAY_TICKS);
 }
 
-void TIM10_CC_IRQHandler(void)
+void TIM9_CC_IRQHandler(void)
 {
 	uint16_t rising = TIM_GetCapture3(HC_SR04_ECHO_TIMER);
 	uint16_t falling = TIM_GetCapture4(HC_SR04_ECHO_TIMER);

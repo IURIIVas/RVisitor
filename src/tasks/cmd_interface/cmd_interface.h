@@ -31,6 +31,15 @@
 
 //----------------------------------------------------- Typedefs -------------------------------------------------------
 
+typedef struct params
+{
+    uint8_t cliff_enable;
+    uint8_t obstacles_enable;
+    uint8_t overcurrent_enable;
+    uint8_t speed_get_inf_enable;
+    uint8_t sens_survey_inf_enable;
+} module_params_s;
+
 //---------------------------------------------------- Variables -------------------------------------------------------
 
 extern TaskHandle_t cmd_interface_task_handler;

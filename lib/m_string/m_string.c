@@ -149,36 +149,50 @@ double m_pow(double n, int32_t p)
 
 /// \brief String to double
 /// \params char* arr - string
+///         uint32_t num_end_idx - index where digits ended
 /// \retval double
 /// \return converted value
-double m_atof(const char *arr)
+double m_atof(const char *str, uint32_t num_end_idx)
 {
-    int32_t i, j, flag;
-    double val;
-    char c;
-    i = 0;
-    j = 0;
-    val = 0;
-    flag = 0;
-    while ((c = *(arr + i)) != '\0')
+    double val = 0;
+    uint32_t idx = 0;
+    int32_t pow = 0;
+    uint8_t neg = 0;
+    uint8_t base = 10;
+    uint8_t after_dot = 0;
+
+    if (str[idx] == '-')
     {
-        if (c != '.'){
-            val =(val * 10) + (c - '0');
-            if (flag == 1){
-                --j;
+        neg = 1;
+        idx++;
+    }
+
+    while (idx != num_end_idx)
+    {
+        if (str[idx] != '.' && str[idx] != ',')
+        {
+            val *= base;
+            val += str[idx] - '0';
+            if (after_dot)
+            {
+                pow--;
             }
         }
-        if (c == '.')
+        else
         {
-            if (flag == 1)
+            if (after_dot)
             {
                 return 0;
             }
-            flag = 1;
+            after_dot = 1;
         }
-        ++i;
+        idx++;
     }
-    val = val * m_pow(10, j);
+    val *= m_pow(10, pow);
+    if (neg)
+    {
+        val = -val;
+    }
     return val;
 }
 

@@ -108,7 +108,7 @@ void hc_sr04_echo_tim_init(TIM_TypeDef *TIMER)
 	time_ic_init_struct.TIM_ICSelection = TIM_ICSelection_DirectTI;
 	TIM_PWMIConfig(TIMER, &time_ic_init_struct);
 
-	nvic_init_struct.NVIC_IRQChannel = TIM10_CC_IRQn;
+	nvic_init_struct.NVIC_IRQChannel = TIM9_CC_IRQn;
 	nvic_init_struct.NVIC_IRQChannelPreemptionPriority = 2;
 	nvic_init_struct.NVIC_IRQChannelSubPriority = 0;
 	nvic_init_struct.NVIC_IRQChannelCmd = ENABLE;

@@ -20,8 +20,10 @@
 #define PWM_MODE 					(TIM_OCMode_PWM1)
 
 #define DC_MOTOR_NUMBER             (4)
+#define LS                          (0)
+#define RS                          (1)
 
-#define MOTOR_MAX_VALUE				(255)
+#define MOTOR_MAX_VALUE				(418)
 #define MOTOR_PWM_PRESCALER			(12)
 
 #define MOTOR_STATE_IDX_SET			(0)
@@ -94,12 +96,10 @@ typedef struct m_pid
 
 typedef struct dc_motor_set
 {
-    double target_speed_lin_rpm;
-    double target_speed_ang_rads;
+    double target_speed_rpm[DC_MOTOR_NUMBER / 2];
 
     uint32_t dc_motor_speed_pwm[DC_MOTOR_NUMBER];
     double dc_motor_speed_rpm[DC_MOTOR_NUMBER];
-
 } dc_motor_set_s;
 
 //---------------------------------------------------- Variables -------------------------------------------------------

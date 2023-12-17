@@ -19,8 +19,8 @@
 
 TaskHandle_t dc_motor_driver_task_handler;
 
-dc_motor_set_s dc_motor_set = {.target_speed_lin_rpm = 0,
-                               .target_speed_ang_rads = 0,
+dc_motor_set_s dc_motor_set = {.target_speed_rpm = {0, 0},
+
                                .dc_motor_speed_pwm = {0, 0, 0, 0},
                                .dc_motor_speed_rpm = {0, 0, 0, 0} };
 
@@ -28,40 +28,60 @@ dc_motor_set_s dc_motor_set = {.target_speed_lin_rpm = 0,
 
 //------------------------------------------------- Inline Functions ---------------------------------------------------
 
-static inline void _dc_forward_run(void)
+static inline void _dc_ls_backward_run(void)
 {
-	TIM1->CCER &= (uint16_t)(~DC0_TIM1_CH2_OUTPUT_ENABLE);
-	TIM1->CCER |= (uint16_t)(DC0_TIM1_CH1_OUTPUT_ENABLE);
-	TIM1->CCER &= (uint16_t)(~DC1_TIM1_CH3_OUTPUT_ENABLE);
-	TIM1->CCER |= (uint16_t)(DC1_TIM1_CH4_OUTPUT_ENABLE);
-	TIM10->CCER &= (uint16_t)(~DC2_TIM10_CH1_OUTPUT_ENABLE);
-	TIM10->CCER |= (uint16_t)(DC2_TIM10_CH2_OUTPUT_ENABLE);
-	TIM10->CCER &= (uint16_t)(~DC3_TIM10_CH4_OUTPUT_ENABLE);
-	TIM10->CCER |= (uint16_t)(DC3_TIM10_CH3_OUTPUT_ENABLE);
+    LS_PWM_TIM->CCER &= (uint16_t)(~DC0_TIM1_CH1_OUTPUT_ENABLE);
+    LS_PWM_TIM->CCER |= (uint16_t)(DC0_TIM1_CH2_OUTPUT_ENABLE);
+    LS_PWM_TIM->CCER &= (uint16_t)(~DC1_TIM1_CH4_OUTPUT_ENABLE);
+    LS_PWM_TIM->CCER |= (uint16_t)(DC1_TIM1_CH3_OUTPUT_ENABLE);
 }
 
-static inline void _dc_backward_run(void)
+static inline void _dc_rs_backward_run(void)
 {
-	TIM1->CCER &= (uint16_t)(~DC0_TIM1_CH1_OUTPUT_ENABLE);
-	TIM1->CCER |= (uint16_t)(DC0_TIM1_CH2_OUTPUT_ENABLE);
-	TIM1->CCER &= (uint16_t)(~DC1_TIM1_CH4_OUTPUT_ENABLE);
-	TIM1->CCER |= (uint16_t)(DC1_TIM1_CH3_OUTPUT_ENABLE);
-	TIM10->CCER &= (uint16_t)(~DC2_TIM10_CH2_OUTPUT_ENABLE);
-	TIM10->CCER |= (uint16_t)(DC2_TIM10_CH1_OUTPUT_ENABLE);
-	TIM10->CCER &= (uint16_t)(~DC3_TIM10_CH3_OUTPUT_ENABLE);
-	TIM10->CCER |= (uint16_t)(DC3_TIM10_CH4_OUTPUT_ENABLE);
+    RS_PWM_TIM->CCER &= (uint16_t)(~DC2_TIM10_CH2_OUTPUT_ENABLE);
+    RS_PWM_TIM->CCER |= (uint16_t)(DC2_TIM10_CH1_OUTPUT_ENABLE);
+    RS_PWM_TIM->CCER &= (uint16_t)(~DC3_TIM10_CH3_OUTPUT_ENABLE);
+    RS_PWM_TIM->CCER |= (uint16_t)(DC3_TIM10_CH4_OUTPUT_ENABLE);
+}
+
+static inline void _dc_ls_forward_run(void)
+{
+    LS_PWM_TIM->CCER &= (uint16_t)(~DC0_TIM1_CH2_OUTPUT_ENABLE);
+    LS_PWM_TIM->CCER |= (uint16_t)(DC0_TIM1_CH1_OUTPUT_ENABLE);
+    LS_PWM_TIM->CCER &= (uint16_t)(~DC1_TIM1_CH3_OUTPUT_ENABLE);
+    LS_PWM_TIM->CCER |= (uint16_t)(DC1_TIM1_CH4_OUTPUT_ENABLE);
+}
+
+static inline void _dc_rs_forward_run(void)
+{
+    RS_PWM_TIM->CCER &= (uint16_t)(~DC2_TIM10_CH1_OUTPUT_ENABLE);
+    RS_PWM_TIM->CCER |= (uint16_t)(DC2_TIM10_CH2_OUTPUT_ENABLE);
+    RS_PWM_TIM->CCER &= (uint16_t)(~DC3_TIM10_CH4_OUTPUT_ENABLE);
+    RS_PWM_TIM->CCER |= (uint16_t)(DC3_TIM10_CH3_OUTPUT_ENABLE);
 }
 
 static inline void _dc_stop(void)
 {
-	TIM1->CCER &= (uint16_t)(~DC0_TIM1_CH1_OUTPUT_ENABLE);
-	TIM1->CCER &= (uint16_t)(~DC0_TIM1_CH2_OUTPUT_ENABLE);
-	TIM1->CCER &= (uint16_t)(~DC1_TIM1_CH3_OUTPUT_ENABLE);
-	TIM1->CCER &= (uint16_t)(~DC1_TIM1_CH4_OUTPUT_ENABLE);
-	TIM10->CCER &= (uint16_t)(~DC2_TIM10_CH1_OUTPUT_ENABLE);
-	TIM10->CCER &= (uint16_t)(~DC2_TIM10_CH2_OUTPUT_ENABLE);
-	TIM10->CCER &= (uint16_t)(~DC3_TIM10_CH3_OUTPUT_ENABLE);
-	TIM10->CCER &= (uint16_t)(~DC3_TIM10_CH4_OUTPUT_ENABLE);
+    LS_PWM_TIM->CCER &= (uint16_t)(~DC0_TIM1_CH1_OUTPUT_ENABLE);
+    LS_PWM_TIM->CCER &= (uint16_t)(~DC0_TIM1_CH2_OUTPUT_ENABLE);
+    LS_PWM_TIM->CCER &= (uint16_t)(~DC1_TIM1_CH3_OUTPUT_ENABLE);
+    LS_PWM_TIM->CCER &= (uint16_t)(~DC1_TIM1_CH4_OUTPUT_ENABLE);
+    RS_PWM_TIM->CCER &= (uint16_t)(~DC2_TIM10_CH1_OUTPUT_ENABLE);
+    RS_PWM_TIM->CCER &= (uint16_t)(~DC2_TIM10_CH2_OUTPUT_ENABLE);
+    RS_PWM_TIM->CCER &= (uint16_t)(~DC3_TIM10_CH3_OUTPUT_ENABLE);
+    RS_PWM_TIM->CCER &= (uint16_t)(~DC3_TIM10_CH4_OUTPUT_ENABLE);
+}
+
+static inline void _dc_forward_run(void)
+{
+    _dc_ls_forward_run();
+    _dc_rs_forward_run();
+}
+
+static inline void _dc_backward_run(void)
+{
+    _dc_ls_backward_run();
+    _dc_rs_backward_run();
 }
 
 
@@ -248,17 +268,17 @@ static void _pwm_for_dc_change_speed(void)
     TIM_CtrlPWMOutputs(LS_PWM_TIM, DISABLE);
     TIM_CtrlPWMOutputs(RS_PWM_TIM, DISABLE);
 
-    TIM1->CH1CVR = dc_motor_set.dc_motor_speed_pwm[0];
-    TIM1->CH2CVR = dc_motor_set.dc_motor_speed_pwm[0];
+    LS_PWM_TIM->CH1CVR = dc_motor_set.dc_motor_speed_pwm[0];
+    LS_PWM_TIM->CH2CVR = dc_motor_set.dc_motor_speed_pwm[0];
 
-    TIM1->CH3CVR = dc_motor_set.dc_motor_speed_pwm[1];
-    TIM1->CH4CVR = dc_motor_set.dc_motor_speed_pwm[1];
+    LS_PWM_TIM->CH3CVR = dc_motor_set.dc_motor_speed_pwm[1];
+    LS_PWM_TIM->CH4CVR = dc_motor_set.dc_motor_speed_pwm[1];
 
-    TIM8->CH1CVR = dc_motor_set.dc_motor_speed_pwm[2];
-    TIM8->CH2CVR = dc_motor_set.dc_motor_speed_pwm[2];
+    RS_PWM_TIM->CH1CVR = dc_motor_set.dc_motor_speed_pwm[2];
+    RS_PWM_TIM->CH2CVR = dc_motor_set.dc_motor_speed_pwm[2];
 
-    TIM8->CH3CVR = dc_motor_set.dc_motor_speed_pwm[3];
-    TIM8->CH4CVR = dc_motor_set.dc_motor_speed_pwm[3];
+    RS_PWM_TIM->CH3CVR = dc_motor_set.dc_motor_speed_pwm[3];
+    RS_PWM_TIM->CH4CVR = dc_motor_set.dc_motor_speed_pwm[3];
 
     TIM_CtrlPWMOutputs(LS_PWM_TIM, ENABLE);
     TIM_CtrlPWMOutputs(RS_PWM_TIM, ENABLE);
@@ -272,20 +292,20 @@ static void _get_speed_rpm(void)
         switch (i)
         {
         case 0:
-            ticks = TIM3->CNT - ENC_COUNT_VALUE / 2;
-            TIM3->CNT = ENC_COUNT_VALUE / 2;
-            break;
-        case 1:
             ticks = TIM4->CNT - ENC_COUNT_VALUE / 2;
             TIM4->CNT = ENC_COUNT_VALUE / 2;
             break;
-        case 2:
-            ticks = TIM2->CNT - ENC_COUNT_VALUE / 2;
-            TIM2->CNT = ENC_COUNT_VALUE / 2;
+        case 1:
+            ticks = TIM9->CNT - ENC_COUNT_VALUE / 2;
+            TIM9->CNT = ENC_COUNT_VALUE / 2;
             break;
-        case 3:
+        case 2:
             ticks = TIM5->CNT - ENC_COUNT_VALUE / 2;
             TIM5->CNT = ENC_COUNT_VALUE / 2;
+            break;
+        case 3:
+            ticks = TIM2->CNT - ENC_COUNT_VALUE / 2;
+            TIM2->CNT = ENC_COUNT_VALUE / 2;
             break;
         }
         if (ticks < 0)
@@ -295,7 +315,7 @@ static void _get_speed_rpm(void)
 
         const double interval = 0.1;
 
-        dc_motor_set.dc_motor_speed_rpm[i] = 60 * (ticks / interval) * (1 / (ENC_PPR * WHEEL_RADIUS_M * ENC_NUM_PER_DC));
+        dc_motor_set.dc_motor_speed_rpm[i] = 60 * (ticks / interval) * (1 / (ENC_TICS_ONE_WHEEL * 2.2 * ENC_NUM_PER_DC));
     }
 }
 
@@ -305,19 +325,18 @@ static void _pid_calculate(m_pid_s *pid)
     double error = 0;
     double d_input = 0;
     double output = 0;
-    const double max_output_sum = 300;
-    const uint32_t ff = 10; // (??)
+    const double max_output_sum = 500;
 
     input = pid->input;
     error = pid->target - abs(input);
-    d_input = input - pid->last_input;
+    d_input = (input - pid->last_input) / 0.1;
 
-    pid->output_sum += (pid->ki * error);
+    pid->output_sum += error;
     pid->output_sum = max(min(pid->output_sum, max_output_sum), -max_output_sum);
 
-    output = pid->output_sum - (pid->kd * d_input) + ff;
+    output = (pid->kp * error) + (pid->ki * pid->output_sum) + (pid->kd * d_input);
 
-    output = max(min(pid->out_max, output), 0);
+    output = max(min(pid->out_max, output), pid->out_min);
 
     pid->output = output;
     pid->last_input = input;
@@ -327,32 +346,38 @@ static void _pid_calculate(m_pid_s *pid)
 
 void dc_motor_driver_task(void *pvParameters)
 {
-    double target_speed_lin_rpm = dc_motor_set.target_speed_lin_rpm;
-
-    m_pid_s pid_0 = {.kp = 1, .ki = 1, .kd = 1, .input = 0, .last_input = 0,
-                   .out_max = MOTOR_MAX_VALUE, .out_min = 0, .output = 0,
-                   .output_sum = 0, .target = target_speed_lin_rpm};
-    m_pid_s pid_1 = {.kp = 1, .ki = 1, .kd = 1, .input = 0, .last_input = 0,
-                   .out_max = MOTOR_MAX_VALUE, .out_min = 0, .output = 0,
-                   .output_sum = 0, .target = target_speed_lin_rpm};
-    m_pid_s pid_2 = {.kp = 1, .ki = 1, .kd = 1, .input = 0, .last_input = 0,
-                   .out_max = MOTOR_MAX_VALUE, .out_min = 0, .output = 0,
-                   .output_sum = 0, .target = target_speed_lin_rpm};
-    m_pid_s pid_3 = {.kp = 1, .ki = 1, .kd = 1, .input = 0, .last_input = 0,
-                   .out_max = MOTOR_MAX_VALUE, .out_min = 0, .output = 0,
-                   .output_sum = 0, .target = target_speed_lin_rpm};
+    m_pid_s pid_0 = {.kp = 1, .ki = 0.25, .kd = 0, .input = 0, .last_input = 0,
+                   .out_max = MOTOR_MAX_VALUE, .out_min = 10, .output = 0,
+                   .output_sum = 0, .target = dc_motor_set.target_speed_rpm[0]};
+    m_pid_s pid_1 = {.kp = 1, .ki = 0.25, .kd = 0, .input = 0, .last_input = 0,
+                   .out_max = MOTOR_MAX_VALUE, .out_min = 10, .output = 0,
+                   .output_sum = 0, .target = dc_motor_set.target_speed_rpm[0]};
+    m_pid_s pid_2 = {.kp = 1, .ki = 0.25, .kd = 0, .input = 0, .last_input = 0,
+                   .out_max = MOTOR_MAX_VALUE, .out_min = 10, .output = 0,
+                   .output_sum = 0, .target = dc_motor_set.target_speed_rpm[1]};
+    m_pid_s pid_3 = {.kp = 1, .ki = 0.25, .kd = 0, .input = 0, .last_input = 0,
+                   .out_max = MOTOR_MAX_VALUE, .out_min = 10, .output = 0,
+                   .output_sum = 0, .target = dc_motor_set.target_speed_rpm[1]};
 
 	while(1)
 	{
-	    target_speed_lin_rpm = dc_motor_set.target_speed_lin_rpm;
-
-	    if (target_speed_lin_rpm < 0)
+	    if (dc_motor_set.target_speed_rpm[LS] < 0 && dc_motor_set.target_speed_rpm[RS] < 0)
 	    {
 	        _dc_backward_run();
 	    }
-	    else if (target_speed_lin_rpm > 0)
+	    else if (dc_motor_set.target_speed_rpm[LS] > 0 && dc_motor_set.target_speed_rpm[RS] > 0)
 	    {
             _dc_forward_run();
+        }
+	    else if (dc_motor_set.target_speed_rpm[LS] > 0 && dc_motor_set.target_speed_rpm[RS] < 0)
+	    {
+	        _dc_ls_forward_run();
+	        _dc_rs_backward_run();
+	    }
+        else if (dc_motor_set.target_speed_rpm[LS] < 0 && dc_motor_set.target_speed_rpm[RS] > 0)
+        {
+            _dc_ls_backward_run();
+            _dc_rs_forward_run();
         }
 	    else
 	    {
@@ -362,25 +387,25 @@ void dc_motor_driver_task(void *pvParameters)
 
 	    _get_speed_rpm();
 
-//	    pid_0.input = dc_motor_set.dc_motor_speed_rpm[0];
-//	    pid_0.target = target_speed_lin_rpm;
-//	    _pid_calculate(&pid_0);
-//	    dc_motor_set.dc_motor_speed_pwm[0] = pid_0.output;
+	    pid_0.input = dc_motor_set.dc_motor_speed_rpm[0];
+	    pid_0.target = abs(dc_motor_set.target_speed_rpm[0]);
+	    _pid_calculate(&pid_0);
+	    dc_motor_set.dc_motor_speed_pwm[0] = pid_0.output;
 
         pid_1.input = dc_motor_set.dc_motor_speed_rpm[1];
-        pid_1.target = target_speed_lin_rpm;
+        pid_1.target = abs(dc_motor_set.target_speed_rpm[0]);
         _pid_calculate(&pid_1);
         dc_motor_set.dc_motor_speed_pwm[1] = pid_1.output;
 
-//        pid_2.input = dc_motor_set.dc_motor_speed_rpm[2];
-//        pid_2.target = target_speed_lin_rpm;
-//        _pid_calculate(&pid_2);
-//        dc_motor_set.dc_motor_speed_pwm[2] = pid_2.output;
-//
-//        pid_3.input = dc_motor_set.dc_motor_speed_rpm[3];
-//        pid_3.target = target_speed_lin_rpm;
-//        _pid_calculate(&pid_3);
-//        dc_motor_set.dc_motor_speed_pwm[3] = pid_3.output;
+        pid_2.input = dc_motor_set.dc_motor_speed_rpm[2];
+        pid_2.target = abs(dc_motor_set.target_speed_rpm[1]);
+        _pid_calculate(&pid_2);
+        dc_motor_set.dc_motor_speed_pwm[2] = pid_2.output;
+
+        pid_3.input = dc_motor_set.dc_motor_speed_rpm[3];
+        pid_3.target = abs(dc_motor_set.target_speed_rpm[1]);
+        _pid_calculate(&pid_3);
+        dc_motor_set.dc_motor_speed_pwm[3] = pid_3.output;
 
 	    _pwm_for_dc_change_speed();
 

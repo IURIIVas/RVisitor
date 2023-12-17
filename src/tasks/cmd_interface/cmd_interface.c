@@ -61,7 +61,7 @@ static double _parse_str_for_number(const char *cmd)
 		idx_number++;
 	}
 
-	number = m_atof(cmd);
+	number = m_atof(cmd, idx_number);
 	return number;
 }
 
@@ -222,16 +222,28 @@ static void _dc_set_state_speed(void)
 {
     char speed_str[10];
     double target_speed_lin_ms = subcmd[0];
+    double target_speed_ang_rads = subcmd[1];
 
     ftoa(target_speed_lin_ms, speed_str, 3);
-
     uart_send_str(CMD_IFACE_UART, "LIN SPEED ");
     uart_send_str(CMD_IFACE_UART, speed_str);
     uart_send_str(CMD_IFACE_UART, " m/s\n");
 
-    double target_speed_lin_rpm = (target_speed_lin_ms * 60) / WHEEL_C_M;
+    ftoa(target_speed_ang_rads, speed_str, 3);
+    uart_send_str(CMD_IFACE_UART, "ANG SPEED ");
+    uart_send_str(CMD_IFACE_UART, speed_str);
+    uart_send_str(CMD_IFACE_UART, " rad/s\n");
 
-    dc_motor_set.target_speed_lin_rpm = target_speed_lin_rpm;
+    double target_speed_left_side_ms = target_speed_lin_ms + (target_speed_ang_rads * WHEEL_RADIUS_M);
+    double target_speed_right_side_ms = target_speed_lin_ms - (target_speed_ang_rads * WHEEL_RADIUS_M);
+
+    if (target_speed_lin_ms == 0)
+    {
+        target_speed_left_side_ms = 0;
+        target_speed_right_side_ms = 0;
+    }
+    dc_motor_set.target_speed_rpm[LS] = (target_speed_left_side_ms * 60) / WHEEL_C_M;
+    dc_motor_set.target_speed_rpm[RS] = (target_speed_right_side_ms * 60) / WHEEL_C_M;
 }
 
 static void _get_distances(void)
