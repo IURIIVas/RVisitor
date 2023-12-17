@@ -16,6 +16,7 @@
 #include "hw_201_survey.h"
 #include "hc_sr04_survey.h"
 #include "dc_motor_driver.h"
+#include "odometry.h"
 
 //------------------------------------------------------ Macros --------------------------------------------------------
 
@@ -38,6 +39,7 @@ void tasks_init(void)
 	cmd_iface_listening_task_init();
 	hw_201_task_init();
 	dc_motor_driver_task_init();
+	odometry_task_init();
 //	hc_sr04_task_init();
 }
 

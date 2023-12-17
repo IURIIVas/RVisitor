@@ -19,6 +19,7 @@
 #include "hw_201_survey.h"
 #include "hc_sr04_survey.h"
 #include "dc_motor_driver.h"
+#include "odometry.h"
 
 //------------------------------------------------------ Macros --------------------------------------------------------
 
@@ -259,6 +260,20 @@ static void _get_distances(void)
     }
 }
 
+static void _get_odometry(void)
+{
+    uart_send_str(CMD_IFACE_UART, "odometry\n");
+    uart_send_str(CMD_IFACE_UART, "x: ");
+    uart_send_double(CMD_IFACE_UART, odometry.x);
+    uart_send_str(CMD_IFACE_UART, "\n");
+    uart_send_str(CMD_IFACE_UART, "y: ");
+    uart_send_double(CMD_IFACE_UART, odometry.y);
+    uart_send_str(CMD_IFACE_UART, "\n");
+    uart_send_str(CMD_IFACE_UART, "theta: ");
+    uart_send_double(CMD_IFACE_UART, odometry.theta);
+    uart_send_str(CMD_IFACE_UART, "\n");
+}
+
 /// \brief print unknown cmd
 /// \param None
 /// \retval None
@@ -342,6 +357,7 @@ void cmd_iface_listening_task(void *pvParameters)
     {
         _get_obstacles();
         _get_distances();
+        _get_odometry();
 
         vTaskDelay(2000 / portTICK_PERIOD_MS);
     }

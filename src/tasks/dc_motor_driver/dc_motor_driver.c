@@ -10,6 +10,7 @@
 #include "global_inc.h"
 #include "dc_motor_driver.h"
 #include "tim.h"
+#include "odometry.h"
 
 //------------------------------------------------------ Macros --------------------------------------------------------
 
@@ -286,24 +287,24 @@ static void _pwm_for_dc_change_speed(void)
 
 static void _get_speed_rpm(void)
 {
-    for (size_t i = 0; i < ENC_NUM; i++)
+    for (size_t dc_motor = RR_MOTOR; dc_motor < DC_MOTOR_NUMBER; dc_motor++)
     {
         int32_t ticks = 0;
-        switch (i)
+        switch (dc_motor)
         {
-        case 0:
+        case RR_MOTOR:
             ticks = TIM4->CNT - ENC_COUNT_VALUE / 2;
             TIM4->CNT = ENC_COUNT_VALUE / 2;
             break;
-        case 1:
+        case FR_MOTOR:
             ticks = TIM9->CNT - ENC_COUNT_VALUE / 2;
             TIM9->CNT = ENC_COUNT_VALUE / 2;
             break;
-        case 2:
+        case RL_MOTOR:
             ticks = TIM5->CNT - ENC_COUNT_VALUE / 2;
             TIM5->CNT = ENC_COUNT_VALUE / 2;
             break;
-        case 3:
+        case FL_MOTOR:
             ticks = TIM2->CNT - ENC_COUNT_VALUE / 2;
             TIM2->CNT = ENC_COUNT_VALUE / 2;
             break;
@@ -313,11 +314,10 @@ static void _get_speed_rpm(void)
             ticks = -ticks;
         }
 
-        const double interval = 0.1;
-        const double freq_hz = 10; // 10 times per second
+        xQueueSend(odometry_queue, (void*) &ticks, portMAX_DELAY);
 
-//        dc_motor_set.dc_motor_speed_rpm[i] = 60 * (ticks / interval) * (1 / (ENC_TICS_ONE_WHEEL * 2.2 * ENC_NUM_PER_DC));
-        dc_motor_set.dc_motor_speed_rpm[i] = 60 * ticks / (ENC_TICS_ONE_WHEEL * interval);
+        const double interval = 0.1;
+        dc_motor_set.dc_motor_speed_rpm[dc_motor] = 60 * ticks / (ENC_TICS_ONE_WHEEL * interval);
     }
 }
 
@@ -412,7 +412,7 @@ void dc_motor_driver_task(void *pvParameters)
 
 	    _pwm_for_dc_change_speed();
 
-	    vTaskDelay(100 / portTICK_PERIOD_MS);
+	    vTaskDelay(PID_PERIOD_MS / portTICK_PERIOD_MS);
 	}
 }
 

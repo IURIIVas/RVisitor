@@ -490,6 +490,17 @@ void uart_send_int(USART_TypeDef *uart, int32_t int_num)
 	uart_send_str(uart, str_num);
 }
 
+/// \brief Send double to UART
+/// \param UART, double to send
+/// \retval None
+/// \return None
+void uart_send_double(USART_TypeDef *uart, double double_num)
+{
+    char str_num[12];
+    ftoa(double_num, str_num, 3);
+    uart_send_str(uart, str_num);
+}
+
 /*********************************************************************
  * @fn      USART_ReceiveData
  *
