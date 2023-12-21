@@ -487,7 +487,7 @@ typedef struct
   __IO uint32_t BSHR;
   __IO uint32_t BCR;
   __IO uint32_t LCKR;
-} GPIO_TypeDef;
+} gpio_s;
 
 /* Alternate Function I/O */
 typedef struct
@@ -629,7 +629,7 @@ typedef struct
   uint16_t  RESERVED8;
   __IO uint16_t HSCR;
   uint16_t  RESERVED9;
-} SPI_TypeDef;
+} spi_s;
 
 /* TIM */
 typedef struct
@@ -1242,8 +1242,8 @@ typedef struct
 #define RTC                 ((RTC_TypeDef *) RTC_BASE)
 #define WWDG                ((WWDG_TypeDef *) WWDG_BASE)
 #define IWDG                ((IWDG_TypeDef *) IWDG_BASE)
-#define SPI2                ((SPI_TypeDef *) SPI2_BASE)
-#define SPI3                ((SPI_TypeDef *) SPI3_BASE)
+#define SPI2                ((spi_s *) SPI2_BASE)
+#define SPI3                ((spi_s *) SPI3_BASE)
 #define USART2              ((USART_TypeDef *) USART2_BASE)
 #define USART3              ((USART_TypeDef *) USART3_BASE)
 #define UART4               ((USART_TypeDef *) UART4_BASE)
@@ -1258,19 +1258,19 @@ typedef struct
 
 #define AFIO                ((AFIO_TypeDef *) AFIO_BASE)
 #define EXTI                ((EXTI_TypeDef *) EXTI_BASE)
-#define GPIOA               ((GPIO_TypeDef *) GPIOA_BASE)
-#define GPIOB               ((GPIO_TypeDef *) GPIOB_BASE)
-#define GPIOC               ((GPIO_TypeDef *) GPIOC_BASE)
-#define GPIOD               ((GPIO_TypeDef *) GPIOD_BASE)
-#define GPIOE               ((GPIO_TypeDef *) GPIOE_BASE)
-#define GPIOF               ((GPIO_TypeDef *) GPIOF_BASE)
-#define GPIOG               ((GPIO_TypeDef *) GPIOG_BASE)
+#define GPIOA               ((gpio_s *) GPIOA_BASE)
+#define GPIOB               ((gpio_s *) GPIOB_BASE)
+#define GPIOC               ((gpio_s *) GPIOC_BASE)
+#define GPIOD               ((gpio_s *) GPIOD_BASE)
+#define GPIOE               ((gpio_s *) GPIOE_BASE)
+#define GPIOF               ((gpio_s *) GPIOF_BASE)
+#define GPIOG               ((gpio_s *) GPIOG_BASE)
 #define ADC1                ((ADC_TypeDef *) ADC1_BASE)
 #define ADC2                ((ADC_TypeDef *) ADC2_BASE)
 #define TKey1               ((ADC_TypeDef *) ADC1_BASE)
 #define TKey2               ((ADC_TypeDef *) ADC2_BASE)
 #define TIM1                ((TIM_TypeDef *) TIM1_BASE)
-#define SPI1                ((SPI_TypeDef *) SPI1_BASE)
+#define SPI1                ((spi_s *) SPI1_BASE)
 #define TIM8                ((TIM_TypeDef *) TIM8_BASE)
 #define USART1              ((USART_TypeDef *) USART1_BASE)
 #define ADC3                ((ADC_TypeDef *) ADC3_BASE)

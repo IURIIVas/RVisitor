@@ -47,7 +47,7 @@ typedef struct
   uint16_t USART_HardwareFlowControl; /* Specifies wether the hardware flow control mode is enabled
                                          or disabled.
                                          This parameter can be a value of @ref USART_Hardware_Flow_Control */
-} uart_init_t;
+} uart_init_s;
 
 /* USART Clock Init Structure definition */  
 typedef struct
@@ -65,7 +65,7 @@ typedef struct
   uint16_t USART_LastBit; /* Specifies whether the clock pulse corresponding to the last transmitted
                              data bit (MSB) has to be output on the SCLK pin in synchronous mode.
                              This parameter can be a value of @ref USART_Last_Bit */
-} uart_clk_init_t;
+} uart_clk_init_s;
 
 /* USART_Word_Length */ 
 #define USART_WordLength_8b                  ((uint16_t)0x0000)
@@ -154,10 +154,10 @@ typedef struct
 
 
 void USART_DeInit(USART_TypeDef* USARTx);
-void uart_init(USART_TypeDef* uart_x, uart_init_t* uart_init_struct);
-void USART_StructInit(uart_init_t* USART_InitStruct);
-void USART_ClockInit(USART_TypeDef* USARTx, uart_clk_init_t* USART_ClockInitStruct);
-void USART_ClockStructInit(uart_clk_init_t* USART_ClockInitStruct);
+void uart_init(USART_TypeDef* uart_x, uart_init_s* uart_init_struct);
+void USART_StructInit(uart_init_s* USART_InitStruct);
+void USART_ClockInit(USART_TypeDef* USARTx, uart_clk_init_s* USART_ClockInitStruct);
+void USART_ClockStructInit(uart_clk_init_s* USART_ClockInitStruct);
 void USART_Cmd(USART_TypeDef* USARTx, FunctionalState NewState);
 void USART_ITConfig(USART_TypeDef* USARTx, uint16_t USART_IT, FunctionalState NewState);
 void USART_DMACmd(USART_TypeDef* USARTx, uint16_t USART_DMAReq, FunctionalState NewState);

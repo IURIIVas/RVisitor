@@ -18,15 +18,23 @@
 //------------------------------------------------------ Macros --------------------------------------------------------
 
 #define SPIF_MANUFACTUR_ID_CMD                    (0x90)
-#define w25_write_enable_cmd                      (0x06)
-#define w25_write_disable_cmd                     (0x04)
-#define w25_read_status_reg_cmd                   (0x05)
-#define w25_erase_sector_cmd                      (0x20)
-#define w25_read_data_cmd                         (0x03)
+#define SPIF_JEDEC_ID_CMD                         (0x9F)
+#define SPIF_ERASE_CHIP_CMD                       (0x60)
+#define WRITE_ENABLE_CMD                          (0x06)
+#define WRITE_DISABLE_CMD                         (0x04)
+#define SPIF_CMD_SECTOR_ERASE3ADD_CMD             (0x20)
+#define SPIF_CMD_SECTOR_ERASE4ADD_CMD             (0x21)
+#define SPIF_CMD_BLOCK_ERASE3ADD_CMD              (0xD8)
+#define SPIF_CMD_BLOCK_ERASE4ADD_CMD              (0xDC)
+#define PAGE_PROG4ADD_CMD                         (0x12)
+#define PAGE_PROG3ADD_CMD                         (0x02)
+#define READ4ADD_CMD                              (0x13)
+#define READ3ADD_CMD                              (0x03)
 
 #define SR_BUSY_BIT                               (0)
 
 #define SECTOR_SIZE_BYTES                         (4096)
+#define BLOCK_SIZE_BYTES                          (0x10000)
 #define PAGE_SIZE_BYTES                           (256)
 
 //----------------------------------------------------- Typedefs -------------------------------------------------------
@@ -75,9 +83,10 @@ typedef struct
     gpio_s *cs_gpio;
     spif_manufactor_e manufactor;
     spif_size_e size;
-    uint8_t cs_port;
+    uint8_t cs_pin;
     uint8_t lock;
-    uint16_t reserved;
+    uint8_t mem_type;
+    uint8_t reserved;
     uint32_t page_cnt;
     uint32_t sector_cnt;
     uint32_t block_cnt;
@@ -87,9 +96,9 @@ typedef struct
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
-uint8_t spif_init(spif_s *spif);
+uint8_t spif_init(spif_s *spif, spi_s *spi, gpio_s *cs_gpio, uint8_t cs_pin);
 
-uint8_t spif_erase_chip(spif_s *spif);
+void spif_erase_chip(spif_s *spif);
 uint8_t spif_erase_sector(spif_s *spif, uint32_t sect_num);
 uint8_t spif_erase_block(spif_s *spif, uint32_t sect_num);
 
@@ -98,6 +107,7 @@ uint8_t spif_write_page(spif_s *spif, uint32_t page_num, uint8_t *data, uint32_t
 uint8_t spif_write_sector(spif_s *spif, uint32_t sector_num, uint8_t *data, uint32_t size, uint32_t offset);
 uint8_t spif_write_block(spif_s *spif, uint32_t block_num, uint8_t *data, uint32_t size, uint32_t offset);
 
+uint16_t spif_read_id(spif_s *spif);
 uint8_t spif_read_addr(spif_s *spif, uint32_t addr, uint8_t *data, uint32_t size);
 uint8_t spif_read_page(spif_s *spif, uint32_t page_num, uint8_t *data, uint32_t size, uint32_t offset);
 uint8_t spif_read_sector(spif_s *spif, uint32_t sector_num, uint8_t *data, uint32_t size, uint32_t offset);

@@ -12,6 +12,9 @@
 
 //----------------------------------------------------- Includes -------------------------------------------------------
 
+#include "global_inc.h"
+#include "queue.h"
+
 //------------------------------------------------------ Macros --------------------------------------------------------
 
 #define HC_SR04_SENSORS_NUM					  (4)
@@ -29,9 +32,11 @@
 #define HC_SR04_ECHO_TIMER					  (TIM9)
 #define HC_SR04_ECHO_TIMER_RCC			      (RCC_APB2Periph_TIM9)
 
+#define DISTANCE_THRESHOLD_CM                 (5)
+
 #define HC_SR04_SURVEY_TASK_PRIORITY     	  (5)
 #define HC_SR04_SURVEY_TASK_STK_SIZE      	  (256)
-#define HC_SR04_DELAY_TICKS					  (50 / portTICK_PERIOD_MS)
+#define HC_SR04_DELAY_MS					  (50)
 
 //----------------------------------------------------- Typedefs -------------------------------------------------------
 
@@ -39,7 +44,8 @@
 //---------------------------------------------------- Variables -------------------------------------------------------
 
 extern TaskHandle_t hc_sr04_survey_task_handler;
-extern uint8_t hc_sr04_sensors_distance[];
+extern uint16_t hc_sr04_sensors_distance[];
+extern QueueHandle_t queue_hc_sr04;
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 

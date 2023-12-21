@@ -8,6 +8,7 @@
 //----------------------------------------------------- Includes -------------------------------------------------------
 
 #include "odometry.h"
+#include "dc_motor_controller.h"
 #include "dc_motor_driver.h"
 #include <math.h>
 

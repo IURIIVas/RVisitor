@@ -12,6 +12,8 @@
 
 //----------------------------------------------------- Includes -------------------------------------------------------
 
+#include "queue.h"
+
 //------------------------------------------------------ Macros --------------------------------------------------------
 
 #define HW_201_SENSORS_NUM					  (4)
@@ -23,7 +25,7 @@
 
 #define HW_201_SURVEY_TASK_PRIORITY     	  (5)
 #define HW_201_SURVEY_TASK_STK_SIZE      	  (256)
-#define HW_201_DELAY_TICKS					  (100)
+#define HW_201_DELAY_MS 					  (10)
 
 //----------------------------------------------------- Typedefs -------------------------------------------------------
 
@@ -43,6 +45,7 @@ typedef enum {
 
 extern TaskHandle_t hw_201_survey_task_handler;
 extern uint8_t hw_201_sensors_state[];
+extern QueueHandle_t queue_hw_201;
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 

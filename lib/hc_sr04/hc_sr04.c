@@ -32,9 +32,9 @@
 /// \param GPIO Port, GPIO Trig Pin
 /// \retval None
 /// \return None
-void hc_sr04_trig_gpio_init(GPIO_TypeDef *GPIO_PORT, uint16_t GPIO_TRIG_PIN)
+void hc_sr04_trig_gpio_init(gpio_s *GPIO_PORT, uint16_t GPIO_TRIG_PIN)
 {
-	gpio_init_t gpio_init_struct = {0};
+	gpio_init_s gpio_init_struct = {0};
 
 	gpio_init_struct.GPIO_Pins = GPIO_TRIG_PIN;
 	gpio_init_struct.GPIO_Mode = GPIO_Mode_Out_PP;
@@ -48,7 +48,7 @@ void hc_sr04_trig_gpio_init(GPIO_TypeDef *GPIO_PORT, uint16_t GPIO_TRIG_PIN)
 /// \return None
 void hc_sr04_trig_base_tim_init(TIM_TypeDef *TIMER)
 {
-	tim_time_base_init_t time_base_init_struct = {0};
+	tim_time_base_init_s time_base_init_struct = {0};
 	RCC_ClocksTypeDef RCC_ClocksStatus;
 	RCC_GetClocksFreq(&RCC_ClocksStatus);
 
@@ -68,9 +68,9 @@ void hc_sr04_trig_base_tim_init(TIM_TypeDef *TIMER)
 /// \param GPIO Port, GPIO Echo Pin
 /// \retval None
 /// \return None
-void hc_sr04_echo_gpio_init(GPIO_TypeDef *GPIO_PORT, uint16_t GPIO_ECHO_PIN)
+void hc_sr04_echo_gpio_init(gpio_s *GPIO_PORT, uint16_t GPIO_ECHO_PIN)
 {
-	gpio_init_t gpio_init_struct = {0};
+	gpio_init_s gpio_init_struct = {0};
 
 	gpio_init_struct.GPIO_Pins = GPIO_ECHO_PIN;
 	gpio_init_struct.GPIO_Mode = GPIO_Mode_IN_FLOATING;
@@ -86,9 +86,9 @@ void hc_sr04_echo_gpio_init(GPIO_TypeDef *GPIO_PORT, uint16_t GPIO_ECHO_PIN)
 /// \return None
 void hc_sr04_echo_tim_init(TIM_TypeDef *TIMER)
 {
-	tim_time_base_init_t time_base_init_struct = {0};
-	tim_ic_init_t time_ic_init_struct = {0};
-	nvic_init_t nvic_init_struct = {0};
+	tim_time_base_init_s time_base_init_struct = {0};
+	tim_ic_init_s time_ic_init_struct = {0};
+	nvic_init_s nvic_init_struct = {0};
 
 	RCC_ClocksTypeDef RCC_ClocksStatus;
 	RCC_GetClocksFreq(&RCC_ClocksStatus);
