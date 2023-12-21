@@ -14,19 +14,13 @@
 
 #include "global_inc.h"
 #include "tim.h"
+#include "queue.h"
 
 //------------------------------------------------------ Macros --------------------------------------------------------
 
 #define PWM_MODE 					          (TIM_OCMode_PWM1)
 
 #define DC_MOTOR_NUMBER                       (4)
-#define LS                                    (0)
-#define RS                                    (1)
-
-#define RR_MOTOR                              (0)
-#define FR_MOTOR                              (1)
-#define FL_MOTOR                              (3)
-#define RL_MOTOR                              (2)
 
 #define MOTOR_MAX_VALUE				          (254)
 #define MOTOR_PWM_PRESCALER			          (12)
@@ -46,26 +40,6 @@
 #define DC3_TIM10_CH3_OUTPUT_ENABLE           (TIM_CC3E)
 #define DC3_TIM10_CH4_OUTPUT_ENABLE           (TIM_CC4E)
 
-#define ENC_NUM                               (4)
-#define ENC_NUM_PER_DC                        (2)
-
-#define ENC_TIM2_TIM5_GPIO                    (GPIOA)
-#define ENC_TIM4_GPIO                         (GPIOB)
-#define ENC_TIM9_GPIO                         (GPIOD)
-
-#define RCC_TIM2_TIM5_GPIO                    (RCC_APB2Periph_GPIOA)
-#define RCC_TIM2_TIM4_GPIO                    (RCC_APB2Periph_GPIOB)
-#define RCC_TIM9_GPIO                         (RCC_APB2Periph_GPIOD)
-
-#define ENC_COUNT_VALUE                       (0xffff)
-#define ENC_TICS_ONE_WHEEL                    (418)
-#define ENC_PPR                               (7)
-
-#define PID_PERIOD_MS                         (100)
-
-#define WHEEL_RADIUS_M                        (0.022)
-#define WHEEL_C_M                             (2 * PI * WHEEL_RADIUS_M)
-
 #define DC_MOTOR_DRIVER_TASK_PRIORITY     	  (5)
 #define DC_MOTOR_DRIVER_TASK_STK_SIZE      	  (256)
 
@@ -73,33 +47,38 @@
 
 typedef struct
 {
-    double kp;
-    double ki;
-    double kd;
-
-    double input;
-    double output;
-    double target;
-
-    double last_input;
-    double output_sum;
-
-    double out_min;
-    double out_max;
-} m_pid_s;
-
-typedef struct
-{
-    double target_speed_rpm[DC_MOTOR_NUMBER / 2];
-
     uint32_t dc_motor_speed_pwm[DC_MOTOR_NUMBER];
-    double dc_motor_speed_rpm[DC_MOTOR_NUMBER];
+    uint8_t dc_motor_direction;
 } dc_motor_set_s;
+
+typedef enum
+{
+    RR_MOTOR = 0,
+    FR_MOTOR = 1,
+    FL_MOTOR = 2,
+    RL_MOTOR = 3
+} dc_motors_e;
+
+typedef enum
+{
+    FORWARD_DIR = 0,
+    BACKWARD_DIR = 1,
+    LEFT_DIR = 2,
+    RIGHT_DIR = 3,
+    STOP = 4
+} dc_motor_dir_e;
+
+typedef enum
+{
+    LS = 0,
+    RS = 1,
+} dc_motor_side_e;
 
 //---------------------------------------------------- Variables -------------------------------------------------------
 
 extern TaskHandle_t dc_motor_driver_task_handler;
 extern dc_motor_set_s dc_motor_set;
+extern QueueHandle_t queue_dc_motor_driver;
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 

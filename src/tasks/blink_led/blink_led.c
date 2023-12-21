@@ -31,7 +31,7 @@ TaskHandle_t blink_led1_task_handler;
 /// \return None
 static void _gpio_toggle_init(void)
 {
-  gpio_init_t  GPIOA_init_struct = {0};
+  gpio_init_s  GPIOA_init_struct = {0};
 
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
   GPIOA_init_struct.GPIO_Pins = GPIO_Pin_15;

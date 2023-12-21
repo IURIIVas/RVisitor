@@ -22,7 +22,7 @@
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
-void hc_sr04_trig_gpio_init(GPIO_TypeDef *GPIO_PORT, uint16_t GPIO_TRIG_PIN);
+void hc_sr04_trig_gpio_init(gpio_s *GPIO_PORT, uint16_t GPIO_TRIG_PIN);
 void hc_sr04_trig_base_tim_init(TIM_TypeDef *TIMER);
 void hc_sr04_echo_tim_init(TIM_TypeDef *TIMER);
 

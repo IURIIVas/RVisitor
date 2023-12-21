@@ -21,8 +21,10 @@
 //---------------------------------------------------- Variables -------------------------------------------------------
 
 TaskHandle_t hc_sr04_survey_task_handler;
-uint8_t hc_sr04_sensors_distance[HC_SR04_SENSORS_NUM] = {0, 0, 0, 0};
+uint16_t hc_sr04_sensors_distance[HC_SR04_SENSORS_NUM] = {0, 0, 0, 0};
 uint16_t hc_sr04_data_get = 0;
+
+QueueHandle_t queue_hc_sr04;
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
@@ -65,7 +67,7 @@ static inline void _hc_sr04_echo_tim_clk_init(void)
 /// \return None
 static void _gpio_mux_select_init(void)
 {
-	gpio_init_t gpio_init_struct = {0};
+	gpio_init_s gpio_init_struct = {0};
 
 	gpio_init_struct.GPIO_Pins = HC_SR04_MUX_S0_GPIO_PIN | HC_SR04_MUX_S1_GPIO_PIN;
 	gpio_init_struct.GPIO_Mode = GPIO_Mode_Out_PP;
@@ -77,8 +79,11 @@ static void _gpio_mux_select_init(void)
 
 void hc_sr04_survey_task(void *pvParameters)
 {
+    uint16_t warning = 0;
 	uint8_t sensor_mux_select = 0;
 	uint32_t timeout = 1000;
+
+    queue_hc_sr04 = xQueueCreate(4, sizeof(uint16_t));
 
 	while (1)
 	{
@@ -118,11 +123,20 @@ void hc_sr04_survey_task(void *pvParameters)
         }
 
         hc_sr04_sensors_distance[sensor_mux_select] = hc_sr04_data_get;
+        if (hc_sr04_data_get < DISTANCE_THRESHOLD_CM)
+        {
+            warning = 1;
+        }
+        else
+        {
+            warning = 0;
+        }
         hc_sr04_data_get = 0;
 
         sensor_mux_select = (sensor_mux_select + 1) % HC_SR04_SENSORS_NUM;
+        xQueueSend(queue_hc_sr04, (void*) &warning, portMAX_DELAY);
 	}
-	vTaskDelay(HC_SR04_DELAY_TICKS);
+	vTaskDelay(HC_SR04_DELAY_MS / portTICK_PERIOD_MS);
 }
 
 void TIM9_CC_IRQHandler(void)

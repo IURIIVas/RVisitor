@@ -125,7 +125,7 @@ void USART_DeInit(USART_TypeDef *USARTx)
  *
  * @return  none
  */
-void uart_init(USART_TypeDef *uart_x, uart_init_t *uart_init_struct)
+void uart_init(USART_TypeDef *uart_x, uart_init_s *uart_init_struct)
 {
     uint32_t tmpreg = 0x00;
     uint32_t apbclock = 0x00;
@@ -201,7 +201,7 @@ void uart_init(USART_TypeDef *uart_x, uart_init_t *uart_init_struct)
  *
  * @return  none
  */
-void USART_StructInit(uart_init_t *USART_InitStruct)
+void USART_StructInit(uart_init_s *USART_InitStruct)
 {
     USART_InitStruct->USART_BaudRate = 9600;
     USART_InitStruct->USART_WordLength = USART_WordLength_8b;
@@ -224,7 +224,7 @@ void USART_StructInit(uart_init_t *USART_InitStruct)
  *
  * @return  none
  */
-void USART_ClockInit(USART_TypeDef *USARTx, uart_clk_init_t *USART_ClockInitStruct)
+void USART_ClockInit(USART_TypeDef *USARTx, uart_clk_init_s *USART_ClockInitStruct)
 {
     uint32_t tmpreg = 0x00;
 
@@ -245,7 +245,7 @@ void USART_ClockInit(USART_TypeDef *USARTx, uart_clk_init_t *USART_ClockInitStru
  *
  * @return  none
  */
-void USART_ClockStructInit(uart_clk_init_t *USART_ClockInitStruct)
+void USART_ClockStructInit(uart_clk_init_s *USART_ClockInitStruct)
 {
     USART_ClockInitStruct->USART_Clock = USART_Clock_Disable;
     USART_ClockInitStruct->USART_CPOL = USART_CPOL_Low;

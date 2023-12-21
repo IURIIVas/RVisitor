@@ -103,7 +103,7 @@ void TIM_DeInit(TIM_TypeDef *TIMx)
  *
  * @return  none
  */
-void TIM_TimeBaseInit(TIM_TypeDef *TIMx, tim_time_base_init_t *TIM_TimeBaseInitStruct)
+void TIM_TimeBaseInit(TIM_TypeDef *TIMx, tim_time_base_init_s *TIM_TimeBaseInitStruct)
 {
     uint16_t tmpcr1 = 0;
 
@@ -318,7 +318,7 @@ void TIM_OC4Init(TIM_TypeDef *TIMx, tim_oc_init_t *TIM_OCInitStruct)
  *
  * @return  none
  */
-void TIM_ICInit(TIM_TypeDef *TIMx, tim_ic_init_t *TIM_ICInitStruct)
+void TIM_ICInit(TIM_TypeDef *TIMx, tim_ic_init_s *TIM_ICInitStruct)
 {
     if(TIM_ICInitStruct->TIM_Channel == TIM_Channel_1)
     {
@@ -362,7 +362,7 @@ void TIM_ICInit(TIM_TypeDef *TIMx, tim_ic_init_t *TIM_ICInitStruct)
  *
  * @return  none
  */
-void TIM_PWMIConfig(TIM_TypeDef *TIMx, tim_ic_init_t *TIM_ICInitStruct)
+void TIM_PWMIConfig(TIM_TypeDef *TIMx, tim_ic_init_s *TIM_ICInitStruct)
 {
     uint16_t icoppositepolarity = TIM_ICPolarity_Rising;
     uint16_t icoppositeselection = TIM_ICSelection_DirectTI;
@@ -447,7 +447,7 @@ void TIM_BDTRConfig(TIM_TypeDef *TIMx, tim_bdtr_init_t *TIM_BDTRInitStruct)
  *
  * @return  none
  */
-void TIM_TimeBaseStructInit(tim_time_base_init_t *TIM_TimeBaseInitStruct)
+void TIM_TimeBaseStructInit(tim_time_base_init_s *TIM_TimeBaseInitStruct)
 {
     TIM_TimeBaseInitStruct->TIM_Period = 0xFFFF;
     TIM_TimeBaseInitStruct->TIM_Prescaler = 0x0000;
@@ -486,7 +486,7 @@ void TIM_OCStructInit(tim_oc_init_t *TIM_OCInitStruct)
  *
  * @return  none
  */
-void TIM_ICStructInit(tim_ic_init_t *TIM_ICInitStruct)
+void TIM_ICStructInit(tim_ic_init_s *TIM_ICInitStruct)
 {
     TIM_ICInitStruct->TIM_Channel = TIM_Channel_1;
     TIM_ICInitStruct->TIM_ICPolarity = TIM_ICPolarity_Rising;

@@ -72,6 +72,8 @@ typedef enum {DISABLE = 0, ENABLE = 1} FunctionalState;
 
 typedef enum {RESET = 0, SET = 1} FlagStatus, ITStatus;
 
+typedef enum {FAIL = 0, OK = 1} status_e;
+
 #define   RV_STATIC_INLINE  static  inline
 
 /* memory mapped structure for Program Fast Interrupt Controller (PFIC) */

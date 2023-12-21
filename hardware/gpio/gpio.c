@@ -30,7 +30,7 @@
  *
  * @return  none
  */
-void GPIO_DeInit(GPIO_TypeDef *GPIOx)
+void GPIO_DeInit(gpio_s *GPIOx)
 {
     if(GPIOx == GPIOA)
     {
@@ -83,7 +83,7 @@ void GPIO_AFIODeInit(void)
  *
  * @return  none
  */
-void GPIO_Init(GPIO_TypeDef *GPIOx, gpio_init_t *GPIO_InitStruct)
+void GPIO_Init(gpio_s *GPIOx, gpio_init_s *GPIO_InitStruct)
 {
     uint32_t currentmode = 0x00, currentpin = 0x00, pinpos = 0x00, pos = 0x00;
     uint32_t tmpreg = 0x00, pinmask = 0x00;
@@ -168,7 +168,7 @@ void GPIO_Init(GPIO_TypeDef *GPIOx, gpio_init_t *GPIO_InitStruct)
  *
  * @return  none
  */
-void GPIO_StructInit(gpio_init_t *GPIO_InitStruct)
+void GPIO_StructInit(gpio_init_s *GPIO_InitStruct)
 {
     GPIO_InitStruct->GPIO_Pins = GPIO_Pin_All;
     GPIO_InitStruct->GPIO_Speed = GPIO_Speed_2MHz;
@@ -185,7 +185,7 @@ void GPIO_StructInit(gpio_init_t *GPIO_InitStruct)
  *
  * @return  The input port pin value.
  */
-uint8_t GPIO_ReadInputDataBit(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
+uint8_t GPIO_ReadInputDataBit(gpio_s *GPIOx, uint16_t GPIO_Pin)
 {
     uint8_t bitstatus = 0x00;
 
@@ -210,7 +210,7 @@ uint8_t GPIO_ReadInputDataBit(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
  *
  * @return  The output port pin value.
  */
-uint16_t GPIO_ReadInputData(GPIO_TypeDef *GPIOx)
+uint16_t GPIO_ReadInputData(gpio_s *GPIOx)
 {
     return ((uint16_t)GPIOx->INDR);
 }
@@ -226,7 +226,7 @@ uint16_t GPIO_ReadInputData(GPIO_TypeDef *GPIOx)
  *
  * @return  none
  */
-uint8_t GPIO_ReadOutputDataBit(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
+uint8_t GPIO_ReadOutputDataBit(gpio_s *GPIOx, uint16_t GPIO_Pin)
 {
     uint8_t bitstatus = 0x00;
 
@@ -251,7 +251,7 @@ uint8_t GPIO_ReadOutputDataBit(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
  *
  * @return  GPIO output port pin value.
  */
-uint16_t GPIO_ReadOutputData(GPIO_TypeDef *GPIOx)
+uint16_t GPIO_ReadOutputData(gpio_s *GPIOx)
 {
     return ((uint16_t)GPIOx->OUTDR);
 }
@@ -267,7 +267,7 @@ uint16_t GPIO_ReadOutputData(GPIO_TypeDef *GPIOx)
  *
  * @return  none
  */
-void GPIO_SetBits(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
+void GPIO_SetBits(gpio_s *GPIOx, uint16_t GPIO_Pin)
 {
     GPIOx->BSHR = GPIO_Pin;
 }
@@ -283,7 +283,7 @@ void GPIO_SetBits(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
  *
  * @return  none
  */
-void GPIO_ResetBits(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
+void GPIO_ResetBits(gpio_s *GPIOx, uint16_t GPIO_Pin)
 {
     GPIOx->BCR = GPIO_Pin;
 }
@@ -301,7 +301,7 @@ void GPIO_ResetBits(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
  *
  * @return  none
  */
-void GPIO_WriteBit(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, BitAction BitVal)
+void GPIO_WriteBit(gpio_s *GPIOx, uint16_t GPIO_Pin, BitAction BitVal)
 {
     if(BitVal != Bit_RESET)
     {
@@ -323,7 +323,7 @@ void GPIO_WriteBit(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, BitAction BitVal)
  *
  * @return  none
  */
-void GPIO_Write(GPIO_TypeDef *GPIOx, uint16_t PortVal)
+void GPIO_Write(gpio_s *GPIOx, uint16_t PortVal)
 {
     GPIOx->OUTDR = PortVal;
 }
@@ -339,7 +339,7 @@ void GPIO_Write(GPIO_TypeDef *GPIOx, uint16_t PortVal)
  *
  * @return  none
  */
-void GPIO_PinLockConfig(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
+void GPIO_PinLockConfig(gpio_s *GPIOx, uint16_t GPIO_Pin)
 {
     uint32_t tmp = 0x00010000;
 

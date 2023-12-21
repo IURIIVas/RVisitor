@@ -22,6 +22,8 @@
 TaskHandle_t hw_201_survey_task_handler;
 uint8_t hw_201_sensors_state[] = {IS_OBSTACLE, IS_OBSTACLE, IS_OBSTACLE, IS_OBSTACLE};
 
+QueueHandle_t queue_hw_201;
+
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
 //------------------------------------------------- Inline Functions ---------------------------------------------------
@@ -34,7 +36,7 @@ uint8_t hw_201_sensors_state[] = {IS_OBSTACLE, IS_OBSTACLE, IS_OBSTACLE, IS_OBST
 /// \return None
 static void _gpio_mux_select_init(void)
 {
-	gpio_init_t gpio_init_struct = {0};
+	gpio_init_s gpio_init_struct = {0};
 
 	gpio_init_struct.GPIO_Pins = HW_201_MUX_GPIO_PINS;
 	gpio_init_struct.GPIO_Mode = GPIO_Mode_Out_PP;
@@ -48,6 +50,7 @@ void hw_201_survey_task(void *pvParameters)
 {
 	uint8_t sensor_mux_select = HW_201_FRONT_LEFT;
 	uint8_t sensor_state = IS_OBSTACLE;
+	queue_hw_201 = xQueueCreate(4, sizeof(uint8_t));
 
 	while (1)
 	{
@@ -79,7 +82,7 @@ void hw_201_survey_task(void *pvParameters)
 
 		sensor_mux_select = (sensor_mux_select + 1) % HW_201_SENSORS_NUM;
 
-		vTaskDelay(HW_201_DELAY_TICKS);
+		xQueueSend(queue_hw_201, (void*) &sensor_state, portMAX_DELAY);
 	}
 }
 

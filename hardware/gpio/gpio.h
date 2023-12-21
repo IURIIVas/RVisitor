@@ -49,7 +49,7 @@ typedef struct
 
   GPIOMode_TypeDef GPIO_Mode;    /* Specifies the operating mode for the selected pins.
                                     This parameter can be a value of @ref GPIOMode_TypeDef */
-}gpio_init_t;
+}gpio_init_s;
 
 /* Bit_SET and Bit_RESET enumeration */
 typedef enum
@@ -164,19 +164,19 @@ typedef enum
 #define GPIO_ETH_MediaInterface_RMII   ((u32)0x00000001)
 
 
-void GPIO_DeInit(GPIO_TypeDef* GPIOx);
+void GPIO_DeInit(gpio_s* GPIOx);
 void GPIO_AFIODeInit(void);
-void GPIO_Init(GPIO_TypeDef* GPIOx, gpio_init_t* GPIO_InitStruct);
-void GPIO_StructInit(gpio_init_t* GPIO_InitStruct);
-uint8_t GPIO_ReadInputDataBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
-uint16_t GPIO_ReadInputData(GPIO_TypeDef* GPIOx);
-uint8_t GPIO_ReadOutputDataBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
-uint16_t GPIO_ReadOutputData(GPIO_TypeDef* GPIOx);
-void GPIO_SetBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
-void GPIO_ResetBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
-void GPIO_WriteBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, BitAction BitVal);
-void GPIO_Write(GPIO_TypeDef* GPIOx, uint16_t PortVal);
-void GPIO_PinLockConfig(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
+void GPIO_Init(gpio_s* GPIOx, gpio_init_s* GPIO_InitStruct);
+void GPIO_StructInit(gpio_init_s* GPIO_InitStruct);
+uint8_t GPIO_ReadInputDataBit(gpio_s* GPIOx, uint16_t GPIO_Pin);
+uint16_t GPIO_ReadInputData(gpio_s* GPIOx);
+uint8_t GPIO_ReadOutputDataBit(gpio_s* GPIOx, uint16_t GPIO_Pin);
+uint16_t GPIO_ReadOutputData(gpio_s* GPIOx);
+void GPIO_SetBits(gpio_s* GPIOx, uint16_t GPIO_Pin);
+void GPIO_ResetBits(gpio_s* GPIOx, uint16_t GPIO_Pin);
+void GPIO_WriteBit(gpio_s* GPIOx, uint16_t GPIO_Pin, BitAction BitVal);
+void GPIO_Write(gpio_s* GPIOx, uint16_t PortVal);
+void GPIO_PinLockConfig(gpio_s* GPIOx, uint16_t GPIO_Pin);
 void GPIO_EventOutputConfig(uint8_t GPIO_PortSource, uint8_t GPIO_PinSource);
 void GPIO_EventOutputCmd(FunctionalState NewState);
 void GPIO_PinRemapConfig(uint32_t GPIO_Remap, FunctionalState NewState);

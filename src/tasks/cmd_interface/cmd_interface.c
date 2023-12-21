@@ -18,6 +18,7 @@
 #include "cmd_interface.h"
 #include "hw_201_survey.h"
 #include "hc_sr04_survey.h"
+#include "dc_motor_controller.h"
 #include "dc_motor_driver.h"
 #include "odometry.h"
 
@@ -133,7 +134,7 @@ static void _gpio_cmd_iface_uart_init(void)
 
 	AFIO->PCFR2 = (0x1 << 18);
 
-	gpio_init_t gpio_init_struct = {0};
+	gpio_init_s gpio_init_struct = {0};
 
 	gpio_init_struct.GPIO_Pins = CMD_IFACE_GPIO_TX_PIN;
 	gpio_init_struct.GPIO_Mode = GPIO_Mode_AF_PP;
@@ -147,7 +148,7 @@ static void _gpio_cmd_iface_uart_init(void)
 
 static void _nvic_enable_uart_interrupt(void)
 {
-	nvic_init_t nvic_init_struct = {0};
+	nvic_init_s nvic_init_struct = {0};
 
 	nvic_init_struct.NVIC_IRQChannel = CMD_IFACE_NVIC_IRQ_CHANNEL;
 	nvic_init_struct.NVIC_IRQChannelPreemptionPriority = 1;
@@ -163,7 +164,7 @@ static void _nvic_enable_uart_interrupt(void)
 /// \return None
 static void _uart_cmd_iface_init(void)
 {
-	uart_init_t uart_init_struct = {0};
+	uart_init_s uart_init_struct = {0};
 
 	uart_init_struct.USART_BaudRate = CMD_IFACE_BAUDRATE;
 	uart_init_struct.USART_Mode = (USART_Mode_Tx | USART_Mode_Rx);
@@ -244,8 +245,8 @@ static void _dc_set_state_speed(void)
     double target_speed_left_side_ms = target_speed_lin_ms + (target_speed_ang_rads * WHEEL_RADIUS_M);
     double target_speed_right_side_ms = target_speed_lin_ms - (target_speed_ang_rads * WHEEL_RADIUS_M);
 
-    dc_motor_set.target_speed_rpm[LS] = (target_speed_left_side_ms * 60) / WHEEL_C_M;
-    dc_motor_set.target_speed_rpm[RS] = (target_speed_right_side_ms * 60) / WHEEL_C_M;
+    dc_motor_controller_struct.target_speed_rpm[LS] = (target_speed_left_side_ms * 60) / WHEEL_C_M;
+    dc_motor_controller_struct.target_speed_rpm[RS] = (target_speed_right_side_ms * 60) / WHEEL_C_M;
 }
 
 static void _get_distances(void)

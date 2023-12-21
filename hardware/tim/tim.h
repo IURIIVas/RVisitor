@@ -43,7 +43,7 @@ typedef struct
                                         - the number of half PWM period in center-aligned mode
                                      This parameter must be a number between 0x00 and 0xFF. 
                                      @note This parameter is valid only for TIM1 and TIM8. */
-} tim_time_base_init_t;       
+} tim_time_base_init_s;       
 
 /* TIM Output Compare Init structure definition */
 typedef struct
@@ -94,7 +94,7 @@ typedef struct
 
   uint16_t TIM_ICFilter;     /* Specifies the input capture filter.
                                 This parameter can be a number between 0x0 and 0xF */
-} tim_ic_init_t;
+} tim_ic_init_s;
 
 /* BDTR structure definition */
 typedef struct
@@ -410,17 +410,17 @@ typedef struct
 
 
 void TIM_DeInit(TIM_TypeDef* TIMx);
-void TIM_TimeBaseInit(TIM_TypeDef* TIMx, tim_time_base_init_t* TIM_TimeBaseInitStruct);
+void TIM_TimeBaseInit(TIM_TypeDef* TIMx, tim_time_base_init_s* TIM_TimeBaseInitStruct);
 void TIM_OC1Init(TIM_TypeDef* TIMx, tim_oc_init_t* TIM_OCInitStruct);
 void TIM_OC2Init(TIM_TypeDef* TIMx, tim_oc_init_t* TIM_OCInitStruct);
 void TIM_OC3Init(TIM_TypeDef* TIMx, tim_oc_init_t* TIM_OCInitStruct);
 void TIM_OC4Init(TIM_TypeDef* TIMx, tim_oc_init_t* TIM_OCInitStruct);
-void TIM_ICInit(TIM_TypeDef* TIMx, tim_ic_init_t* TIM_ICInitStruct);
-void TIM_PWMIConfig(TIM_TypeDef* TIMx, tim_ic_init_t* TIM_ICInitStruct);
+void TIM_ICInit(TIM_TypeDef* TIMx, tim_ic_init_s* TIM_ICInitStruct);
+void TIM_PWMIConfig(TIM_TypeDef* TIMx, tim_ic_init_s* TIM_ICInitStruct);
 void TIM_BDTRConfig(TIM_TypeDef* TIMx, tim_bdtr_init_t *TIM_BDTRInitStruct);
-void TIM_TimeBaseStructInit(tim_time_base_init_t* TIM_TimeBaseInitStruct);
+void TIM_TimeBaseStructInit(tim_time_base_init_s* TIM_TimeBaseInitStruct);
 void TIM_OCStructInit(tim_oc_init_t* TIM_OCInitStruct);
-void TIM_ICStructInit(tim_ic_init_t* TIM_ICInitStruct);
+void TIM_ICStructInit(tim_ic_init_s* TIM_ICInitStruct);
 void TIM_BDTRStructInit(tim_bdtr_init_t* TIM_BDTRInitStruct);
 void TIM_Cmd(TIM_TypeDef* TIMx, FunctionalState NewState);
 void TIM_CtrlPWMOutputs(TIM_TypeDef* TIMx, FunctionalState NewState);
