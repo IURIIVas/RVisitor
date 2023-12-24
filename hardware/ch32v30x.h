@@ -520,7 +520,7 @@ typedef struct
   uint16_t  RESERVED7;
   __IO uint16_t RTR;
   uint16_t  RESERVED8;
-} I2C_TypeDef;
+} i2c_s;
 
 /* Independent WatchDog */
 typedef struct
@@ -1248,8 +1248,8 @@ typedef struct
 #define USART3              ((USART_TypeDef *) USART3_BASE)
 #define UART4               ((USART_TypeDef *) UART4_BASE)
 #define UART5               ((USART_TypeDef *) UART5_BASE)
-#define I2C1                ((I2C_TypeDef *) I2C1_BASE)
-#define I2C2                ((I2C_TypeDef *) I2C2_BASE)
+#define I2C1                ((i2c_s *) I2C1_BASE)
+#define I2C2                ((i2c_s *) I2C2_BASE)
 #define CAN1                ((CAN_TypeDef *) CAN1_BASE)
 #define CAN2                ((CAN_TypeDef *) CAN2_BASE)
 #define BKP                 ((BKP_TypeDef *) BKP_BASE)
