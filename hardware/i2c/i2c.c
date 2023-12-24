@@ -124,7 +124,7 @@ void I2C_DeInit(i2c_s *I2Cx)
  *
  * @return  none
  */
-void I2C_Init(i2c_s *I2Cx, I2C_InitTypeDef *I2C_InitStruct)
+void I2C_Init(i2c_s *I2Cx, i2c_init_s *I2C_InitStruct)
 {
     uint16_t tmpreg = 0, freqrange = 0;
     uint16_t result = 0x04;
@@ -197,7 +197,7 @@ void I2C_Init(i2c_s *I2Cx, I2C_InitTypeDef *I2C_InitStruct)
  *
  * @return  none
  */
-void I2C_StructInit(I2C_InitTypeDef *I2C_InitStruct)
+void I2C_StructInit(i2c_init_s *I2C_InitStruct)
 {
     I2C_InitStruct->I2C_ClockSpeed = 5000;
     I2C_InitStruct->I2C_Mode = I2C_Mode_I2C;

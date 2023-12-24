@@ -39,7 +39,7 @@ typedef struct
 
   uint16_t I2C_AcknowledgedAddress; /* Specifies if 7-bit or 10-bit address is acknowledged.
                                        This parameter can be a value of @ref I2C_acknowledged_address */
-}I2C_InitTypeDef;
+}i2c_init_s;
 
 /* I2C_mode */
 #define I2C_Mode_I2C                    ((uint16_t)0x0000)
@@ -299,8 +299,8 @@ typedef struct
 
 
 void I2C_DeInit(i2c_s* I2Cx);
-void I2C_Init(i2c_s* I2Cx, I2C_InitTypeDef* I2C_InitStruct);
-void I2C_StructInit(I2C_InitTypeDef* I2C_InitStruct);
+void I2C_Init(i2c_s* I2Cx, i2c_init_s* I2C_InitStruct);
+void I2C_StructInit(i2c_init_s* I2C_InitStruct);
 void I2C_Cmd(i2c_s* I2Cx, FunctionalState NewState);
 void I2C_DMACmd(i2c_s* I2Cx, FunctionalState NewState);
 void I2C_DMALastTransferCmd(i2c_s* I2Cx, FunctionalState NewState);

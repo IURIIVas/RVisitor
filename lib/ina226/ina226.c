@@ -23,7 +23,7 @@
 
 //---------------------------------------------------- Functions -------------------------------------------------------
 
-double ina226_get_busy(i2c_s *i2c, uint16_t dev_addr) {
+double ina226_get_busv(i2c_s *i2c, uint16_t dev_addr) {
     return (ina226_get_busv_reg(i2c, dev_addr));
 }
 

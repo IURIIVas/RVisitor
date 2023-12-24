@@ -100,7 +100,7 @@
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
 
-double ina226_get_busy(i2c_s *I2CHandler, uint16_t dev_addr);
+double ina226_get_busv(i2c_s *I2CHandler, uint16_t dev_addr);
 double ina226_get_current(i2c_s *I2CHandler, uint16_t dev_addr);
 double ina226_get_power(i2c_s *I2CHandler, uint16_t dev_addr);
 

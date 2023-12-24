@@ -20,6 +20,7 @@
 #include "hc_sr04_survey.h"
 #include "dc_motor_controller.h"
 #include "dc_motor_driver.h"
+#include "power_measure.h"
 #include "odometry.h"
 
 //------------------------------------------------------ Macros --------------------------------------------------------
@@ -262,6 +263,17 @@ static void _get_distances(void)
     }
 }
 
+static void _get_current_and_voltage(void)
+{
+    uart_send_str(CMD_IFACE_UART, "current and voltage\n");
+    uart_send_str(CMD_IFACE_UART, "current: ");
+    uart_send_double(CMD_IFACE_UART, power_measures_struct.current);
+    uart_send_str(CMD_IFACE_UART, "\n");
+    uart_send_str(CMD_IFACE_UART, "voltage: ");
+    uart_send_double(CMD_IFACE_UART, power_measures_struct.voltage);
+    uart_send_str(CMD_IFACE_UART, "\n");
+}
+
 static void _params_set(uint8_t set, uint16_t bit)
 {
     if (set)
@@ -399,6 +411,7 @@ void cmd_iface_listening_task(void *pvParameters)
             _get_obstacles();
             _get_distances();
             _get_odometry();
+            _get_current_and_voltage();
 
             vTaskDelay(CMD_INF_SURVEY_PERIOD_MS / portTICK_PERIOD_MS);
         }

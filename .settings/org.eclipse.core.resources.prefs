@@ -67,3 +67,5 @@ encoding//src/tasks/hw_201_survey/hw_201_survey.c=GBK
 encoding//src/tasks/hw_201_survey/hw_201_survey.h=GBK
 encoding//src/tasks/odometry/odometry.c=GBK
 encoding//src/tasks/odometry/odometry.h=GBK
+encoding//src/tasks/power_measure/power_measure.c=GBK
+encoding//src/tasks/power_measure/power_measure.h=GBK

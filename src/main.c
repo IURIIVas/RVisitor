@@ -17,6 +17,7 @@
 #include "hc_sr04_survey.h"
 #include "dc_motor_driver.h"
 #include "dc_motor_controller.h"
+#include "power_measure.h"
 #include "odometry.h"
 
 //------------------------------------------------------ Macros --------------------------------------------------------
@@ -42,6 +43,7 @@ void tasks_init(void)
 	dc_motor_driver_task_init();
 	odometry_task_init();
     dc_motor_controller_task_init();
+    power_measure_task_init();
 //	hc_sr04_task_init();
 }
 
