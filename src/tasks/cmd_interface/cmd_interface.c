@@ -37,6 +37,7 @@ const char *help_cmd = "help";
 const char *print_hello_cmd = "print_hello";
 const char *get_obstacles = "get_obstacles";
 const char *get_distances = "get_distances";
+const char *get_measurements = "get_measurements";
 const char *dc_motor_set_speed = "dc_set_speed";
 const char *param_cliff_enable = "param_cliff_enable";
 const char *param_obstacles_enable = "param_obstacles_enable";
@@ -340,6 +341,10 @@ static void _cmd_parse()
     else if (m_strcmp(cmd_word, get_distances))
     {
         _get_distances();
+    }
+    else if (m_strcmp(cmd_word, get_measurements))
+    {
+        _get_current_and_voltage();
     }
     else if (m_strcmp(cmd_word, param_cliff_enable))
     {
