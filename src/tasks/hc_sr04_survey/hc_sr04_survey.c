@@ -112,9 +112,11 @@ void hc_sr04_survey_task(void *pvParameters)
 		}
 
 		GPIO_SetBits(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
-		vTaskDelay(0.01 / portTICK_PERIOD_MS);
-//		TIM_SetCounter(HC_SR04_TRIG_TIMER, 0);
-//		while (TIM_GetCounter(HC_SR04_TRIG_TIMER) != 10) {};
+		TIM_SetCounter(HC_SR04_TRIG_TIMER, 0);
+		while (TIM_GetCounter(HC_SR04_TRIG_TIMER) != 10)
+		{
+		    __asm__("nop");
+		};
         GPIO_ResetBits(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
 
         while (!hc_sr04_data_get && timeout)

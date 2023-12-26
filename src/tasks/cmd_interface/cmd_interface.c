@@ -402,7 +402,7 @@ void UART5_IRQHandler(void)
     }
 }
 
-/// \brief UART Listening task
+/// \brief Serial port data print task
 /// \param None
 /// \retval None
 /// \return None
