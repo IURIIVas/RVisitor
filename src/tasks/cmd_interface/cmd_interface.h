@@ -29,7 +29,7 @@
 #define CMD_IFACE_LISTENING_PRIO     	  (5)
 #define CMD_IFACE_LISTENING_STK_SIZE      (256)
 
-#define CMD_INF_SURVEY_PERIOD_MS          (20)
+#define CMD_INF_SURVEY_PERIOD_MS          (2000)
 
 #define PARAM_CLIFF_ENABLE_BIT            (0)
 #define PARAM_OBSTACLES_ENABLE_BIT        (1)

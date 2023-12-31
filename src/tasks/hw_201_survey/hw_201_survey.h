@@ -1,6 +1,6 @@
-/// \file
-/// \brief
-/// \author
+/// \file hw_201_survey.c
+/// \brief Survey of obstacles under wheels header file
+/// \author 1jura.vas@gmail.com
 ///
 /// \details
 ///
@@ -37,8 +37,8 @@ typedef enum {
 } HW_201_POS;
 
 typedef enum {
-	IS_OBSTACLE = 0,
-	NO_OBSTACLE = 1
+	IS_OBSTACLE = 1,
+	NO_OBSTACLE = 0
 } HW_201_STATE;
 
 //---------------------------------------------------- Variables -------------------------------------------------------

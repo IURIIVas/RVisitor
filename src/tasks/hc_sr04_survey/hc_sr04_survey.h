@@ -29,8 +29,8 @@
 #define HC_SR04_TRIG_TIMER					  (TIM6)
 #define HC_SR04_TRIG_TIMER_RCC			      (RCC_APB1Periph_TIM6)
 
-#define HC_SR04_ECHO_TIMER					  (TIM9)
-#define HC_SR04_ECHO_TIMER_RCC			      (RCC_APB2Periph_TIM9)
+#define HC_SR04_ECHO_TIMER					  (TIM8)
+#define HC_SR04_ECHO_TIMER_RCC			      (RCC_APB2Periph_TIM8)
 
 #define DISTANCE_THRESHOLD_CM                 (5)
 

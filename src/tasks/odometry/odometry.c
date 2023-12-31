@@ -66,10 +66,9 @@ void odometry_task(void *pvParameters)
     }
 }
 
-/// \brief
-/// \param
-/// \retval
-/// \return
+/// \brief Odometry calculation with encoders.
+/// \param None
+/// \return None
 void odometry_task_init(void)
 {
     xTaskCreate((TaskFunction_t )odometry_task,

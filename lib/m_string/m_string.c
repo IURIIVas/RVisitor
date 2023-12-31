@@ -27,7 +27,6 @@
 
 /// \brief Reverse string
 /// \param char* str - string to reverse
-/// \retval None
 /// \return None
 void reverse(char *str)
 {
@@ -46,7 +45,6 @@ void reverse(char *str)
 /// \brief Convert string to int
 /// \param cosnt char *str - pointer to a string
 ///        uint32_t num_end_idx - index where digits ended
-/// \retval None
 /// \return None
 int32_t m_strtol(const char* str, uint32_t num_end_idx)
 {
@@ -77,7 +75,6 @@ int32_t m_strtol(const char* str, uint32_t num_end_idx)
 /// \brief Convert int to string
 /// \param int32_t n - number to convert
 ///        char* str - string where to convert
-/// \retval None
 /// \return None
 uint32_t m_itoa(int32_t n, char *str)
 {
@@ -116,7 +113,6 @@ uint32_t m_itoa(int32_t n, char *str)
 /// \brief Get pow of a number
 /// \params double n - nubmer
 ///         int32_t p - power
-/// \retval double
 /// \return powered value
 double m_pow(double n, int32_t p)
 {
@@ -150,7 +146,6 @@ double m_pow(double n, int32_t p)
 /// \brief String to double
 /// \params char* arr - string
 ///         uint32_t num_end_idx - index where digits ended
-/// \retval double
 /// \return converted value
 double m_atof(const char *str, uint32_t num_end_idx)
 {
@@ -200,7 +195,6 @@ double m_atof(const char *str, uint32_t num_end_idx)
 /// \params char* res - string
 ///         double n - number to convert
 ///         uint32_t afterpoint - number of digits after point
-/// \retval None
 /// \return None
 void ftoa(double n, char* res, uint32_t afterpoint)
 {
@@ -228,7 +222,6 @@ void ftoa(double n, char* res, uint32_t afterpoint)
 
 /// \brief Get length of string
 /// \param char* str - string
-/// \retval uint32_t
 /// \return length of string
 uint32_t m_strlen(const char *str)
 {
@@ -245,7 +238,6 @@ uint32_t m_strlen(const char *str)
 
 /// \brief Compare two strings
 /// \param char* str1 - first string; char* str2 - second string
-/// \retval int8
 /// \return 1 if x == y, else 0
 int8_t m_strcmp(const char *str1, const char *str2)
 {

@@ -25,7 +25,6 @@
 
 /// \brief Choose sensor by external MUX
 /// \param GPIO_PORT - Selected Port, GPIO_IN_PIN - PIN, when OUT signal from sensor connected
-/// \retval uint8_t
 /// \return Signal from GPIO_IN_PIN
 inline uint8_t hw_201_gpio_signal_in_get(gpio_s *GPIO_PORT, uint16_t GPIO_IN_PIN)
 {
@@ -38,7 +37,6 @@ inline uint8_t hw_201_gpio_signal_in_get(gpio_s *GPIO_PORT, uint16_t GPIO_IN_PIN
 
 /// \brief CLK Enable to selected GPIO
 /// \param APB Periph addr
-/// \retval None
 /// \return None
 void hw_201_rcc_gpio_clk_init(uint32_t RCC_GPIO)
 {
@@ -47,7 +45,6 @@ void hw_201_rcc_gpio_clk_init(uint32_t RCC_GPIO)
 
 /// \brief Choose sensor by external MUX
 /// \param GPIO_PORT - Selected Port, GPIO_IN_PIN - PIN, when OUT signal from sensor connected
-/// \retval None
 /// \return None
 void hw_201_gpio_signal_in_init(gpio_s *GPIO_PORT, uint16_t GPIO_IN_PIN)
 {

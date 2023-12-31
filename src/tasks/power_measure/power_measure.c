@@ -80,10 +80,9 @@ void power_measure_task(void *pvParameters)
     }
 }
 
-/// \brief
-/// \param
-/// \retval
-/// \return
+/// \brief Power measure task. Meas system curent and DC motor voltage with INA226
+/// \param None
+/// \return None
 void power_measure_task_init(void)
 {
     _i2c_gpio_init();

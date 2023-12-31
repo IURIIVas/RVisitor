@@ -23,14 +23,23 @@
 
 //---------------------------------------------------- Functions -------------------------------------------------------
 
+/// \brief Get Voltage of bus V
+/// \param i2c_s *i2c -- I2C interface connected to INA226, uint16_t dev_addr -- I2C address of INA226
+/// \return double: Voltage of Bus
 double ina226_get_busv(i2c_s *i2c, uint16_t dev_addr) {
     return (ina226_get_busv_reg(i2c, dev_addr));
 }
 
+/// \brief Get Current of connected wire
+/// \param i2c_s *i2c -- I2C interface connected to INA226, uint16_t dev_addr -- I2C address of INA226
+/// \return double: Current
 double ina226_get_current(i2c_s *i2c, uint16_t dev_addr) {
     return (ina226_get_current_reg(i2c, dev_addr) * INA226_CURRENTLSB_BIT_TO_mA);
 }
 
+/// \brief Get Power of bus
+/// \param i2c_s *i2c -- I2C interface connected to INA226, uint16_t dev_addr -- I2C address of INA226
+/// \return double: Voltage of Bus
 double ina226_get_power(i2c_s *i2c, uint16_t dev_addr) {
     return (ina226_get_power_reg(i2c, dev_addr) * INA226_POWERLSB_INV_BIT_TO_mW);
 }

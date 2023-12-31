@@ -30,7 +30,6 @@
 
 /// \brief TRIG PIN init to selected GPIO
 /// \param GPIO Port, GPIO Trig Pin
-/// \retval None
 /// \return None
 void hc_sr04_trig_gpio_init(gpio_s *GPIO_PORT, uint16_t GPIO_TRIG_PIN)
 {
@@ -44,7 +43,6 @@ void hc_sr04_trig_gpio_init(gpio_s *GPIO_PORT, uint16_t GPIO_TRIG_PIN)
 
 /// \brief Init timer to count 10 microsecond for trig signal
 /// \param Timer
-/// \retval None
 /// \return None
 void hc_sr04_trig_base_tim_init(TIM_TypeDef *TIMER)
 {
@@ -66,7 +64,6 @@ void hc_sr04_trig_base_tim_init(TIM_TypeDef *TIMER)
 
 /// \brief ECHO PIN input init to selected GPIO
 /// \param GPIO Port, GPIO Echo Pin
-/// \retval None
 /// \return None
 void hc_sr04_echo_gpio_init(gpio_s *GPIO_PORT, uint16_t GPIO_ECHO_PIN)
 {
@@ -82,7 +79,6 @@ void hc_sr04_echo_gpio_init(gpio_s *GPIO_PORT, uint16_t GPIO_ECHO_PIN)
 
 /// \brief Timer channel enable to echo input
 /// \param Timer
-/// \retval None
 /// \return None
 void hc_sr04_echo_tim_init(TIM_TypeDef *TIMER)
 {
@@ -108,7 +104,7 @@ void hc_sr04_echo_tim_init(TIM_TypeDef *TIMER)
 	time_ic_init_struct.TIM_ICSelection = TIM_ICSelection_DirectTI;
 	TIM_PWMIConfig(TIMER, &time_ic_init_struct);
 
-	nvic_init_struct.NVIC_IRQChannel = TIM9_CC_IRQn;
+	nvic_init_struct.NVIC_IRQChannel = TIM8_CC_IRQn;
 	nvic_init_struct.NVIC_IRQChannelPreemptionPriority = 2;
 	nvic_init_struct.NVIC_IRQChannelSubPriority = 0;
 	nvic_init_struct.NVIC_IRQChannelCmd = ENABLE;

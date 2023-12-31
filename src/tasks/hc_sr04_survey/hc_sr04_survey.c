@@ -28,32 +28,20 @@ QueueHandle_t queue_hc_sr04;
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
-void TIM9_CC_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void TIM8_CC_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
 //------------------------------------------------- Inline Functions ---------------------------------------------------
 
-/// \brief CLK Enable to selected GPIO
-/// \param APB Periph addr
-/// \retval None
-/// \return None
 static inline void _hc_sr04_rcc_gpio_clk_init(void)
 {
 	RCC_APB2PeriphClockCmd(HC_SR04_RCC_GPIO, ENABLE);
 }
 
-/// \brief CLK Enable to selected timer
-/// \param APB Periph addr
-/// \retval None
-/// \return None
 static inline void _hc_sr04_trig_base_tim_clk_init(void)
 {
 	RCC_APB2PeriphClockCmd(HC_SR04_TRIG_TIMER_RCC, ENABLE);
 }
 
-/// \brief CLK Enable to selected timer
-/// \param APB Periph addr
-/// \retval None
-/// \return None
 static inline void _hc_sr04_echo_tim_clk_init(void)
 {
 	RCC_APB2PeriphClockCmd(HC_SR04_ECHO_TIMER_RCC, ENABLE);
@@ -61,10 +49,6 @@ static inline void _hc_sr04_echo_tim_clk_init(void)
 
 //------------------------------------------------- Static Functions ---------------------------------------------------
 
-/// \brief Choose sensor by external MUX
-/// \param None
-/// \retval None
-/// \return None
 static void _gpio_mux_select_init(void)
 {
 	gpio_init_s gpio_init_struct = {0};
@@ -141,7 +125,7 @@ void hc_sr04_survey_task(void *pvParameters)
 	vTaskDelay(HC_SR04_DELAY_MS / portTICK_PERIOD_MS);
 }
 
-void TIM9_CC_IRQHandler(void)
+void TIM8_CC_IRQHandler(void)
 {
 	uint16_t rising = TIM_GetCapture3(HC_SR04_ECHO_TIMER);
 	uint16_t falling = TIM_GetCapture4(HC_SR04_ECHO_TIMER);
@@ -154,10 +138,9 @@ void TIM9_CC_IRQHandler(void)
 	hc_sr04_data_get = distance_cm;
 }
 
-/// \brief
-/// \param
-/// \retval
-/// \return
+/// \brief Distance sensors survey task.
+/// \param None
+/// \return None
 void hc_sr04_task_init(void)
 {
 	_hc_sr04_rcc_gpio_clk_init();

@@ -13,6 +13,7 @@
 #include "uart.h"
 #include "gpio.h"
 #include "rcc.h"
+#include "spi.h"
 
 #include "m_string.h"
 #include "cmd_interface.h"
@@ -22,6 +23,7 @@
 #include "dc_motor_driver.h"
 #include "power_measure.h"
 #include "odometry.h"
+#include "w25q32.h"
 
 //------------------------------------------------------ Macros --------------------------------------------------------
 
@@ -44,8 +46,11 @@ const char *param_obstacles_enable = "param_obstacles_enable";
 const char *param_overcurrent_enable = "param_overcurrent_enable";
 const char *param_speed_get_inf_enable = "param_speed_get_inf_enable";
 const char *param_sens_survey_inf_enable = "param_sens_survey_inf_enable";
+const char *params_write = "params_write";
+const char *params_read = "params_read";
 
 module_params_s module_params = {.params = 0x1f};
+spif_s spif = {.spi = SPI1, .cs_gpio = GPIOA, .cs_pin = GPIO_Pin_2};
 
 TaskHandle_t cmd_interface_task_handler;
 
@@ -57,10 +62,6 @@ void UART5_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
 //------------------------------------------------- Static Functions ---------------------------------------------------
 
-/// \brief Get params for cmd from uart string
-/// \param const char *cmd - uart string
-/// \retval None
-/// \return None
 static double _parse_str_for_number(const char *cmd)
 {
 	uint32_t idx_number = 0;
@@ -75,10 +76,6 @@ static double _parse_str_for_number(const char *cmd)
 	return number;
 }
 
-/// \brief Get params for cmd from uart string
-/// \param const char *cmd - uart string
-/// \retval None
-/// \return None
 static void _cmd_parse_for_subcmd(const char *cmd)
 {
 	uint8_t subcmd_idx = 0;
@@ -93,11 +90,6 @@ static void _cmd_parse_for_subcmd(const char *cmd)
 	}
 }
 
-/// \brief Get CMD word from UART string
-/// \param const char *cmd - uart string
-///        char *cmd_word - string to set cmd word
-/// \retval None
-/// \return None
 static void _cmd_parse_for_cmd(const char *cmd, char *cmd_word)
 {
 	uint32_t idx = 0;
@@ -116,10 +108,20 @@ static void _cmd_parse_for_cmd(const char *cmd, char *cmd_word)
 	cmd_word[idx] = '\0';
 }
 
-/// \brief Enable clock on UART and its GPIO
-/// \param None
-/// \retval None
-/// \return None
+static void _spi_flash_rcc_clk_init(void)
+{
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
+}
+
+static void _spi_flash_gpio_init(void)
+{
+    gpio_init_s spif_gpio = {0};
+    spif_gpio.GPIO_Pins = GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
+    spif_gpio.GPIO_Speed = GPIO_Speed_50MHz;
+    spif_gpio.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_Init(GPIOA, &spif_gpio);
+}
+
 static void _rcc_gpio_cmd_iface_clk_init(void)
 {
 	RCC_APB2PeriphClockCmd(CMD_IFACE_RCC_APB2_GPIO, ENABLE);
@@ -127,10 +129,6 @@ static void _rcc_gpio_cmd_iface_clk_init(void)
 	RCC_APB1PeriphClockCmd(CMD_IFACE_RCC_APB1_UART, ENABLE);
 }
 
-/// \brief GPIO init in alt mode to CMD_UART
-/// \param None
-/// \retval None
-/// \return None
 static void _gpio_cmd_iface_uart_init(void)
 {
 
@@ -160,10 +158,6 @@ static void _nvic_enable_uart_interrupt(void)
 	NVIC_Init(&nvic_init_struct);
 }
 
-/// \brief CMD_UART params init
-/// \param None
-/// \retval None
-/// \return None
 static void _uart_cmd_iface_init(void)
 {
 	uart_init_s uart_init_struct = {0};
@@ -179,10 +173,6 @@ static void _uart_cmd_iface_init(void)
 	USART_ITConfig(CMD_IFACE_UART, USART_IT_RXNE, ENABLE);
 }
 
-/// \brief print hello world task
-/// \param None
-/// \retval None
-/// \return None
 static void _print_hello(void)
 {
 	const char *hello_string = "hello, world!\n";
@@ -301,9 +291,43 @@ static void _get_odometry(void)
     uart_send_str(CMD_IFACE_UART, "\n");
 }
 
+static void _params_write(void)
+{
+    uart_send_str(CMD_IFACE_UART, "write params to flash\n");
+
+    uint8_t params_write[2] = {module_params.params & 0xFF, (module_params.params >> 8) & 0xFF};
+    uint8_t params_read[2];
+
+    spif_erase_sector(&spif, 0);
+    spif_write_addr(& spif, 0, params_write, 2);
+    spif_read_addr(&spif, 0, params_read, 2);
+
+    uart_send_str(CMD_IFACE_UART, "read params from flash\n");
+    uart_send_int(CMD_IFACE_UART, params_read[0]);
+    uart_send_str(CMD_IFACE_UART, " ");
+    uart_send_int(CMD_IFACE_UART, params_read[1]);
+    uart_send_str(CMD_IFACE_UART, "\n");
+}
+
+static void _params_read(void)
+{
+    uart_send_str(CMD_IFACE_UART, "write params to flash\n");
+
+    uint8_t params_read[2];
+
+    spif_read_addr(&spif, 0, params_read, 2);
+
+    uart_send_str(CMD_IFACE_UART, "read params from flash\n");
+    uart_send_int(CMD_IFACE_UART, params_read[0]);
+    uart_send_str(CMD_IFACE_UART, " ");
+    uart_send_int(CMD_IFACE_UART, params_read[1]);
+    uart_send_str(CMD_IFACE_UART, "\n");
+
+    module_params.params = params_read[1] << 8 | params_read[0];
+}
+
 /// \brief print unknown cmd
 /// \param None
-/// \retval None
 /// \return None
 static void _print_unknown_cmd(void)
 {
@@ -314,7 +338,6 @@ static void _print_unknown_cmd(void)
 
 /// \brief Parse received CMD
 /// \param received cmd
-/// \retval None
 /// \return None
 static void _cmd_parse()
 {
@@ -345,6 +368,14 @@ static void _cmd_parse()
     else if (m_strcmp(cmd_word, get_measurements))
     {
         _get_current_and_voltage();
+    }
+    else if (m_strcmp(cmd_word, params_write))
+    {
+        _params_write();
+    }
+    else if (m_strcmp(cmd_word, params_read))
+    {
+        _params_read();
     }
     else if (m_strcmp(cmd_word, param_cliff_enable))
     {
@@ -380,10 +411,6 @@ static void _cmd_parse()
 
 //---------------------------------------------------- Functions -------------------------------------------------------
 
-/// \brief UART5 Handler
-/// \param None
-/// \retval None
-/// \return None
 void UART5_IRQHandler(void)
 {
     if(USART_GetITStatus(CMD_IFACE_UART, USART_IT_RXNE) != RESET)
@@ -404,7 +431,6 @@ void UART5_IRQHandler(void)
 
 /// \brief Serial port data print task
 /// \param None
-/// \retval None
 /// \return None
 void cmd_iface_listening_task(void *pvParameters)
 {
@@ -425,7 +451,6 @@ void cmd_iface_listening_task(void *pvParameters)
 
 /// \brief Init listening to CMD UART iface
 /// \param None
-/// \retval None
 /// \return None
 void cmd_iface_listening_task_init(void)
 {
@@ -433,6 +458,8 @@ void cmd_iface_listening_task_init(void)
 	_gpio_cmd_iface_uart_init();
 	_uart_cmd_iface_init();
 	_nvic_enable_uart_interrupt();
+	_spi_flash_rcc_clk_init();
+	_spi_flash_gpio_init();
 	USART_Cmd(CMD_IFACE_UART, ENABLE);					/// \todo: 妤快把快技快扼找我找抆 志 扳批扶抗扯我攻 uart_init
 
     xTaskCreate((TaskFunction_t )cmd_iface_listening_task,

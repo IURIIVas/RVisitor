@@ -123,7 +123,6 @@ static void _gpio_tim_dc_init(void)
 ///         dc_1_speed - speed for dc1
 ///         dc_2_speed - speed for dc2
 ///         dc_3_speed - speed for dc3
-/// \retval None
 /// \return None
 static void _pwm_for_dc_init(uint32_t dc_0_speed, uint32_t dc_1_speed,
                              uint32_t dc_2_speed, uint32_t dc_3_speed)
@@ -252,10 +251,9 @@ void dc_motor_driver_task(void *pvParameters)
     }
 }
 
-/// \brief
-/// \param
-/// \retval
-/// \return
+/// \brief DC motors driver task. Controls PWMs
+/// \param None
+/// \return None
 void dc_motor_driver_task_init(void)
 {
 	_gpio_tim_dc_init();

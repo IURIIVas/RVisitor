@@ -1,6 +1,6 @@
-/// \file
-/// \brief
-/// \author
+/// \file hw_201_survey.c
+/// \brief Survey of obstacles under wheels source file
+/// \author 1jura.vas@gmail.com
 ///
 /// \details
 ///
@@ -30,10 +30,6 @@ QueueHandle_t queue_hw_201;
 
 //------------------------------------------------- Static Functions ---------------------------------------------------
 
-/// \brief Choose sensor by external MUX
-/// \param None
-/// \retval None
-/// \return None
 static void _gpio_mux_select_init(void)
 {
 	gpio_init_s gpio_init_struct = {0};
@@ -46,6 +42,9 @@ static void _gpio_mux_select_init(void)
 
 //---------------------------------------------------- Functions -------------------------------------------------------
 
+/// \brief check obstacles under the wheels task
+/// \param None
+/// \return None
 void hw_201_survey_task(void *pvParameters)
 {
 	uint8_t sensor_mux_select = HW_201_FRONT_LEFT;
@@ -86,10 +85,9 @@ void hw_201_survey_task(void *pvParameters)
 	}
 }
 
-/// \brief
-/// \param
-/// \retval
-/// \return
+/// \brief Init check obstacles under the wheels task
+/// \param None
+/// \return None
 void hw_201_task_init(void)
 {
 	hw_201_rcc_gpio_clk_init(HW_201_RCC_GPIO);

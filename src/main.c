@@ -50,7 +50,6 @@ void tasks_init(void)
 
 /// \brief Main Function
 /// \param None
-/// \retval None
 /// \return None
 int main(void)
 {

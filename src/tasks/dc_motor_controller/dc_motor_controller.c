@@ -166,7 +166,7 @@ static void _pid_calculate(m_pid_s *pid)
 
     output = max(min(pid->out_max, output), pid->out_min);
 
-    pid->output = output;
+    pid->output = (uint32_t) output;
     pid->last_input = input;
 }
 
@@ -203,20 +203,20 @@ static void _flags_get(void)
         dc_motor_controller_struct.no_surface_rear_flag = 1;
     }
 
-    uint16_t front_dist = 0;
-    uint16_t rear_dist = 0;
-    uint16_t left_dist = 0;
-    uint16_t right_dist = 0;
-
-    xQueueReceive(queue_hc_sr04, &front_dist, portMAX_DELAY);
-    xQueueReceive(queue_hc_sr04, &rear_dist, portMAX_DELAY);
-    xQueueReceive(queue_hc_sr04, &left_dist, portMAX_DELAY);
-    xQueueReceive(queue_hc_sr04, &right_dist, portMAX_DELAY);
-
-    _obstacle_flag_set_bit((uint16_t) FRONT, front_dist);
-    _obstacle_flag_set_bit((uint16_t) REAR, rear_dist);
-    _obstacle_flag_set_bit((uint16_t) LEFT, left_dist);
-    _obstacle_flag_set_bit((uint16_t) RIGHT, right_dist);
+//    uint16_t front_dist = 0;
+//    uint16_t rear_dist = 0;
+//    uint16_t left_dist = 0;
+//    uint16_t right_dist = 0;
+//
+//    xQueueReceive(queue_hc_sr04, &front_dist, portMAX_DELAY);
+//    xQueueReceive(queue_hc_sr04, &rear_dist, portMAX_DELAY);
+//    xQueueReceive(queue_hc_sr04, &left_dist, portMAX_DELAY);
+//    xQueueReceive(queue_hc_sr04, &right_dist, portMAX_DELAY);
+//
+//    _obstacle_flag_set_bit((uint16_t) FRONT, front_dist);
+//    _obstacle_flag_set_bit((uint16_t) REAR, rear_dist);
+//    _obstacle_flag_set_bit((uint16_t) LEFT, left_dist);
+//    _obstacle_flag_set_bit((uint16_t) RIGHT, right_dist);
 }
 
 static uint32_t _flags_check(void)
@@ -299,6 +299,11 @@ void dc_motor_controller_task(void *pvParameters)
         else
         {
             direction = STOP;
+            xQueueSend(queue_dc_motor_driver, (void*) &direction, portMAX_DELAY);
+            xQueueSend(queue_dc_motor_driver, (void*) &pid_0.output, portMAX_DELAY);
+            xQueueSend(queue_dc_motor_driver, (void*) &pid_1.output, portMAX_DELAY);
+            xQueueSend(queue_dc_motor_driver, (void*) &pid_2.output, portMAX_DELAY);
+            xQueueSend(queue_dc_motor_driver, (void*) &pid_3.output, portMAX_DELAY);
             continue;
         }
 
@@ -322,8 +327,8 @@ void dc_motor_controller_task(void *pvParameters)
             dc_motor_controller_struct.wheel_stuck_flag = STUCK;
         }
 
-        _flags_get();
-        direction = _flags_check();
+//        _flags_get();
+//        direction = _flags_check();
 
         xQueueSend(queue_dc_motor_driver, (void*) &direction, portMAX_DELAY);
         xQueueSend(queue_dc_motor_driver, (void*) &pid_0.output, portMAX_DELAY);
@@ -335,10 +340,9 @@ void dc_motor_controller_task(void *pvParameters)
     }
 }
 
-/// \brief
-/// \param
-/// \retval
-/// \return
+/// \brief DC motor controller task. PID controller and flags check
+/// \param None
+/// \return None
 void dc_motor_controller_task_init(void)
 {
     _gpio_tim_enc_init();
