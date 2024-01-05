@@ -71,3 +71,5 @@ encoding//src/tasks/power_measure/power_measure.c=GBK
 encoding//src/tasks/power_measure/power_measure.h=GBK
 encoding//tests/test_flash/test_flash.c=GBK
 encoding//tests/test_flash/test_flash.h=GBK
+encoding//tests/testbench.c=GBK
+encoding//tests/testbench.h=GBK

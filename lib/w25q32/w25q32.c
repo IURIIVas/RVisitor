@@ -211,7 +211,7 @@ static uint8_t _spif_read_fn(spif_s *spif, uint32_t addr, uint8_t *data, uint32_
 
 //---------------------------------------------------- Functions -------------------------------------------------------
 
-uint8_t spif_init(spif_s *spif, spi_s *spi, gpio_s *cs_gpio, uint8_t cs_pin)
+uint8_t spif_init(spif_s *spif, spi_s *spi, gpio_s *cs_gpio, uint16_t cs_pin)
 {
     if ((spif == NULL) || (spif->spi == NULL) || (spif->cs_gpio == NULL))
     {

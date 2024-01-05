@@ -83,7 +83,7 @@ typedef struct
     gpio_s *cs_gpio;
     spif_manufactor_e manufactor;
     spif_size_e size;
-    uint8_t cs_pin;
+    uint16_t cs_pin;
     uint8_t lock;
     uint8_t mem_type;
     uint8_t reserved;
@@ -96,7 +96,7 @@ typedef struct
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
-uint8_t spif_init(spif_s *spif, spi_s *spi, gpio_s *cs_gpio, uint8_t cs_pin);
+uint8_t spif_init(spif_s *spif, spi_s *spi, gpio_s *cs_gpio, uint16_t cs_pin);
 
 void spif_erase_chip(spif_s *spif);
 uint8_t spif_erase_sector(spif_s *spif, uint32_t sect_num);

@@ -11,8 +11,11 @@
 #define GLOBAL_INC_H_
 
 #include "ch32v30x.h"
-#include "FreeRTOS.h"
-#include "task.h"
+#include "stddef.h"
+#ifndef G_TESTBENCH
+    #include "FreeRTOS.h"
+    #include "task.h"
+#endif
 
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 #define max(a, b) (((a) > (b)) ? (a) : (b))
