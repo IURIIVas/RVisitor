@@ -146,44 +146,44 @@ static void _pwm_for_dc_init(uint32_t dc_0_speed, uint32_t dc_1_speed,
 	tim_dc_oc_init_struct.TIM_OutputState = TIM_OutputState_Enable;
 	tim_dc_oc_init_struct.TIM_OCPolarity = TIM_OCPolarity_Low;
 
-    TIM_TimeBaseInit(TIM1, &tim_time_base_init_struct);
-    TIM_TimeBaseInit(TIM10, &tim_time_base_init_struct);
+    TIM_TimeBaseInit(LS_PWM_TIM, &tim_time_base_init_struct);
+    TIM_TimeBaseInit(RS_PWM_TIM, &tim_time_base_init_struct);
 
     tim_dc_oc_init_struct.TIM_Pulse = dc_0_speed;
-    TIM_OC1Init(TIM1, &tim_dc_oc_init_struct);
-    TIM_OC2Init(TIM1, &tim_dc_oc_init_struct);
+    TIM_OC1Init(LS_PWM_TIM, &tim_dc_oc_init_struct);
+    TIM_OC2Init(LS_PWM_TIM, &tim_dc_oc_init_struct);
 
     tim_dc_oc_init_struct.TIM_Pulse = dc_1_speed;
-    TIM_OC3Init(TIM1, &tim_dc_oc_init_struct);
-    TIM_OC4Init(TIM1, &tim_dc_oc_init_struct);
+    TIM_OC3Init(LS_PWM_TIM, &tim_dc_oc_init_struct);
+    TIM_OC4Init(LS_PWM_TIM, &tim_dc_oc_init_struct);
 
     tim_dc_oc_init_struct.TIM_Pulse = dc_2_speed;
-    TIM_OC1Init(TIM10, &tim_dc_oc_init_struct);
-    TIM_OC2Init(TIM10, &tim_dc_oc_init_struct);
+    TIM_OC1Init(RS_PWM_TIM, &tim_dc_oc_init_struct);
+    TIM_OC2Init(RS_PWM_TIM, &tim_dc_oc_init_struct);
 
     tim_dc_oc_init_struct.TIM_Pulse = dc_3_speed;
-    TIM_OC3Init(TIM10, &tim_dc_oc_init_struct);
-    TIM_OC4Init(TIM10, &tim_dc_oc_init_struct);
+    TIM_OC3Init(RS_PWM_TIM, &tim_dc_oc_init_struct);
+    TIM_OC4Init(RS_PWM_TIM, &tim_dc_oc_init_struct);
 
 	_dc_stop();
 
-	TIM_CtrlPWMOutputs(TIM1, ENABLE);
-	TIM_CtrlPWMOutputs(TIM10, ENABLE);
+	TIM_CtrlPWMOutputs(LS_PWM_TIM, ENABLE);
+	TIM_CtrlPWMOutputs(RS_PWM_TIM, ENABLE);
 
-	TIM_OC1PreloadConfig(TIM1, TIM_OCPreload_Enable);
-	TIM_OC2PreloadConfig(TIM1, TIM_OCPreload_Enable);
-    TIM_OC3PreloadConfig(TIM1, TIM_OCPreload_Enable);
-    TIM_OC4PreloadConfig(TIM1, TIM_OCPreload_Enable);
-	TIM_OC1PreloadConfig(TIM10, TIM_OCPreload_Enable);
-	TIM_OC2PreloadConfig(TIM10, TIM_OCPreload_Enable);
-    TIM_OC3PreloadConfig(TIM10, TIM_OCPreload_Enable);
-    TIM_OC4PreloadConfig(TIM10, TIM_OCPreload_Enable);
+	TIM_OC1PreloadConfig(LS_PWM_TIM, TIM_OCPreload_Enable);
+	TIM_OC2PreloadConfig(LS_PWM_TIM, TIM_OCPreload_Enable);
+    TIM_OC3PreloadConfig(LS_PWM_TIM, TIM_OCPreload_Enable);
+    TIM_OC4PreloadConfig(LS_PWM_TIM, TIM_OCPreload_Enable);
+	TIM_OC1PreloadConfig(RS_PWM_TIM, TIM_OCPreload_Enable);
+	TIM_OC2PreloadConfig(RS_PWM_TIM, TIM_OCPreload_Enable);
+    TIM_OC3PreloadConfig(RS_PWM_TIM, TIM_OCPreload_Enable);
+    TIM_OC4PreloadConfig(RS_PWM_TIM, TIM_OCPreload_Enable);
 
-	TIM_ARRPreloadConfig(TIM1, DISABLE);
-	TIM_ARRPreloadConfig(TIM10, DISABLE);
+	TIM_ARRPreloadConfig(LS_PWM_TIM, DISABLE);
+	TIM_ARRPreloadConfig(RS_PWM_TIM, DISABLE);
 
-	TIM_Cmd(TIM1, ENABLE);
-	TIM_Cmd(TIM10, ENABLE);
+	TIM_Cmd(LS_PWM_TIM, ENABLE);
+	TIM_Cmd(RS_PWM_TIM, ENABLE);
 }
 
 static void _pwm_for_dc_change_speed(void)
