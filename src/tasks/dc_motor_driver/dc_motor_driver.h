@@ -22,7 +22,7 @@
 
 #define DC_MOTOR_NUMBER                       (4)
 
-#define MOTOR_MAX_VALUE				          (254)
+#define MOTOR_MAX_VALUE				          (512)
 #define MOTOR_PWM_PRESCALER			          (12)
 
 #define LS_PWM_TIM                            (TIM1)

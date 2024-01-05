@@ -12,6 +12,7 @@
 #include "dc_motor_driver.h"
 #include "hw_201_survey.h"
 #include "hc_sr04_survey.h"
+#include "power_measure.h"
 #include "queue.h"
 #include <math.h>
 
@@ -25,7 +26,8 @@ TaskHandle_t dc_motor_controller_task_handler;
 
 dc_motor_controller_s dc_motor_controller_struct = {.dc_motor_speed_rpm = {0, 0, 0, 0}, .target_speed_rpm = {0, 0},
                                                     .obstacle_flag = 0, .overcurrent_flag = 0, .wheel_stuck_flag = 0,
-                                                    .no_surface_rear_flag = 0, .no_surface_front_flag = 0};
+                                                    .no_surface_rear_flag = 0, .no_surface_front_flag = 0,
+                                                    .flags_enable = 0};
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
@@ -203,20 +205,26 @@ static void _flags_get(void)
         dc_motor_controller_struct.no_surface_rear_flag = 1;
     }
 
-//    uint16_t front_dist = 0;
-//    uint16_t rear_dist = 0;
-//    uint16_t left_dist = 0;
-//    uint16_t right_dist = 0;
-//
-//    xQueueReceive(queue_hc_sr04, &front_dist, portMAX_DELAY);
-//    xQueueReceive(queue_hc_sr04, &rear_dist, portMAX_DELAY);
-//    xQueueReceive(queue_hc_sr04, &left_dist, portMAX_DELAY);
-//    xQueueReceive(queue_hc_sr04, &right_dist, portMAX_DELAY);
-//
-//    _obstacle_flag_set_bit((uint16_t) FRONT, front_dist);
-//    _obstacle_flag_set_bit((uint16_t) REAR, rear_dist);
-//    _obstacle_flag_set_bit((uint16_t) LEFT, left_dist);
-//    _obstacle_flag_set_bit((uint16_t) RIGHT, right_dist);
+    uint16_t front_dist = 0;
+    uint16_t rear_dist = 0;
+    uint16_t left_dist = 0;
+    uint16_t right_dist = 0;
+
+    xQueueReceive(queue_hc_sr04, &front_dist, portMAX_DELAY);
+    xQueueReceive(queue_hc_sr04, &rear_dist, portMAX_DELAY);
+    xQueueReceive(queue_hc_sr04, &left_dist, portMAX_DELAY);
+    xQueueReceive(queue_hc_sr04, &right_dist, portMAX_DELAY);
+
+    _obstacle_flag_set_bit((uint16_t) FRONT, front_dist);
+    _obstacle_flag_set_bit((uint16_t) REAR, rear_dist);
+    _obstacle_flag_set_bit((uint16_t) LEFT, left_dist);
+    _obstacle_flag_set_bit((uint16_t) RIGHT, right_dist);
+
+    double current = 0;
+    double voltage = 0;
+
+    xQueueReceive(queue_power_measure, &current, portMAX_DELAY);
+    xQueueReceive(queue_power_measure, &voltage, portMAX_DELAY);
 }
 
 static uint32_t _flags_check(void)
@@ -263,17 +271,17 @@ static uint32_t _flags_check(void)
 
 void dc_motor_controller_task(void *pvParameters)
 {
-    m_pid_s pid_0 = {.kp = 1.2, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
-                   .out_max = MOTOR_MAX_VALUE, .out_min = 10, .output = 0,
+    m_pid_s pid_0 = {.kp = 0.5, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
+                   .out_max = MOTOR_MAX_VALUE, .out_min = 1, .output = 0,
                    .output_sum = 0, .target = dc_motor_controller_struct.target_speed_rpm[0]};
-    m_pid_s pid_1 = {.kp = 1.2, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
-                   .out_max = MOTOR_MAX_VALUE, .out_min = 10, .output = 0,
+    m_pid_s pid_1 = {.kp = 0.5, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
+                   .out_max = MOTOR_MAX_VALUE, .out_min = 1, .output = 0,
                    .output_sum = 0, .target = dc_motor_controller_struct.target_speed_rpm[0]};
-    m_pid_s pid_2 = {.kp = 1.2, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
-                   .out_max = MOTOR_MAX_VALUE, .out_min = 10, .output = 0,
+    m_pid_s pid_2 = {.kp = 0.5, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
+                   .out_max = MOTOR_MAX_VALUE, .out_min = 1, .output = 0,
                    .output_sum = 0, .target = dc_motor_controller_struct.target_speed_rpm[1]};
-    m_pid_s pid_3 = {.kp = 1.2, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
-                   .out_max = MOTOR_MAX_VALUE, .out_min = 10, .output = 0,
+    m_pid_s pid_3 = {.kp = 0.5, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
+                   .out_max = MOTOR_MAX_VALUE, .out_min = 1, .output = 0,
                    .output_sum = 0, .target = dc_motor_controller_struct.target_speed_rpm[1]};
 
     uint32_t direction = STOP;
@@ -299,12 +307,6 @@ void dc_motor_controller_task(void *pvParameters)
         else
         {
             direction = STOP;
-            xQueueSend(queue_dc_motor_driver, (void*) &direction, portMAX_DELAY);
-            xQueueSend(queue_dc_motor_driver, (void*) &pid_0.output, portMAX_DELAY);
-            xQueueSend(queue_dc_motor_driver, (void*) &pid_1.output, portMAX_DELAY);
-            xQueueSend(queue_dc_motor_driver, (void*) &pid_2.output, portMAX_DELAY);
-            xQueueSend(queue_dc_motor_driver, (void*) &pid_3.output, portMAX_DELAY);
-            continue;
         }
 
         _get_speed_rpm();
@@ -322,13 +324,17 @@ void dc_motor_controller_task(void *pvParameters)
         _pid_calculate(&pid_2);
         _pid_calculate(&pid_3);
 
-        if (((0 == pid_0.input) || (0 == pid_1.input) || (0 == pid_2.input) || (0 == pid_3.input)))
+
+        if (((0 == pid_0.input) || (0 == pid_1.input) || (0 == pid_2.input) || (0 == pid_3.input)) && direction != STOP)
         {
             dc_motor_controller_struct.wheel_stuck_flag = STUCK;
         }
 
-//        _flags_get();
-//        direction = _flags_check();
+        _flags_get();
+        if (dc_motor_controller_struct.flags_enable)
+        {
+            direction = _flags_check();
+        }
 
         xQueueSend(queue_dc_motor_driver, (void*) &direction, portMAX_DELAY);
         xQueueSend(queue_dc_motor_driver, (void*) &pid_0.output, portMAX_DELAY);

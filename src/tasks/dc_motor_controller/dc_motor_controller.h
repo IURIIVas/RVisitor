@@ -68,6 +68,7 @@ typedef struct
     uint8_t no_surface_front_flag;
     uint8_t overcurrent_flag;
     uint8_t wheel_stuck_flag;
+    uint8_t flags_enable;
 } dc_motor_controller_s;
 
 typedef enum

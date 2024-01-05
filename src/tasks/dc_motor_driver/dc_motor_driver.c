@@ -197,11 +197,11 @@ static void _pwm_for_dc_change_speed(void)
     LS_PWM_TIM->CH3CVR = dc_motor_set.dc_motor_speed_pwm[1];
     LS_PWM_TIM->CH4CVR = dc_motor_set.dc_motor_speed_pwm[1];
 
-    RS_PWM_TIM->CH1CVR = dc_motor_set.dc_motor_speed_pwm[2];
-    RS_PWM_TIM->CH2CVR = dc_motor_set.dc_motor_speed_pwm[2];
+    RS_PWM_TIM->CH1CVR = dc_motor_set.dc_motor_speed_pwm[3];
+    RS_PWM_TIM->CH2CVR = dc_motor_set.dc_motor_speed_pwm[3];
 
-    RS_PWM_TIM->CH3CVR = dc_motor_set.dc_motor_speed_pwm[3];
-    RS_PWM_TIM->CH4CVR = dc_motor_set.dc_motor_speed_pwm[3];
+    RS_PWM_TIM->CH3CVR = dc_motor_set.dc_motor_speed_pwm[2];
+    RS_PWM_TIM->CH4CVR = dc_motor_set.dc_motor_speed_pwm[2];
 
     TIM_CtrlPWMOutputs(LS_PWM_TIM, ENABLE);
     TIM_CtrlPWMOutputs(RS_PWM_TIM, ENABLE);

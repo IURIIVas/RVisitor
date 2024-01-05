@@ -1,6 +1,6 @@
-/// \file
-/// \brief
-/// \author
+/// \file hc_sr04_survey.c
+/// \brief HC-SR04 ultrasonic distance sensor survey source file
+/// \author 1jura.vas@gmail.com
 ///
 /// \details
 ///
@@ -39,7 +39,7 @@ static inline void _hc_sr04_rcc_gpio_clk_init(void)
 
 static inline void _hc_sr04_trig_base_tim_clk_init(void)
 {
-	RCC_APB2PeriphClockCmd(HC_SR04_TRIG_TIMER_RCC, ENABLE);
+	RCC_APB1PeriphClockCmd(HC_SR04_TRIG_TIMER_RCC, ENABLE);
 }
 
 static inline void _hc_sr04_echo_tim_clk_init(void)
@@ -97,12 +97,13 @@ void hc_sr04_survey_task(void *pvParameters)
 
 		GPIO_SetBits(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
 		TIM_SetCounter(HC_SR04_TRIG_TIMER, 0);
-		while (TIM_GetCounter(HC_SR04_TRIG_TIMER) != 10)
+		while (TIM_GetCounter(HC_SR04_TRIG_TIMER) != 10 && timeout)
 		{
-		    __asm__("nop");
+		    timeout--;
 		};
         GPIO_ResetBits(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
 
+        timeout = 1000;
         while (!hc_sr04_data_get && timeout)
         {
             timeout--;
@@ -146,8 +147,8 @@ void hc_sr04_task_init(void)
 	_hc_sr04_rcc_gpio_clk_init();
 	_hc_sr04_trig_base_tim_clk_init();
 	_hc_sr04_echo_tim_clk_init();
+    hc_sr04_trig_gpio_init(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
 	hc_sr04_trig_base_tim_init(HC_SR04_TRIG_TIMER);
-	hc_sr04_trig_gpio_init(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
 	hc_sr04_echo_tim_init(HC_SR04_ECHO_TIMER);
 	_gpio_mux_select_init();
 

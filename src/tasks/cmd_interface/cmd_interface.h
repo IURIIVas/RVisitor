@@ -29,19 +29,21 @@
 #define CMD_IFACE_LISTENING_PRIO     	  (5)
 #define CMD_IFACE_LISTENING_STK_SIZE      (256)
 
-#define CMD_INF_SURVEY_PERIOD_MS          (2000)
+#define CMD_INF_SURVEY_PERIOD_MS          (200)
 
 #define PARAM_CLIFF_ENABLE_BIT            (0)
 #define PARAM_OBSTACLES_ENABLE_BIT        (1)
 #define PARAM_OVERCURRENT_ENABLE_BIT      (2)
 #define PARAM_SPEED_GET_INF_ENABLE_BIT    (3)
 #define PARAM_SENS_SURVEY_INF_ENABLE_BIT  (4)
+#define PARAM_FLAGS_ENABLE_BIT            (5)
 
 #define PARAM_CLIFF_ENABLE                (1 << PARAM_CLIFF_ENABLE_BIT)
 #define PARAM_OBSTACLES_ENABLE            (1 << PARAM_OBSTACLES_ENABLE_BIT)
 #define PARAM_OVERCURRENT_ENABLE          (1 << PARAM_OVERCURRENT_ENABLE_BIT)
 #define PARAM_SPEED_GET_INF_ENABLE        (1 << PARAM_SPEED_GET_INF_ENABLE_BIT)
 #define PARAM_SENS_SURVEY_INF_ENABLE      (1 << PARAM_SENS_SURVEY_INF_ENABLE_BIT)
+#define PARAM_FLAGS_ENABLE                (1 << PARAM_FLAGS_ENABLE_BIT)
 
 
 //----------------------------------------------------- Typedefs -------------------------------------------------------

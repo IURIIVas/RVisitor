@@ -101,7 +101,7 @@ void hc_sr04_echo_tim_init(TIM_TypeDef *TIMER)
 	time_ic_init_struct.TIM_ICPrescaler = TIM_ICPSC_DIV1;
 	time_ic_init_struct.TIM_ICFilter = 0;
 	time_ic_init_struct.TIM_ICPolarity = TIM_ICPolarity_Rising;
-	time_ic_init_struct.TIM_ICSelection = TIM_ICSelection_DirectTI;
+	time_ic_init_struct.TIM_ICSelection = TIM_ICSelection_IndirectTI;
 	TIM_PWMIConfig(TIMER, &time_ic_init_struct);
 
 	nvic_init_struct.NVIC_IRQChannel = TIM8_CC_IRQn;

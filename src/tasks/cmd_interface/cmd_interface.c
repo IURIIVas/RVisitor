@@ -46,6 +46,7 @@ const char *param_obstacles_enable = "param_obstacles_enable";
 const char *param_overcurrent_enable = "param_overcurrent_enable";
 const char *param_speed_get_inf_enable = "param_speed_get_inf_enable";
 const char *param_sens_survey_inf_enable = "param_sens_survey_inf_enable";
+const char *param_flags_enable = "param_flags_enable";
 const char *params_write = "params_write";
 const char *params_read = "params_read";
 
@@ -249,7 +250,7 @@ static void _get_distances(void)
         uart_send_str(CMD_IFACE_UART, "sens ");
         uart_send_int(CMD_IFACE_UART, hc_sr_num);
         uart_send_str(CMD_IFACE_UART, ": ");
-        uart_send_int(CMD_IFACE_UART, hc_sr04_sensors_distance[hc_sr_num]);
+        uart_send_int(CMD_IFACE_UART, 40);
         uart_send_str(CMD_IFACE_UART, "\n");
     }
 }
@@ -401,6 +402,12 @@ static void _cmd_parse()
     {
         _cmd_parse_for_subcmd(received_cmd);
         _params_set((uint8_t)subcmd[0], PARAM_SENS_SURVEY_INF_ENABLE);
+    }
+    else if (m_strcmp(cmd_word, param_flags_enable))
+    {
+        _cmd_parse_for_subcmd(received_cmd);
+        _params_set((uint8_t)subcmd[0], PARAM_FLAGS_ENABLE);
+        dc_motor_controller_struct.flags_enable = (uint8_t)subcmd[0];
     }
 	else
 	{

@@ -1025,6 +1025,7 @@ status_e i2c_master_trancieve(i2c_s *I2Cx, uint8_t dev_addr, uint8_t *data, uint
         timeout--;
         if (0 == timeout)
         {
+            I2C_GenerateSTOP(I2Cx, ENABLE);
             return FAIL;
         }
     }
@@ -1036,15 +1037,18 @@ status_e i2c_master_trancieve(i2c_s *I2Cx, uint8_t dev_addr, uint8_t *data, uint
         timeout--;
         if (0 == timeout)
         {
+            I2C_GenerateSTOP(I2Cx, ENABLE);
             return FAIL;
         }
     }
+
+    I2C_GenerateSTART(I2Cx, ENABLE);
 
     for (uint32_t i = 0; i < size; i++)
     {
         if(I2C_GetFlagStatus(I2Cx, I2C_FLAG_TXE) != RESET)
         {
-            I2C_SendData( I2C1, data[i] );
+            I2C_SendData(I2Cx, data[i]);
         }
     }
 
@@ -1053,6 +1057,7 @@ status_e i2c_master_trancieve(i2c_s *I2Cx, uint8_t dev_addr, uint8_t *data, uint
         timeout--;
         if (0 == timeout)
         {
+            I2C_GenerateSTOP(I2Cx, ENABLE);
             return FAIL;
         }
     }
@@ -1080,6 +1085,7 @@ status_e i2c_master_receive(i2c_s *I2Cx, uint8_t dev_addr, uint8_t *receive, uin
         timeout--;
         if (0 == timeout)
         {
+            I2C_GenerateSTOP(I2Cx, ENABLE);
             return FAIL;
         }
     }
@@ -1091,6 +1097,7 @@ status_e i2c_master_receive(i2c_s *I2Cx, uint8_t dev_addr, uint8_t *receive, uin
         timeout--;
         if (0 == timeout)
         {
+            I2C_GenerateSTOP(I2Cx, ENABLE);
             return FAIL;
         }
     }
@@ -1102,6 +1109,7 @@ status_e i2c_master_receive(i2c_s *I2Cx, uint8_t dev_addr, uint8_t *receive, uin
         timeout--;
         if (0 == timeout)
         {
+            I2C_GenerateSTOP(I2Cx, ENABLE);
             return FAIL;
         }
     }
@@ -1113,6 +1121,7 @@ status_e i2c_master_receive(i2c_s *I2Cx, uint8_t dev_addr, uint8_t *receive, uin
         timeout--;
         if (0 == timeout)
         {
+            I2C_GenerateSTOP(I2Cx, ENABLE);
             return FAIL;
         }
     }
@@ -1123,6 +1132,7 @@ status_e i2c_master_receive(i2c_s *I2Cx, uint8_t dev_addr, uint8_t *receive, uin
         timeout--;
         if (0 == timeout)
         {
+            I2C_GenerateSTOP(I2Cx, ENABLE);
             return FAIL;
         }
     }
