@@ -25,8 +25,8 @@
 #define I2C_RCC                         (RCC_APB1Periph_I2C2)
 #define I2C_POWER_MES                   (I2C2)
 
-#define INA226_BAUDRATE                 (100000)
-#define INA226_ADDR                     (0x80)
+#define INA226_BAUDRATE                 (1000)
+#define INA226_ADDR                     (0x40)
 
 #define POWER_MEAS_TASK_DELAY_MS        (10)
 

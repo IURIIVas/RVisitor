@@ -250,7 +250,7 @@ static void _get_distances(void)
         uart_send_str(CMD_IFACE_UART, "sens ");
         uart_send_int(CMD_IFACE_UART, hc_sr_num);
         uart_send_str(CMD_IFACE_UART, ": ");
-        uart_send_int(CMD_IFACE_UART, 40);
+        uart_send_int(CMD_IFACE_UART, hc_sr04_sensors_distance[hc_sr_num]);
         uart_send_str(CMD_IFACE_UART, "\n");
     }
 }

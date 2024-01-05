@@ -41,13 +41,13 @@ static void _i2c_gpio_init(void)
 
 static void _i2c_init(u32 bound, u16 address)
 {
-    i2c_init_s  i2c_init_struct = {0};
+    i2c_init_s i2c_init_struct = {0};
 
     RCC_APB1PeriphClockCmd(I2C_RCC, ENABLE);
 
     i2c_init_struct.I2C_ClockSpeed = bound;
     i2c_init_struct.I2C_Mode = I2C_Mode_I2C;
-    i2c_init_struct.I2C_DutyCycle = I2C_DutyCycle_16_9;
+    i2c_init_struct.I2C_DutyCycle = I2C_DutyCycle_2;
     i2c_init_struct.I2C_OwnAddress1 = address;
     i2c_init_struct.I2C_Ack = I2C_Ack_Enable;
     i2c_init_struct.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
@@ -86,7 +86,7 @@ void power_measure_task(void *pvParameters)
 void power_measure_task_init(void)
 {
     _i2c_gpio_init();
-    _i2c_init(INA226_BAUDRATE, INA226_ADDR);
+    _i2c_init(INA226_BAUDRATE, 0x80);
 
     xTaskCreate((TaskFunction_t )power_measure_task,
                 (const char*    )"power_measure",
