@@ -18,3 +18,5 @@ MCU=CH32V307-FreeRTOS
 CLKSpeed=1
 
 CLKSpeed=1
+
+CLKSpeed=1

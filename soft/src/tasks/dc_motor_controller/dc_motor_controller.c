@@ -30,7 +30,7 @@ dc_motor_controller_s dc_motor_controller_struct = {.dc_motor_speed_rpm = {0, 0,
                                                     .no_surface_rear_flag = 0, .no_surface_front_flag = 0,
                                                     .flags_enable = 0};
 
-odometry_set_s odometry_set = {.cur_ticks = {0, 0, 0, 0}, .interval_s = 0.1};
+odometry_set_s odometry_set = {.cur_ticks = {0, 0, 0, 0}, .interval_s = 0.1, .direction = STOP};
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
@@ -139,6 +139,7 @@ static void _get_speed_rpm(void)
             TIM2->CNT = ENC_COUNT_VALUE / 2;
             break;
         }
+
         if (ticks < 0)
         {
             ticks = -ticks;
@@ -274,16 +275,20 @@ static uint32_t _flags_check(void)
 
 void dc_motor_controller_task(void *pvParameters)
 {
-    m_pid_s pid_0 = {.kp = 0.5, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
+    double kp = 1.5;
+    double ki = 0.5;
+    double kd = 0;
+
+    m_pid_s pid_0 = {.kp = kp, .ki = ki, .kd = kd, .input = 0, .last_input = 0,
                    .out_max = MOTOR_MAX_VALUE, .out_min = 1, .output = 0,
                    .output_sum = 0, .target = dc_motor_controller_struct.target_speed_rpm[0]};
-    m_pid_s pid_1 = {.kp = 0.5, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
+    m_pid_s pid_1 = {.kp = kp, .ki = ki, .kd = kd, .input = 0, .last_input = 0,
                    .out_max = MOTOR_MAX_VALUE, .out_min = 1, .output = 0,
                    .output_sum = 0, .target = dc_motor_controller_struct.target_speed_rpm[0]};
-    m_pid_s pid_2 = {.kp = 0.5, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
+    m_pid_s pid_2 = {.kp = kp, .ki = ki, .kd = kd, .input = 0, .last_input = 0,
                    .out_max = MOTOR_MAX_VALUE, .out_min = 1, .output = 0,
                    .output_sum = 0, .target = dc_motor_controller_struct.target_speed_rpm[1]};
-    m_pid_s pid_3 = {.kp = 0.5, .ki = 0.5, .kd = 0, .input = 0, .last_input = 0,
+    m_pid_s pid_3 = {.kp = kp, .ki = ki, .kd = kd, .input = 0, .last_input = 0,
                    .out_max = MOTOR_MAX_VALUE, .out_min = 1, .output = 0,
                    .output_sum = 0, .target = dc_motor_controller_struct.target_speed_rpm[1]};
 
@@ -312,6 +317,7 @@ void dc_motor_controller_task(void *pvParameters)
             direction = STOP;
         }
 
+        odometry_set.direction = direction;
         _get_speed_rpm();
         odometry_get(&odometry_set);
 

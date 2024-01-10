@@ -28,18 +28,17 @@
 /// \brief Reverse string
 /// \param char* str - string to reverse
 /// \return None
-void reverse(char *str)
+void reverse(char *str, int32_t len)
 {
-	uint32_t i = 0;
-	uint32_t j = 0;
-	char tmp_char;
-
-	for (j = m_strlen(str) - 1; i < j; i++, j--)
-	{
-		tmp_char = str[i];
-		str[i] = str[j];
-		str[j] = tmp_char;
-	}
+    int i = 0, j = len - 1, temp;
+    while (i < j)
+    {
+        temp = str[i];
+        str[i] = str[j];
+        str[j] = temp;
+        i++;
+        j--;
+    }
 }
 
 /// \brief Convert string to int
@@ -76,38 +75,47 @@ int32_t m_strtol(const char* str, uint32_t num_end_idx)
 /// \param int32_t n - number to convert
 ///        char* str - string where to convert
 /// \return None
-uint32_t m_itoa(int32_t n, char *str)
+uint32_t m_itoa(int32_t n, char *str, int32_t d, uint8_t is_sign)
 {
-	uint32_t i = 0;
-	int sign = n;
+    uint32_t i = 0;
+    int32_t sign = n;
 
-	if (0 == n)
-	{
-	    str[0] = '0';
-	    str[1] = '\0';
-	    return 0;
-	}
+    if (0 == n)
+    {
+        str[i] = '0';
+        i++;
+    }
+    else
+    {
+        if (sign < 0)
+        {
+            n = -n;
+        }
 
-	if (sign < 0)
-	{
-		n = -n;
-	}
+        while (n > 0)
+        {
+            str[i] = (n % 10) + '0';
+            n /= 10;
+            i++;
+        }
+        while (i < d)
+        {
+            str[i++] = '0';
+        }
+        if (is_sign)
+        {
+            if (sign < 0)
+            {
+                str[i] = '-';
+                i++;
+            }
+        }
+    }
 
-	while (n > 0)
-	{
-		str[i] = (n % 10) + '0';
-		n /= 10;
-		i++;
-	}
-	if (sign < 0)
-	{
-		str[i] = '-';
-		i++;
-	}
-	str[i] = '\0';
 
-	reverse(str);
-	return i;
+    reverse(str, i);
+    str[i] = '\0';
+    return i;
 }
 
 /// \brief Get pow of a number
@@ -196,7 +204,7 @@ double m_atof(const char *str, uint32_t num_end_idx)
 ///         double n - number to convert
 ///         uint32_t afterpoint - number of digits after point
 /// \return None
-void ftoa(double n, char* res, uint32_t afterpoint)
+void ftoa(double n, char* res, int32_t afterpoint)
 {
     // Extract integer part
     int32_t ipart = (int32_t)n;
@@ -204,8 +212,18 @@ void ftoa(double n, char* res, uint32_t afterpoint)
     // Extract floating part
     double fpart = n - (double)ipart;
 
-    // convert integer part to string
-    uint32_t i = m_itoa(ipart, res);
+    // convert integer part
+    int32_t i = 0;
+    if ((ipart == 0) && (n < 0))
+    {
+        res[0] = '-';
+        res[1] = '0';
+        i = 2;
+    }
+    else
+    {
+        i = m_itoa(ipart, res, 0, 1);
+    }
 
     // check for display option after point
     if (afterpoint != 0) {
@@ -216,7 +234,7 @@ void ftoa(double n, char* res, uint32_t afterpoint)
         // is needed to handle cases like 233.007
         fpart = fpart * m_pow(10, afterpoint);
 
-        m_itoa((int32_t)fpart, res + i + 1);
+        m_itoa((int32_t)fpart, res + i + 1, afterpoint, 0);
     }
 }
 

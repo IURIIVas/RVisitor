@@ -45,10 +45,27 @@ void odometry_get(odometry_set_s *odometry_set)
     l_rl = (double) (odometry_set->cur_ticks[RL_MOTOR]) / ENC_TICS_ONE_WHEEL * WHEEL_C_M;
     l_fl = (double) (odometry_set->cur_ticks[FL_MOTOR]) / ENC_TICS_ONE_WHEEL * WHEEL_C_M;
 
-    l = (((l_fl + l_rl) / 2) + ((l_fr + l_rr) / 2)) / 2;
-    dtheta = (((l_fr + l_rr) / 2) - ((l_fl + l_rl) / 2)) / (2 * REF_POINT_DIST_M);
+    double l_left_side = ((l_fl + l_rl) / 2);
+    double l_right_side = ((l_fr + l_rr) / 2);
+    if (abs(l_right_side - l_left_side) < 0.001)
+    {
+        l_left_side = l_right_side;
+    }
 
-    odometry.x = odometry.x + (l*cos(odometry.theta + (dtheta / 2)));
-    odometry.y = odometry.y + (l*sin(odometry.theta + (dtheta / 2)));
+    if (LEFT_DIR == odometry_set->direction)
+    {
+        l_left_side = -l_left_side;
+    }
+    if (RIGHT_DIR == odometry_set->direction)
+    {
+        l_right_side = -l_right_side;
+    }
+    l = (l_left_side + l_right_side) / 2;
+    dtheta = (l_right_side - l_left_side) / (2 * REF_POINT_DIST_M);
+    double x = (l*cos(odometry.theta + (dtheta / 2)));
+    double y = (l*sin(odometry.theta + (dtheta / 2)));
+
+    odometry.x = odometry.x + x;
+    odometry.y = odometry.y + y;
     odometry.theta = odometry.theta + dtheta;
 }

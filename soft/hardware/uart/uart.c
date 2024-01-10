@@ -486,7 +486,7 @@ void uart_send_str(USART_TypeDef *USARTx, const char *str_to_send)
 void uart_send_int(USART_TypeDef *uart, int32_t int_num)
 {
 	char str_num[12];
-	m_itoa(int_num, str_num);
+	m_itoa(int_num, str_num, 0, 1);
 	uart_send_str(uart, str_num);
 }
 

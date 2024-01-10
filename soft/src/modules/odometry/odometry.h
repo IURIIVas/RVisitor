@@ -34,6 +34,7 @@ typedef struct
 typedef struct
 {
     uint32_t cur_ticks[DC_MOTOR_NUMBER_ODOMETRY];
+    uint32_t direction;
     double interval_s;
 } odometry_set_s;
 
