@@ -132,7 +132,6 @@ static void _rcc_gpio_cmd_iface_clk_init(void)
 
 static void _gpio_cmd_iface_uart_init(void)
 {
-
 	AFIO->PCFR2 = (0x1 << 18);
 
 	gpio_init_s gpio_init_struct = {0};
@@ -294,7 +293,7 @@ static void _get_odometry(void)
 
 static void _params_write(void)
 {
-    uart_send_str(CMD_IFACE_UART, "write params to flash\n");
+    uart_send_str(CMD_IFACE_UART, "write parameters to flash\n");
 
     uint8_t params_write[2] = {module_params.params & 0xFF, (module_params.params >> 8) & 0xFF};
     uint8_t params_read[2];
@@ -303,7 +302,12 @@ static void _params_write(void)
     spif_write_addr(& spif, 0, params_write, 2);
     spif_read_addr(&spif, 0, params_read, 2);
 
-    uart_send_str(CMD_IFACE_UART, "read params from flash\n");
+    if ((params_read[0] != params_write[0]) || (params_read[1] != params_write[1]))
+    {
+        uart_send_str(CMD_IFACE_UART, "err while writing parameters\n");
+    }
+
+    uart_send_str(CMD_IFACE_UART, "read parameters from flash\n");
     uart_send_int(CMD_IFACE_UART, params_read[0]);
     uart_send_str(CMD_IFACE_UART, " ");
     uart_send_int(CMD_IFACE_UART, params_read[1]);
@@ -312,13 +316,13 @@ static void _params_write(void)
 
 static void _params_read(void)
 {
-    uart_send_str(CMD_IFACE_UART, "write params to flash\n");
+    uart_send_str(CMD_IFACE_UART, "write parameters to flash\n");
 
     uint8_t params_read[2];
 
     spif_read_addr(&spif, 0, params_read, 2);
 
-    uart_send_str(CMD_IFACE_UART, "read params from flash\n");
+    uart_send_str(CMD_IFACE_UART, "read parameters from flash\n");
     uart_send_int(CMD_IFACE_UART, params_read[0]);
     uart_send_str(CMD_IFACE_UART, " ");
     uart_send_int(CMD_IFACE_UART, params_read[1]);
