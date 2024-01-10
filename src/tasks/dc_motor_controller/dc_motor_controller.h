@@ -16,6 +16,8 @@
 
 //------------------------------------------------------ Macros --------------------------------------------------------
 
+#define DC_MOTOR_NUMBER                       (4)
+
 #define ENC_NUM                               (4)
 #define ENC_NUM_PER_DC                        (2)
 
@@ -60,8 +62,10 @@ typedef struct
 
 typedef struct
 {
-    double target_speed_rpm[ENC_NUM / 2];
-    double dc_motor_speed_rpm[ENC_NUM];
+    double target_speed_rpm[DC_MOTOR_NUMBER / 2];
+    double dc_motor_speed_rpm[DC_MOTOR_NUMBER];
+    uint32_t dc_motor_speed_pwm[DC_MOTOR_NUMBER];
+
 
     uint8_t obstacle_flag;
     uint8_t no_surface_rear_flag;

@@ -25,9 +25,12 @@
 TaskHandle_t dc_motor_controller_task_handler;
 
 dc_motor_controller_s dc_motor_controller_struct = {.dc_motor_speed_rpm = {0, 0, 0, 0}, .target_speed_rpm = {0, 0},
-                                                    .obstacle_flag = 0, .overcurrent_flag = 0, .wheel_stuck_flag = 0,
+                                                    .dc_motor_speed_pwm = {0, 0, 0, 0}, .obstacle_flag = 0,
+                                                    .overcurrent_flag = 0, .wheel_stuck_flag = 0,
                                                     .no_surface_rear_flag = 0, .no_surface_front_flag = 0,
                                                     .flags_enable = 0};
+
+odometry_set_s odometry_set = {.cur_ticks = {0, 0, 0, 0}, .interval_s = 0.1};
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
@@ -141,7 +144,7 @@ static void _get_speed_rpm(void)
             ticks = -ticks;
         }
 
-        xQueueSend(odometry_queue, (void*) &ticks, portMAX_DELAY);
+        odometry_set.cur_ticks[dc_motor] = ticks;
 
         const double interval = 0.1;
         dc_motor_controller_struct.dc_motor_speed_rpm[dc_motor] = 60 * ticks / (ENC_TICS_ONE_WHEEL * interval);
@@ -310,6 +313,8 @@ void dc_motor_controller_task(void *pvParameters)
         }
 
         _get_speed_rpm();
+        odometry_get(&odometry_set);
+
         pid_0.input = dc_motor_controller_struct.dc_motor_speed_rpm[0];
         pid_1.input = dc_motor_controller_struct.dc_motor_speed_rpm[1];
         pid_2.input = dc_motor_controller_struct.dc_motor_speed_rpm[2];
@@ -324,6 +329,10 @@ void dc_motor_controller_task(void *pvParameters)
         _pid_calculate(&pid_2);
         _pid_calculate(&pid_3);
 
+        dc_motor_controller_struct.dc_motor_speed_pwm[0] = pid_0.output;
+        dc_motor_controller_struct.dc_motor_speed_pwm[1] = pid_1.output;
+        dc_motor_controller_struct.dc_motor_speed_pwm[2] = pid_2.output;
+        dc_motor_controller_struct.dc_motor_speed_pwm[3] = pid_3.output;
 
         if (((0 == pid_0.input) || (0 == pid_1.input) || (0 == pid_2.input) || (0 == pid_3.input)) && direction != STOP)
         {
@@ -336,11 +345,8 @@ void dc_motor_controller_task(void *pvParameters)
             direction = _flags_check();
         }
 
-        xQueueSend(queue_dc_motor_driver, (void*) &direction, portMAX_DELAY);
-        xQueueSend(queue_dc_motor_driver, (void*) &pid_0.output, portMAX_DELAY);
-        xQueueSend(queue_dc_motor_driver, (void*) &pid_1.output, portMAX_DELAY);
-        xQueueSend(queue_dc_motor_driver, (void*) &pid_2.output, portMAX_DELAY);
-        xQueueSend(queue_dc_motor_driver, (void*) &pid_3.output, portMAX_DELAY);
+        direction_change(direction);
+        pwm_for_dc_change_speed(dc_motor_controller_struct.dc_motor_speed_pwm);
 
         vTaskDelay(PID_PERIOD_MS / portTICK_PERIOD_MS);
     }
@@ -351,6 +357,9 @@ void dc_motor_controller_task(void *pvParameters)
 /// \return None
 void dc_motor_controller_task_init(void)
 {
+    gpio_tim_dc_init();
+    pwm_for_dc_init(0, 0, 0, 0);
+
     _gpio_tim_enc_init();
     _enc_init();
 

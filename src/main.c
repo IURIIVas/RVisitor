@@ -43,8 +43,6 @@ void tasks_init(void)
 {
 	cmd_iface_listening_task_init();
 	hw_201_task_init();
-	dc_motor_driver_task_init();
-	odometry_task_init();
     hc_sr04_task_init();
     power_measure_task_init();
     dc_motor_controller_task_init();

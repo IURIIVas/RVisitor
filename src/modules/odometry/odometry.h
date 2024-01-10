@@ -22,11 +22,6 @@
 #define ECV_MOTOR_DIST_M               (0.12)
 #define REF_POINT_DIST_M               (0.1)
 
-#define ODOMETRY_PERIOD_MS             (100)
-
-#define ODOMETRY_TASK_PRIORITY         (5)
-#define ODOMETRY_TASK_STK_SIZE         (256)
-
 //----------------------------------------------------- Typedefs -------------------------------------------------------
 
 typedef struct
@@ -44,13 +39,10 @@ typedef struct
 
 //---------------------------------------------------- Variables -------------------------------------------------------
 
-extern TaskHandle_t odometry_task_handler;
 extern odometry_s odometry;
-extern QueueHandle_t odometry_queue;
 
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
-void odometry_task_init(void);
-
+void odometry_get(odometry_set_s *odometry_set);
 
 #endif /* ODOMETRY_H_ */

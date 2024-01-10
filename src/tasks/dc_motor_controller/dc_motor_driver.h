@@ -14,13 +14,10 @@
 
 #include "global_inc.h"
 #include "tim.h"
-#include "queue.h"
 
 //------------------------------------------------------ Macros --------------------------------------------------------
 
 #define PWM_MODE 					          (TIM_OCMode_PWM1)
-
-#define DC_MOTOR_NUMBER                       (4)
 
 #define MOTOR_MAX_VALUE				          (512)
 #define MOTOR_PWM_PRESCALER			          (12)
@@ -44,12 +41,6 @@
 #define DC_MOTOR_DRIVER_TASK_STK_SIZE      	  (256)
 
 //----------------------------------------------------- Typedefs -------------------------------------------------------
-
-typedef struct
-{
-    uint32_t dc_motor_speed_pwm[DC_MOTOR_NUMBER];
-    uint8_t dc_motor_direction;
-} dc_motor_set_s;
 
 typedef enum
 {
@@ -76,13 +67,11 @@ typedef enum
 
 //---------------------------------------------------- Variables -------------------------------------------------------
 
-extern TaskHandle_t dc_motor_driver_task_handler;
-extern dc_motor_set_s dc_motor_set;
-extern QueueHandle_t queue_dc_motor_driver;
-
 //------------------------------------------------ Function prototypes -------------------------------------------------
 
-void dc_motor_driver_task_init(void);
-
+void pwm_for_dc_init(uint32_t dc_0_speed, uint32_t dc_1_speed, uint32_t dc_2_speed, uint32_t dc_3_speed);
+void pwm_for_dc_change_speed(uint32_t *dc_motor_speed_pwm);
+void direction_change(uint32_t direction);
+void gpio_tim_dc_init(void);
 
 #endif /* DC_MOTOR_DRIVER_H_ */
