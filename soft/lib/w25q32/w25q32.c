@@ -46,7 +46,7 @@ static void _spif_transmit_receive(spif_s *spif, uint8_t *tx, uint8_t *rx, uint3
 
 static void _spif_cs_set(spif_s *spif, uint8_t state)
 {
-    GPIO_WriteBit(spif->cs_gpio, spif->cs_pin, state);
+    gpio_write_bit(spif->cs_gpio, spif->cs_pin, state);
     for (uint8_t i = 0; i < 10; i++)
     {
         __asm__("nop");

@@ -525,7 +525,7 @@ void TIM_BDTRStructInit(tim_bdtr_init_t *TIM_BDTRInitStruct)
  *
  * @return  none
  */
-void TIM_Cmd(TIM_TypeDef *TIMx, FunctionalState NewState)
+void TIM_Cmd(TIM_TypeDef *TIMx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -547,7 +547,7 @@ void TIM_Cmd(TIM_TypeDef *TIMx, FunctionalState NewState)
  *
  * @return  none
  */
-void TIM_CtrlPWMOutputs(TIM_TypeDef *TIMx, FunctionalState NewState)
+void TIM_CtrlPWMOutputs(TIM_TypeDef *TIMx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -578,7 +578,7 @@ void TIM_CtrlPWMOutputs(TIM_TypeDef *TIMx, FunctionalState NewState)
  *
  * @return  none
  */
-void TIM_ITConfig(TIM_TypeDef *TIMx, uint16_t TIM_IT, FunctionalState NewState)
+void TIM_ITConfig(TIM_TypeDef *TIMx, uint16_t TIM_IT, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -648,7 +648,7 @@ void TIM_DMAConfig(TIM_TypeDef *TIMx, uint16_t TIM_DMABase, uint16_t TIM_DMABurs
  *
  * @return  none
  */
-void TIM_DMACmd(TIM_TypeDef *TIMx, uint16_t TIM_DMASource, FunctionalState NewState)
+void TIM_DMACmd(TIM_TypeDef *TIMx, uint16_t TIM_DMASource, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -1037,7 +1037,7 @@ void TIM_ForcedOC4Config(TIM_TypeDef *TIMx, uint16_t TIM_ForcedAction)
  *
  * @return  none
  */
-void TIM_ARRPreloadConfig(TIM_TypeDef *TIMx, FunctionalState NewState)
+void TIM_ARRPreloadConfig(TIM_TypeDef *TIMx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -1059,7 +1059,7 @@ void TIM_ARRPreloadConfig(TIM_TypeDef *TIMx, FunctionalState NewState)
  *
  * @return  none
  */
-void TIM_SelectCOM(TIM_TypeDef *TIMx, FunctionalState NewState)
+void TIM_SelectCOM(TIM_TypeDef *TIMx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -1081,7 +1081,7 @@ void TIM_SelectCOM(TIM_TypeDef *TIMx, FunctionalState NewState)
  *
  * @return  none
  */
-void TIM_SelectCCDMA(TIM_TypeDef *TIMx, FunctionalState NewState)
+void TIM_SelectCCDMA(TIM_TypeDef *TIMx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -1103,7 +1103,7 @@ void TIM_SelectCCDMA(TIM_TypeDef *TIMx, FunctionalState NewState)
  *
  * @return  none
  */
-void TIM_CCPreloadControl(TIM_TypeDef *TIMx, FunctionalState NewState)
+void TIM_CCPreloadControl(TIM_TypeDef *TIMx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -1619,14 +1619,14 @@ void TIM_SelectOCxM(TIM_TypeDef *TIMx, uint16_t TIM_Channel, uint16_t TIM_OCMode
     if((TIM_Channel == TIM_Channel_1) || (TIM_Channel == TIM_Channel_3))
     {
         tmp += (TIM_Channel >> 1);
-        *(__IO uint32_t *)tmp &= (uint32_t) ~((uint32_t)TIM_OC1M);
-        *(__IO uint32_t *)tmp |= TIM_OCMode;
+        *(__RW uint32_t *)tmp &= (uint32_t) ~((uint32_t)TIM_OC1M);
+        *(__RW uint32_t *)tmp |= TIM_OCMode;
     }
     else
     {
         tmp += (uint16_t)(TIM_Channel - (uint16_t)4) >> (uint16_t)1;
-        *(__IO uint32_t *)tmp &= (uint32_t) ~((uint32_t)TIM_OC2M);
-        *(__IO uint32_t *)tmp |= (uint16_t)(TIM_OCMode << 8);
+        *(__RW uint32_t *)tmp &= (uint32_t) ~((uint32_t)TIM_OC2M);
+        *(__RW uint32_t *)tmp |= (uint16_t)(TIM_OCMode << 8);
     }
 }
 
@@ -1640,7 +1640,7 @@ void TIM_SelectOCxM(TIM_TypeDef *TIMx, uint16_t TIM_Channel, uint16_t TIM_OCMode
  *
  * @return  none
  */
-void TIM_UpdateDisableConfig(TIM_TypeDef *TIMx, FunctionalState NewState)
+void TIM_UpdateDisableConfig(TIM_TypeDef *TIMx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -1686,7 +1686,7 @@ void TIM_UpdateRequestConfig(TIM_TypeDef *TIMx, uint16_t TIM_UpdateSource)
  *
  * @return  none
  */
-void TIM_SelectHallSensor(TIM_TypeDef *TIMx, FunctionalState NewState)
+void TIM_SelectHallSensor(TIM_TypeDef *TIMx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -2082,9 +2082,9 @@ uint16_t TIM_GetPrescaler(TIM_TypeDef *TIMx)
  *
  * @return  none
  */
-FlagStatus TIM_GetFlagStatus(TIM_TypeDef *TIMx, uint16_t TIM_FLAG)
+flag_status_e TIM_GetFlagStatus(TIM_TypeDef *TIMx, uint16_t TIM_FLAG)
 {
-    ITStatus bitstatus = RESET;
+    it_status_e bitstatus = RESET;
 
     if((TIMx->INTFR & TIM_FLAG) != (uint16_t)RESET)
     {
@@ -2143,9 +2143,9 @@ void TIM_ClearFlag(TIM_TypeDef *TIMx, uint16_t TIM_FLAG)
  *
  * @return  none
  */
-ITStatus TIM_GetITStatus(TIM_TypeDef *TIMx, uint16_t TIM_IT)
+it_status_e TIM_GetITStatus(TIM_TypeDef *TIMx, uint16_t TIM_IT)
 {
-    ITStatus bitstatus = RESET;
+    it_status_e bitstatus = RESET;
     uint16_t itstatus = 0x0, itenable = 0x0;
 
     itstatus = TIMx->INTFR & TIM_IT;

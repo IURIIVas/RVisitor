@@ -20,10 +20,10 @@
 #define HC_SR04_SENSORS_NUM					  (4)
 
 #define HC_SR04_GPIO_PORT					  (GPIOC)
-#define HC_SR04_GPIO_TRIG_PIN				  (GPIO_Pin_13)
-#define HC_SR04_GPIO_ECHO_PIN				  (GPIO_Pin_8)
-#define HC_SR04_MUX_S0_GPIO_PIN				  (GPIO_Pin_4)
-#define HC_SR04_MUX_S1_GPIO_PIN				  (GPIO_Pin_5)
+#define HC_SR04_GPIO_TRIG_PIN				  (GPIO_PIN_13)
+#define HC_SR04_GPIO_ECHO_PIN				  (GPIO_PIN_8)
+#define HC_SR04_MUX_S0_GPIO_PIN				  (GPIO_PIN_4)
+#define HC_SR04_MUX_S1_GPIO_PIN				  (GPIO_PIN_5)
 #define HC_SR04_RCC_GPIO					  (RCC_APB2Periph_GPIOC)
 
 #define HC_SR04_TRIG_TIMER					  (TIM6)

@@ -35,10 +35,10 @@ void hc_sr04_trig_gpio_init(gpio_s *GPIO_PORT, uint16_t GPIO_TRIG_PIN)
 {
 	gpio_init_s gpio_init_struct = {0};
 
-	gpio_init_struct.GPIO_Pins = GPIO_TRIG_PIN;
-	gpio_init_struct.GPIO_Mode = GPIO_Mode_Out_PP;
-	gpio_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIO_PORT, &gpio_init_struct);
+	gpio_init_struct.gpio_pins = GPIO_TRIG_PIN;
+	gpio_init_struct.gpio_mode = GPIO_MODE_OUT_PP;
+	gpio_init_struct.gpio_speed = GPIO_SPEED_50MHZ;
+	gpio_init(GPIO_PORT, &gpio_init_struct);
 }
 
 /// \brief Init timer to count 10 microsecond for trig signal
@@ -69,12 +69,12 @@ void hc_sr04_echo_gpio_init(gpio_s *GPIO_PORT, uint16_t GPIO_ECHO_PIN)
 {
 	gpio_init_s gpio_init_struct = {0};
 
-	gpio_init_struct.GPIO_Pins = GPIO_ECHO_PIN;
-	gpio_init_struct.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-	gpio_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIO_PORT, &gpio_init_struct);
+	gpio_init_struct.gpio_pins = GPIO_ECHO_PIN;
+	gpio_init_struct.gpio_mode = GPIO_MODE_IN_FLOATING;
+	gpio_init_struct.gpio_speed = GPIO_SPEED_50MHZ;
+	gpio_init(GPIO_PORT, &gpio_init_struct);
 
-    GPIO_SetBits(GPIO_PORT, GPIO_ECHO_PIN);
+    gpio_set_bits(GPIO_PORT, GPIO_ECHO_PIN);
 }
 
 /// \brief Timer channel enable to echo input

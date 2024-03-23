@@ -68,8 +68,8 @@
 /* BDCTLR register base address */
 #define BDCTLR_ADDRESS             (PERIPH_BASE + BDCTLR_OFFSET)
 
-static __I uint8_t APBAHBPrescTable[16] = {0, 0, 0, 0, 1, 2, 3, 4, 1, 2, 3, 4, 6, 7, 8, 9};
-static __I uint8_t ADCPrescTable[4] = {2, 4, 6, 8};
+static __RO uint8_t APBAHBPrescTable[16] = {0, 0, 0, 0, 1, 2, 3, 4, 1, 2, 3, 4, 6, 7, 8, 9};
+static __RO uint8_t ADCPrescTable[4] = {2, 4, 6, 8};
 
 /*********************************************************************
  * @fn      RCC_DeInit
@@ -143,12 +143,12 @@ void RCC_HSEConfig(uint32_t RCC_HSE)
  * @return  READY - HSE oscillator is stable and ready to use.
  *          NoREADY - HSE oscillator not yet ready.
  */
-ErrorStatus RCC_WaitForHSEStartUp(void)
+error_status_e RCC_WaitForHSEStartUp(void)
 {
-    __IO uint32_t StartUpCounter = 0;
+    __RW uint32_t StartUpCounter = 0;
 
-    ErrorStatus status = NoREADY;
-    FlagStatus  HSEStatus = RESET;
+    error_status_e status = NO_READY;
+    flag_status_e  HSEStatus = RESET;
 
     do
     {
@@ -162,7 +162,7 @@ ErrorStatus RCC_WaitForHSEStartUp(void)
     }
     else
     {
-        status = NoREADY;
+        status = NO_READY;
     }
 
     return (status);
@@ -197,7 +197,7 @@ void RCC_AdjustHSICalibrationValue(uint8_t HSICalibrationValue)
  *
  * @return  none
  */
-void RCC_HSICmd(FunctionalState NewState)
+void RCC_HSICmd(functional_state_e NewState)
 {
     if(NewState)
     {
@@ -288,7 +288,7 @@ void RCC_PLLConfig(uint32_t RCC_PLLSource, uint32_t RCC_PLLMul)
  *
  * @return  none
  */
-void RCC_PLLCmd(FunctionalState NewState)
+void RCC_PLLCmd(functional_state_e NewState)
 {
     if(NewState)
     {
@@ -430,15 +430,15 @@ void RCC_PCLK2Config(uint32_t RCC_HCLK)
  *
  * @return  none
  */
-void RCC_ITConfig(uint8_t RCC_IT, FunctionalState NewState)
+void RCC_ITConfig(uint8_t RCC_IT, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
-        *(__IO uint8_t *)INTR_BYTE2_ADDRESS |= RCC_IT;
+        *(__RW uint8_t *)INTR_BYTE2_ADDRESS |= RCC_IT;
     }
     else
     {
-        *(__IO uint8_t *)INTR_BYTE2_ADDRESS &= (uint8_t)~RCC_IT;
+        *(__RW uint8_t *)INTR_BYTE2_ADDRESS &= (uint8_t)~RCC_IT;
     }
 }
 
@@ -480,17 +480,17 @@ void RCC_ADCCLKConfig(uint32_t RCC_PCLK2)
  */
 void RCC_LSEConfig(uint8_t RCC_LSE)
 {
-    *(__IO uint8_t *)BDCTLR_ADDRESS = RCC_LSE_OFF;
-    *(__IO uint8_t *)BDCTLR_ADDRESS = RCC_LSE_OFF;
+    *(__RW uint8_t *)BDCTLR_ADDRESS = RCC_LSE_OFF;
+    *(__RW uint8_t *)BDCTLR_ADDRESS = RCC_LSE_OFF;
 
     switch(RCC_LSE)
     {
         case RCC_LSE_ON:
-            *(__IO uint8_t *)BDCTLR_ADDRESS = RCC_LSE_ON;
+            *(__RW uint8_t *)BDCTLR_ADDRESS = RCC_LSE_ON;
             break;
 
         case RCC_LSE_Bypass:
-            *(__IO uint8_t *)BDCTLR_ADDRESS = RCC_LSE_Bypass | RCC_LSE_ON;
+            *(__RW uint8_t *)BDCTLR_ADDRESS = RCC_LSE_Bypass | RCC_LSE_ON;
             break;
 
         default:
@@ -509,7 +509,7 @@ void RCC_LSEConfig(uint8_t RCC_LSE)
  *
  * @return  none
  */
-void RCC_LSICmd(FunctionalState NewState)
+void RCC_LSICmd(functional_state_e NewState)
 {
     if(NewState)
     {
@@ -549,7 +549,7 @@ void RCC_RTCCLKConfig(uint32_t RCC_RTCCLKSource)
  *
  * @return  none
  */
-void RCC_RTCCLKCmd(FunctionalState NewState)
+void RCC_RTCCLKCmd(functional_state_e NewState)
 {
     if(NewState)
     {
@@ -717,7 +717,7 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef *RCC_Clocks)
  *
  * @return  none
  */
-void RCC_AHBPeriphClockCmd(uint32_t RCC_AHBPeriph, FunctionalState NewState)
+void RCC_AHBPeriphClockCmd(uint32_t RCC_AHBPeriph, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -753,7 +753,7 @@ void RCC_AHBPeriphClockCmd(uint32_t RCC_AHBPeriph, FunctionalState NewState)
  *
  * @return  none
  */
-void RCC_APB2PeriphClockCmd(uint32_t RCC_APB2Periph, FunctionalState NewState)
+void RCC_APB2PeriphClockCmd(uint32_t RCC_APB2Periph, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -798,7 +798,7 @@ void RCC_APB2PeriphClockCmd(uint32_t RCC_APB2Periph, FunctionalState NewState)
  *
  * @return  none
  */
-void RCC_APB1PeriphClockCmd(uint32_t RCC_APB1Periph, FunctionalState NewState)
+void RCC_APB1PeriphClockCmd(uint32_t RCC_APB1Periph, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -834,7 +834,7 @@ void RCC_APB1PeriphClockCmd(uint32_t RCC_APB1Periph, FunctionalState NewState)
  *
  * @return  none
  */
-void RCC_APB2PeriphResetCmd(uint32_t RCC_APB2Periph, FunctionalState NewState)
+void RCC_APB2PeriphResetCmd(uint32_t RCC_APB2Periph, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -879,7 +879,7 @@ void RCC_APB2PeriphResetCmd(uint32_t RCC_APB2Periph, FunctionalState NewState)
  *
  * @return  none
  */
-void RCC_APB1PeriphResetCmd(uint32_t RCC_APB1Periph, FunctionalState NewState)
+void RCC_APB1PeriphResetCmd(uint32_t RCC_APB1Periph, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -900,7 +900,7 @@ void RCC_APB1PeriphResetCmd(uint32_t RCC_APB1Periph, FunctionalState NewState)
  *
  * @return  none
  */
-void RCC_BackupResetCmd(FunctionalState NewState)
+void RCC_BackupResetCmd(functional_state_e NewState)
 {
     if(NewState)
     {
@@ -921,7 +921,7 @@ void RCC_BackupResetCmd(FunctionalState NewState)
  *
  * @return  none
  */
-void RCC_ClockSecuritySystemCmd(FunctionalState NewState)
+void RCC_ClockSecuritySystemCmd(functional_state_e NewState)
 {
     if(NewState)
     {
@@ -953,7 +953,7 @@ void RCC_ClockSecuritySystemCmd(FunctionalState NewState)
  */
 void RCC_MCOConfig(uint8_t RCC_MCO)
 {
-    *(__IO uint8_t *)CFGR0_BYTE4_ADDRESS = RCC_MCO;
+    *(__RW uint8_t *)CFGR0_BYTE4_ADDRESS = RCC_MCO;
 }
 
 /*********************************************************************
@@ -978,12 +978,12 @@ void RCC_MCOConfig(uint8_t RCC_MCO)
  *
  * @return  FlagStatus - SET or RESET.
  */
-FlagStatus RCC_GetFlagStatus(uint8_t RCC_FLAG)
+flag_status_e RCC_GetFlagStatus(uint8_t RCC_FLAG)
 {
     uint32_t tmp = 0;
     uint32_t statusreg = 0;
 
-    FlagStatus bitstatus = RESET;
+    flag_status_e bitstatus = RESET;
     tmp = RCC_FLAG >> 5;
 
     if(tmp == 1)
@@ -1045,9 +1045,9 @@ void RCC_ClearFlag(void)
  * @return  ITStatus - SET or RESET.
  */
 
-ITStatus RCC_GetITStatus(uint8_t RCC_IT)
+it_status_e RCC_GetITStatus(uint8_t RCC_IT)
 {
-    ITStatus bitstatus = RESET;
+    it_status_e bitstatus = RESET;
 
     if((RCC->INTR & RCC_IT) != (uint32_t)RESET)
     {
@@ -1080,7 +1080,7 @@ ITStatus RCC_GetITStatus(uint8_t RCC_IT)
  */
 void RCC_ClearITPendingBit(uint8_t RCC_IT)
 {
-    *(__IO uint8_t *)INTR_BYTE3_ADDRESS = RCC_IT;
+    *(__RW uint8_t *)INTR_BYTE3_ADDRESS = RCC_IT;
 }
 
 /*********************************************************************
@@ -1165,7 +1165,7 @@ void RCC_PLL2Config(uint32_t RCC_PLL2Mul)
  *
  * @return  none
  */
-void RCC_PLL2Cmd(FunctionalState NewState)
+void RCC_PLL2Cmd(functional_state_e NewState)
 {
     if(NewState)
     {
@@ -1209,7 +1209,7 @@ void RCC_PLL3Config(uint32_t RCC_PLL3Mul)
  *
  * @return  none
  */
-void RCC_PLL3Cmd(FunctionalState NewState)
+void RCC_PLL3Cmd(functional_state_e NewState)
 {
     if(NewState)
     {
@@ -1290,7 +1290,7 @@ void RCC_I2S3CLKConfig(uint32_t RCC_I2S3CLKSource)
  *
  * @return  none
  */
-void RCC_AHBPeriphResetCmd(uint32_t RCC_AHBPeriph, FunctionalState NewState)
+void RCC_AHBPeriphResetCmd(uint32_t RCC_AHBPeriph, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -1311,7 +1311,7 @@ void RCC_AHBPeriphResetCmd(uint32_t RCC_AHBPeriph, FunctionalState NewState)
  *
  * @return  none
  */
-void RCC_ADCCLKADJcmd(FunctionalState NewState)
+void RCC_ADCCLKADJcmd(functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -1367,7 +1367,7 @@ void RCC_ETH1GCLKConfig(uint32_t RCC_ETH1GCLKSource)
  *
  * @return  none
  */
-void RCC_ETH1G_125Mcmd(FunctionalState NewState)
+void RCC_ETH1G_125Mcmd(functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -1447,7 +1447,7 @@ void RCC_USBHSPLLCKREFCLKConfig(uint32_t RCC_USBHSPLLCKREFCLKSource)
  *
  * @return  none
  */
-void RCC_USBHSPHYPLLALIVEcmd(FunctionalState NewState)
+void RCC_USBHSPHYPLLALIVEcmd(functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {

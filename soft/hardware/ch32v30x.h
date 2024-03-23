@@ -182,7 +182,7 @@ typedef enum IRQn
   DMA2_Channel11_IRQn         = 103,     /* DMA2 Channel 11 global Interrupt                     */
 
 #endif
-} IRQn_Type;
+} irqn_e;
 
 #define HardFault_IRQn   EXC_IRQn
 #define ADC1_2_IRQn      ADC_IRQn
@@ -201,172 +201,172 @@ typedef enum IRQn
 /* Analog to Digital Converter */
 typedef struct
 {
-  __IO uint32_t STATR;
-  __IO uint32_t CTLR1;
-  __IO uint32_t CTLR2;
-  __IO uint32_t SAMPTR1;
-  __IO uint32_t SAMPTR2;
-  __IO uint32_t IOFR1;
-  __IO uint32_t IOFR2;
-  __IO uint32_t IOFR3;
-  __IO uint32_t IOFR4;
-  __IO uint32_t WDHTR;
-  __IO uint32_t WDLTR;
-  __IO uint32_t RSQR1;
-  __IO uint32_t RSQR2;
-  __IO uint32_t RSQR3;
-  __IO uint32_t ISQR;
-  __IO uint32_t IDATAR1;
-  __IO uint32_t IDATAR2;
-  __IO uint32_t IDATAR3;
-  __IO uint32_t IDATAR4;
-  __IO uint32_t RDATAR;
+  __RW uint32_t STATR;
+  __RW uint32_t CTLR1;
+  __RW uint32_t CTLR2;
+  __RW uint32_t SAMPTR1;
+  __RW uint32_t SAMPTR2;
+  __RW uint32_t IOFR1;
+  __RW uint32_t IOFR2;
+  __RW uint32_t IOFR3;
+  __RW uint32_t IOFR4;
+  __RW uint32_t WDHTR;
+  __RW uint32_t WDLTR;
+  __RW uint32_t RSQR1;
+  __RW uint32_t RSQR2;
+  __RW uint32_t RSQR3;
+  __RW uint32_t ISQR;
+  __RW uint32_t IDATAR1;
+  __RW uint32_t IDATAR2;
+  __RW uint32_t IDATAR3;
+  __RW uint32_t IDATAR4;
+  __RW uint32_t RDATAR;
 } ADC_TypeDef;
 
 /* Backup Registers */
 typedef struct
 {
   uint32_t  RESERVED0;
-  __IO uint16_t DATAR1;
+  __RW uint16_t DATAR1;
   uint16_t  RESERVED1;
-  __IO uint16_t DATAR2;
+  __RW uint16_t DATAR2;
   uint16_t  RESERVED2;
-  __IO uint16_t DATAR3;
+  __RW uint16_t DATAR3;
   uint16_t  RESERVED3;
-  __IO uint16_t DATAR4;
+  __RW uint16_t DATAR4;
   uint16_t  RESERVED4;
-  __IO uint16_t DATAR5;
+  __RW uint16_t DATAR5;
   uint16_t  RESERVED5;
-  __IO uint16_t DATAR6;
+  __RW uint16_t DATAR6;
   uint16_t  RESERVED6;
-  __IO uint16_t DATAR7;
+  __RW uint16_t DATAR7;
   uint16_t  RESERVED7;
-  __IO uint16_t DATAR8;
+  __RW uint16_t DATAR8;
   uint16_t  RESERVED8;
-  __IO uint16_t DATAR9;
+  __RW uint16_t DATAR9;
   uint16_t  RESERVED9;
-  __IO uint16_t DATAR10;
+  __RW uint16_t DATAR10;
   uint16_t  RESERVED10; 
-  __IO uint16_t OCTLR;
+  __RW uint16_t OCTLR;
   uint16_t  RESERVED11;
-  __IO uint16_t TPCTLR;
+  __RW uint16_t TPCTLR;
   uint16_t  RESERVED12;
-  __IO uint16_t TPCSR;
+  __RW uint16_t TPCSR;
   uint16_t  RESERVED13[5];
-  __IO uint16_t DATAR11;
+  __RW uint16_t DATAR11;
   uint16_t  RESERVED14;
-  __IO uint16_t DATAR12;
+  __RW uint16_t DATAR12;
   uint16_t  RESERVED15;
-  __IO uint16_t DATAR13;
+  __RW uint16_t DATAR13;
   uint16_t  RESERVED16;
-  __IO uint16_t DATAR14;
+  __RW uint16_t DATAR14;
   uint16_t  RESERVED17;
-  __IO uint16_t DATAR15;
+  __RW uint16_t DATAR15;
   uint16_t  RESERVED18;
-  __IO uint16_t DATAR16;
+  __RW uint16_t DATAR16;
   uint16_t  RESERVED19;
-  __IO uint16_t DATAR17;
+  __RW uint16_t DATAR17;
   uint16_t  RESERVED20;
-  __IO uint16_t DATAR18;
+  __RW uint16_t DATAR18;
   uint16_t  RESERVED21;
-  __IO uint16_t DATAR19;
+  __RW uint16_t DATAR19;
   uint16_t  RESERVED22;
-  __IO uint16_t DATAR20;
+  __RW uint16_t DATAR20;
   uint16_t  RESERVED23;
-  __IO uint16_t DATAR21;
+  __RW uint16_t DATAR21;
   uint16_t  RESERVED24;
-  __IO uint16_t DATAR22;
+  __RW uint16_t DATAR22;
   uint16_t  RESERVED25;
-  __IO uint16_t DATAR23;
+  __RW uint16_t DATAR23;
   uint16_t  RESERVED26;
-  __IO uint16_t DATAR24;
+  __RW uint16_t DATAR24;
   uint16_t  RESERVED27;
-  __IO uint16_t DATAR25;
+  __RW uint16_t DATAR25;
   uint16_t  RESERVED28;
-  __IO uint16_t DATAR26;
+  __RW uint16_t DATAR26;
   uint16_t  RESERVED29;
-  __IO uint16_t DATAR27;
+  __RW uint16_t DATAR27;
   uint16_t  RESERVED30;
-  __IO uint16_t DATAR28;
+  __RW uint16_t DATAR28;
   uint16_t  RESERVED31;
-  __IO uint16_t DATAR29;
+  __RW uint16_t DATAR29;
   uint16_t  RESERVED32;
-  __IO uint16_t DATAR30;
+  __RW uint16_t DATAR30;
   uint16_t  RESERVED33; 
-  __IO uint16_t DATAR31;
+  __RW uint16_t DATAR31;
   uint16_t  RESERVED34;
-  __IO uint16_t DATAR32;
+  __RW uint16_t DATAR32;
   uint16_t  RESERVED35;
-  __IO uint16_t DATAR33;
+  __RW uint16_t DATAR33;
   uint16_t  RESERVED36;
-  __IO uint16_t DATAR34;
+  __RW uint16_t DATAR34;
   uint16_t  RESERVED37;
-  __IO uint16_t DATAR35;
+  __RW uint16_t DATAR35;
   uint16_t  RESERVED38;
-  __IO uint16_t DATAR36;
+  __RW uint16_t DATAR36;
   uint16_t  RESERVED39;
-  __IO uint16_t DATAR37;
+  __RW uint16_t DATAR37;
   uint16_t  RESERVED40;
-  __IO uint16_t DATAR38;
+  __RW uint16_t DATAR38;
   uint16_t  RESERVED41;
-  __IO uint16_t DATAR39;
+  __RW uint16_t DATAR39;
   uint16_t  RESERVED42;
-  __IO uint16_t DATAR40;
+  __RW uint16_t DATAR40;
   uint16_t  RESERVED43;
-  __IO uint16_t DATAR41;
+  __RW uint16_t DATAR41;
   uint16_t  RESERVED44;
-  __IO uint16_t DATAR42;
+  __RW uint16_t DATAR42;
   uint16_t  RESERVED45;    
 } BKP_TypeDef;
 
 /* Controller Area Network TxMailBox */
 typedef struct
 {
-  __IO uint32_t TXMIR;
-  __IO uint32_t TXMDTR;
-  __IO uint32_t TXMDLR;
-  __IO uint32_t TXMDHR;
+  __RW uint32_t TXMIR;
+  __RW uint32_t TXMDTR;
+  __RW uint32_t TXMDLR;
+  __RW uint32_t TXMDHR;
 } CAN_TxMailBox_TypeDef;
 
 /* Controller Area Network FIFOMailBox */ 
 typedef struct
 {
-  __IO uint32_t RXMIR;
-  __IO uint32_t RXMDTR;
-  __IO uint32_t RXMDLR;
-  __IO uint32_t RXMDHR;
+  __RW uint32_t RXMIR;
+  __RW uint32_t RXMDTR;
+  __RW uint32_t RXMDLR;
+  __RW uint32_t RXMDHR;
 } CAN_FIFOMailBox_TypeDef;
 
 /* Controller Area Network FilterRegister */  
 typedef struct
 {
-  __IO uint32_t FR1;
-  __IO uint32_t FR2;
+  __RW uint32_t FR1;
+  __RW uint32_t FR2;
 } CAN_FilterRegister_TypeDef;
 
 /* Controller Area Network */  
 typedef struct
 {
-  __IO uint32_t CTLR;
-  __IO uint32_t STATR;
-  __IO uint32_t TSTATR;
-  __IO uint32_t RFIFO0;
-  __IO uint32_t RFIFO1;
-  __IO uint32_t INTENR;
-  __IO uint32_t ERRSR;
-  __IO uint32_t BTIMR;
+  __RW uint32_t CTLR;
+  __RW uint32_t STATR;
+  __RW uint32_t TSTATR;
+  __RW uint32_t RFIFO0;
+  __RW uint32_t RFIFO1;
+  __RW uint32_t INTENR;
+  __RW uint32_t ERRSR;
+  __RW uint32_t BTIMR;
   uint32_t  RESERVED0[88];
   CAN_TxMailBox_TypeDef sTxMailBox[3];
   CAN_FIFOMailBox_TypeDef sFIFOMailBox[2];
   uint32_t  RESERVED1[12];
-  __IO uint32_t FCTLR;
-  __IO uint32_t FMCFGR;
+  __RW uint32_t FCTLR;
+  __RW uint32_t FMCFGR;
   uint32_t  RESERVED2;
-  __IO uint32_t FSCFGR;
+  __RW uint32_t FSCFGR;
   uint32_t  RESERVED3;
-  __IO uint32_t FAFIFOR;
+  __RW uint32_t FAFIFOR;
   uint32_t  RESERVED4;
-  __IO uint32_t FWR;
+  __RW uint32_t FWR;
   uint32_t  RESERVED5[8];
   CAN_FilterRegister_TypeDef sFilterRegister[28];
 } CAN_TypeDef;
@@ -374,751 +374,751 @@ typedef struct
 /* CRC Calculation Unit */
 typedef struct
 {
-  __IO uint32_t DATAR;
-  __IO uint8_t  IDATAR;
+  __RW uint32_t DATAR;
+  __RW uint8_t  IDATAR;
   uint8_t   RESERVED0;
   uint16_t  RESERVED1;
-  __IO uint32_t CTLR;
+  __RW uint32_t CTLR;
 } CRC_TypeDef;
 
 /* Digital to Analog Converter */
 typedef struct
 {
-  __IO uint32_t CTLR;
-  __IO uint32_t SWTR;
-  __IO uint32_t R12BDHR1;
-  __IO uint32_t L12BDHR1;
-  __IO uint32_t R8BDHR1;
-  __IO uint32_t R12BDHR2;
-  __IO uint32_t L12BDHR2;
-  __IO uint32_t R8BDHR2;
-  __IO uint32_t RD12BDHR;
-  __IO uint32_t LD12BDHR;
-  __IO uint32_t RD8BDHR;
-  __IO uint32_t DOR1;
-  __IO uint32_t DOR2;
+  __RW uint32_t CTLR;
+  __RW uint32_t SWTR;
+  __RW uint32_t R12BDHR1;
+  __RW uint32_t L12BDHR1;
+  __RW uint32_t R8BDHR1;
+  __RW uint32_t R12BDHR2;
+  __RW uint32_t L12BDHR2;
+  __RW uint32_t R8BDHR2;
+  __RW uint32_t RD12BDHR;
+  __RW uint32_t LD12BDHR;
+  __RW uint32_t RD8BDHR;
+  __RW uint32_t DOR1;
+  __RW uint32_t DOR2;
 } DAC_TypeDef;
 
 /* DMA Channel Controller */
 typedef struct
 {
-  __IO uint32_t CFGR;
-  __IO uint32_t CNTR;
-  __IO uint32_t PADDR;
-  __IO uint32_t MADDR;
+  __RW uint32_t CFGR;
+  __RW uint32_t CNTR;
+  __RW uint32_t PADDR;
+  __RW uint32_t MADDR;
 } DMA_Channel_TypeDef;
 
 /* DMA Controller */
 typedef struct
 {
-  __IO uint32_t INTFR;
-  __IO uint32_t INTFCR;
+  __RW uint32_t INTFR;
+  __RW uint32_t INTFCR;
 } DMA_TypeDef;
 
 /* External Interrupt/Event Controller */
 typedef struct
 {
-  __IO uint32_t INTENR; 
-  __IO uint32_t EVENR;   
-  __IO uint32_t RTENR;   
-  __IO uint32_t FTENR;   
-  __IO uint32_t SWIEVR;  
-  __IO uint32_t INTFR;   
+  __RW uint32_t INTENR; 
+  __RW uint32_t EVENR;   
+  __RW uint32_t RTENR;   
+  __RW uint32_t FTENR;   
+  __RW uint32_t SWIEVR;  
+  __RW uint32_t INTFR;   
 } EXTI_TypeDef;
 
 /* FLASH Registers */
 typedef struct
 {
-  __IO uint32_t ACTLR;
-  __IO uint32_t KEYR;
-  __IO uint32_t OBKEYR;
-  __IO uint32_t STATR;
-  __IO uint32_t CTLR;
-  __IO uint32_t ADDR;
-  __IO uint32_t RESERVED;
-  __IO uint32_t OBR;
-  __IO uint32_t WPR;
-  __IO uint32_t MODEKEYR;
+  __RW uint32_t ACTLR;
+  __RW uint32_t KEYR;
+  __RW uint32_t OBKEYR;
+  __RW uint32_t STATR;
+  __RW uint32_t CTLR;
+  __RW uint32_t ADDR;
+  __RW uint32_t RESERVED;
+  __RW uint32_t OBR;
+  __RW uint32_t WPR;
+  __RW uint32_t MODEKEYR;
 } FLASH_TypeDef;
 
 /* Option Bytes Registers */  
 typedef struct
 {
-  __IO uint16_t RDPR;
-  __IO uint16_t USER;
-  __IO uint16_t Data0;
-  __IO uint16_t Data1;
-  __IO uint16_t WRPR0;
-  __IO uint16_t WRPR1;
-  __IO uint16_t WRPR2;
-  __IO uint16_t WRPR3;
+  __RW uint16_t RDPR;
+  __RW uint16_t USER;
+  __RW uint16_t Data0;
+  __RW uint16_t Data1;
+  __RW uint16_t WRPR0;
+  __RW uint16_t WRPR1;
+  __RW uint16_t WRPR2;
+  __RW uint16_t WRPR3;
 } OB_TypeDef;
 
 /* FSMC Bank1 Registers */ 
 typedef struct
 {
-  __IO uint32_t BTCR[8];
+  __RW uint32_t BTCR[8];
 } FSMC_Bank1_TypeDef;
 
 /* FSMC Bank1E Registers */ 
 typedef struct
 {
-  __IO uint32_t BWTR[7];
+  __RW uint32_t BWTR[7];
 } FSMC_Bank1E_TypeDef;
 
 /* FSMC Bank2 Registers */ 
 typedef struct
 {
-  __IO uint32_t PCR2;
-  __IO uint32_t SR2;
-  __IO uint32_t PMEM2;
-  __IO uint32_t PATT2;
+  __RW uint32_t PCR2;
+  __RW uint32_t SR2;
+  __RW uint32_t PMEM2;
+  __RW uint32_t PATT2;
   uint32_t  RESERVED0;
-  __IO uint32_t ECCR2;
+  __RW uint32_t ECCR2;
 } FSMC_Bank2_TypeDef;
 
 /* General Purpose I/O */
 typedef struct
 {
-  __IO uint32_t CFGLR;
-  __IO uint32_t CFGHR;
-  __IO uint32_t INDR;
-  __IO uint32_t OUTDR;
-  __IO uint32_t BSHR;
-  __IO uint32_t BCR;
-  __IO uint32_t LCKR;
+  __RW uint32_t CFGLR;
+  __RW uint32_t CFGHR;
+  __RW uint32_t INDR;
+  __RW uint32_t OUTDR;
+  __RW uint32_t BSHR;
+  __RW uint32_t BCR;
+  __RW uint32_t LCKR;
 } gpio_s;
 
 /* Alternate Function I/O */
 typedef struct
 {
-  __IO uint32_t ECR;
-  __IO uint32_t PCFR1;
-  __IO uint32_t EXTICR[4];
+  __RW uint32_t ECR;
+  __RW uint32_t PCFR1;
+  __RW uint32_t EXTICR[4];
   uint32_t RESERVED0;
-  __IO uint32_t PCFR2;  
+  __RW uint32_t PCFR2;  
 } AFIO_TypeDef;
 
 /* Inter Integrated Circuit Interface */
 typedef struct
 {
-  __IO uint16_t CTLR1;
+  __RW uint16_t CTLR1;
   uint16_t  RESERVED0;
-  __IO uint16_t CTLR2;
+  __RW uint16_t CTLR2;
   uint16_t  RESERVED1;
-  __IO uint16_t OADDR1;
+  __RW uint16_t OADDR1;
   uint16_t  RESERVED2;
-  __IO uint16_t OADDR2;
+  __RW uint16_t OADDR2;
   uint16_t  RESERVED3;
-  __IO uint16_t DATAR;
+  __RW uint16_t DATAR;
   uint16_t  RESERVED4;
-  __IO uint16_t STAR1;
+  __RW uint16_t STAR1;
   uint16_t  RESERVED5;
-  __IO uint16_t STAR2;
+  __RW uint16_t STAR2;
   uint16_t  RESERVED6;
-  __IO uint16_t CKCFGR;
+  __RW uint16_t CKCFGR;
   uint16_t  RESERVED7;
-  __IO uint16_t RTR;
+  __RW uint16_t RTR;
   uint16_t  RESERVED8;
 } i2c_s;
 
 /* Independent WatchDog */
 typedef struct
 {
-  __IO uint32_t CTLR;
-  __IO uint32_t PSCR;
-  __IO uint32_t RLDR;
-  __IO uint32_t STATR;
+  __RW uint32_t CTLR;
+  __RW uint32_t PSCR;
+  __RW uint32_t RLDR;
+  __RW uint32_t STATR;
 } IWDG_TypeDef;
 
 /* Power Control */
 typedef struct
 {
-  __IO uint32_t CTLR;
-  __IO uint32_t CSR;
+  __RW uint32_t CTLR;
+  __RW uint32_t CSR;
 } PWR_TypeDef;
 
 /* Reset and Clock Control */
 typedef struct
 {
-  __IO uint32_t CTLR;
-  __IO uint32_t CFGR0;
-  __IO uint32_t INTR;
-  __IO uint32_t APB2PRSTR;
-  __IO uint32_t APB1PRSTR;
-  __IO uint32_t AHBPCENR;
-  __IO uint32_t APB2PCENR;
-  __IO uint32_t APB1PCENR;
-  __IO uint32_t BDCTLR;
-  __IO uint32_t RSTSCKR;
+  __RW uint32_t CTLR;
+  __RW uint32_t CFGR0;
+  __RW uint32_t INTR;
+  __RW uint32_t APB2PRSTR;
+  __RW uint32_t APB1PRSTR;
+  __RW uint32_t AHBPCENR;
+  __RW uint32_t APB2PCENR;
+  __RW uint32_t APB1PCENR;
+  __RW uint32_t BDCTLR;
+  __RW uint32_t RSTSCKR;
 
-  __IO uint32_t AHBRSTR;
-  __IO uint32_t CFGR2;
+  __RW uint32_t AHBRSTR;
+  __RW uint32_t CFGR2;
 } RCC_TypeDef;
 
 /* Real-Time Clock */
 typedef struct
 {
-  __IO uint16_t CTLRH;
+  __RW uint16_t CTLRH;
   uint16_t  RESERVED0;
-  __IO uint16_t CTLRL;
+  __RW uint16_t CTLRL;
   uint16_t  RESERVED1;
-  __IO uint16_t PSCRH;
+  __RW uint16_t PSCRH;
   uint16_t  RESERVED2;
-  __IO uint16_t PSCRL;
+  __RW uint16_t PSCRL;
   uint16_t  RESERVED3;
-  __IO uint16_t DIVH;
+  __RW uint16_t DIVH;
   uint16_t  RESERVED4;
-  __IO uint16_t DIVL;
+  __RW uint16_t DIVL;
   uint16_t  RESERVED5;
-  __IO uint16_t CNTH;
+  __RW uint16_t CNTH;
   uint16_t  RESERVED6;
-  __IO uint16_t CNTL;
+  __RW uint16_t CNTL;
   uint16_t  RESERVED7;
-  __IO uint16_t ALRMH;
+  __RW uint16_t ALRMH;
   uint16_t  RESERVED8;
-  __IO uint16_t ALRML;
+  __RW uint16_t ALRML;
   uint16_t  RESERVED9;
 } RTC_TypeDef;
 
 /* SDIO Registers */ 
 typedef struct
 {
-  __IO uint32_t POWER;
-  __IO uint32_t CLKCR;
-  __IO uint32_t ARG;
-  __IO uint32_t CMD;
-  __I uint32_t RESPCMD;
-  __I uint32_t RESP1;
-  __I uint32_t RESP2;
-  __I uint32_t RESP3;
-  __I uint32_t RESP4;
-  __IO uint32_t DTIMER;
-  __IO uint32_t DLEN;
-  __IO uint32_t DCTRL;
-  __I uint32_t DCOUNT;
-  __I uint32_t STA;
-  __IO uint32_t ICR;
-  __IO uint32_t MASK;
+  __RW uint32_t POWER;
+  __RW uint32_t CLKCR;
+  __RW uint32_t ARG;
+  __RW uint32_t CMD;
+  __RO uint32_t RESPCMD;
+  __RO uint32_t RESP1;
+  __RO uint32_t RESP2;
+  __RO uint32_t RESP3;
+  __RO uint32_t RESP4;
+  __RW uint32_t DTIMER;
+  __RW uint32_t DLEN;
+  __RW uint32_t DCTRL;
+  __RO uint32_t DCOUNT;
+  __RO uint32_t STA;
+  __RW uint32_t ICR;
+  __RW uint32_t MASK;
   uint32_t  RESERVED0[2];
-  __I uint32_t FIFOCNT;
+  __RO uint32_t FIFOCNT;
   uint32_t  RESERVED1[13];
-  __IO uint32_t FIFO;
+  __RW uint32_t FIFO;
 } SDIO_TypeDef;
 
 /* Serial Peripheral Interface */
 typedef struct
 {
-  __IO uint16_t CTLR1;
+  __RW uint16_t CTLR1;
   uint16_t  RESERVED0;
-  __IO uint16_t CTLR2;
+  __RW uint16_t CTLR2;
   uint16_t  RESERVED1;
-  __IO uint16_t STATR;
+  __RW uint16_t STATR;
   uint16_t  RESERVED2;
-  __IO uint16_t DATAR;
+  __RW uint16_t DATAR;
   uint16_t  RESERVED3;
-  __IO uint16_t CRCR;
+  __RW uint16_t CRCR;
   uint16_t  RESERVED4;
-  __IO uint16_t RCRCR;
+  __RW uint16_t RCRCR;
   uint16_t  RESERVED5;
-  __IO uint16_t TCRCR;
+  __RW uint16_t TCRCR;
   uint16_t  RESERVED6;
-  __IO uint16_t I2SCFGR;
+  __RW uint16_t I2SCFGR;
   uint16_t  RESERVED7;
-  __IO uint16_t I2SPR;
+  __RW uint16_t I2SPR;
   uint16_t  RESERVED8;
-  __IO uint16_t HSCR;
+  __RW uint16_t HSCR;
   uint16_t  RESERVED9;
 } spi_s;
 
 /* TIM */
 typedef struct
 {
-  __IO uint16_t CTLR1;
+  __RW uint16_t CTLR1;
   uint16_t  RESERVED0;
-  __IO uint16_t CTLR2;
+  __RW uint16_t CTLR2;
   uint16_t  RESERVED1;
-  __IO uint16_t SMCFGR;
+  __RW uint16_t SMCFGR;
   uint16_t  RESERVED2;
-  __IO uint16_t DMAINTENR;
+  __RW uint16_t DMAINTENR;
   uint16_t  RESERVED3;
-  __IO uint16_t INTFR;
+  __RW uint16_t INTFR;
   uint16_t  RESERVED4;
-  __IO uint16_t SWEVGR;
+  __RW uint16_t SWEVGR;
   uint16_t  RESERVED5;
-  __IO uint16_t CHCTLR1;
+  __RW uint16_t CHCTLR1;
   uint16_t  RESERVED6;
-  __IO uint16_t CHCTLR2;
+  __RW uint16_t CHCTLR2;
   uint16_t  RESERVED7;
-  __IO uint16_t CCER;
+  __RW uint16_t CCER;
   uint16_t  RESERVED8;
-  __IO uint16_t CNT;
+  __RW uint16_t CNT;
   uint16_t  RESERVED9;
-  __IO uint16_t PSC;
+  __RW uint16_t PSC;
   uint16_t  RESERVED10;
-  __IO uint16_t ATRLR;
+  __RW uint16_t ATRLR;
   uint16_t  RESERVED11;
-  __IO uint16_t RPTCR;
+  __RW uint16_t RPTCR;
   uint16_t  RESERVED12;
-  __IO uint16_t CH1CVR;
+  __RW uint16_t CH1CVR;
   uint16_t  RESERVED13;
-  __IO uint16_t CH2CVR;
+  __RW uint16_t CH2CVR;
   uint16_t  RESERVED14;
-  __IO uint16_t CH3CVR;
+  __RW uint16_t CH3CVR;
   uint16_t  RESERVED15;
-  __IO uint16_t CH4CVR;
+  __RW uint16_t CH4CVR;
   uint16_t  RESERVED16;
-  __IO uint16_t BDTR;
+  __RW uint16_t BDTR;
   uint16_t  RESERVED17;
-  __IO uint16_t DMACFGR;
+  __RW uint16_t DMACFGR;
   uint16_t  RESERVED18;
-  __IO uint16_t DMAADR;
+  __RW uint16_t DMAADR;
   uint16_t  RESERVED19;
 } TIM_TypeDef;
 
 /* Universal Synchronous Asynchronous Receiver Transmitter */
 typedef struct
 {
-  __IO uint16_t STATR;
+  __RW uint16_t STATR;
   uint16_t  RESERVED0;
-  __IO uint16_t DATAR;
+  __RW uint16_t DATAR;
   uint16_t  RESERVED1;
-  __IO uint16_t BRR;
+  __RW uint16_t BRR;
   uint16_t  RESERVED2;
-  __IO uint16_t CTLR1;
+  __RW uint16_t CTLR1;
   uint16_t  RESERVED3;
-  __IO uint16_t CTLR2;
+  __RW uint16_t CTLR2;
   uint16_t  RESERVED4;
-  __IO uint16_t CTLR3;
+  __RW uint16_t CTLR3;
   uint16_t  RESERVED5;
-  __IO uint16_t GPR;
+  __RW uint16_t GPR;
   uint16_t  RESERVED6;
 } USART_TypeDef;
 
 /* Window WatchDog */
 typedef struct
 {
-  __IO uint32_t CTLR;
-  __IO uint32_t CFGR;
-  __IO uint32_t STATR;
+  __RW uint32_t CTLR;
+  __RW uint32_t CFGR;
+  __RW uint32_t STATR;
 } WWDG_TypeDef;
 
 /* Enhanced Registers */
 typedef struct
 {
-  __IO uint32_t EXTEN_CTR;
+  __RW uint32_t EXTEN_CTR;
 } EXTEN_TypeDef;
 
 /* OPA Registers */
 typedef struct
 {
-  __IO uint32_t CR;
+  __RW uint32_t CR;
 } OPA_TypeDef;
 
 /* RNG Registers */
 typedef struct
 {
-  __IO uint32_t CR;
-  __IO uint32_t SR;
-  __IO uint32_t DR;
+  __RW uint32_t CR;
+  __RW uint32_t SR;
+  __RW uint32_t DR;
 } RNG_TypeDef;
 
 /* DVP Registers */
 typedef struct
 {
-  __IO uint8_t CR0;
-  __IO uint8_t CR1;
-  __IO uint8_t IER;
-  __IO uint8_t Reserved0;        
-  __IO uint16_t ROW_NUM;
-  __IO uint16_t COL_NUM;
-  __IO uint32_t DMA_BUF0;
-  __IO uint32_t DMA_BUF1;
-  __IO uint8_t IFR;
-  __IO uint8_t STATUS;
-  __IO uint16_t Reserved1;            
-  __IO uint16_t ROW_CNT;
-  __IO uint16_t Reserved2;           
-  __IO uint16_t HOFFCNT;
-  __IO uint16_t VST;
-  __IO uint16_t CAPCNT;
-  __IO uint16_t VLINE;
-  __IO uint32_t DR;
+  __RW uint8_t CR0;
+  __RW uint8_t CR1;
+  __RW uint8_t IER;
+  __RW uint8_t Reserved0;        
+  __RW uint16_t ROW_NUM;
+  __RW uint16_t COL_NUM;
+  __RW uint32_t DMA_BUF0;
+  __RW uint32_t DMA_BUF1;
+  __RW uint8_t IFR;
+  __RW uint8_t STATUS;
+  __RW uint16_t Reserved1;            
+  __RW uint16_t ROW_CNT;
+  __RW uint16_t Reserved2;           
+  __RW uint16_t HOFFCNT;
+  __RW uint16_t VST;
+  __RW uint16_t CAPCNT;
+  __RW uint16_t VLINE;
+  __RW uint32_t DR;
 } DVP_TypeDef;
 
 /* USBHS Registers */
 typedef struct
 {
-  __IO uint8_t  CONTROL;
-  __IO uint8_t  HOST_CTRL;
-  __IO uint8_t  INT_EN;
-  __IO uint8_t  DEV_AD;
-  __IO uint16_t FRAME_NO;
-  __IO uint8_t  SUSPEND;
-  __IO uint8_t  RESERVED0;
-  __IO uint8_t  SPEED_TYPE;
-  __IO uint8_t  MIS_ST;
-  __IO uint8_t  INT_FG;
-  __IO uint8_t  INT_ST;
-  __IO uint16_t RX_LEN;
-  __IO uint16_t RESERVED1;
-  __IO uint32_t ENDP_CONFIG;
-  __IO uint32_t ENDP_TYPE;
-  __IO uint32_t BUF_MODE;
-  __IO uint32_t UEP0_DMA;               
-  __IO uint32_t UEP1_RX_DMA;       
-  __IO uint32_t UEP2_RX_DMA;       
-  __IO uint32_t UEP3_RX_DMA;       
-  __IO uint32_t UEP4_RX_DMA;       
-  __IO uint32_t UEP5_RX_DMA;       
-  __IO uint32_t UEP6_RX_DMA;       
-  __IO uint32_t UEP7_RX_DMA;       
-  __IO uint32_t UEP8_RX_DMA;      
-  __IO uint32_t UEP9_RX_DMA;       
-  __IO uint32_t UEP10_RX_DMA;      
-  __IO uint32_t UEP11_RX_DMA;      
-  __IO uint32_t UEP12_RX_DMA;      
-  __IO uint32_t UEP13_RX_DMA;      
-  __IO uint32_t UEP14_RX_DMA;      
-  __IO uint32_t UEP15_RX_DMA;      
-  __IO uint32_t UEP1_TX_DMA;       
-  __IO uint32_t UEP2_TX_DMA;       
-  __IO uint32_t UEP3_TX_DMA;       
-  __IO uint32_t UEP4_TX_DMA;       
-  __IO uint32_t UEP5_TX_DMA;      
-  __IO uint32_t UEP6_TX_DMA;      
-  __IO uint32_t UEP7_TX_DMA;       
-  __IO uint32_t UEP8_TX_DMA;      
-  __IO uint32_t UEP9_TX_DMA;       
-  __IO uint32_t UEP10_TX_DMA;      
-  __IO uint32_t UEP11_TX_DMA;      
-  __IO uint32_t UEP12_TX_DMA;    
-  __IO uint32_t UEP13_TX_DMA;      
-  __IO uint32_t UEP14_TX_DMA;     
-  __IO uint32_t UEP15_TX_DMA;      
-  __IO uint16_t UEP0_MAX_LEN;
-  __IO uint16_t RESERVED2;
-  __IO uint16_t UEP1_MAX_LEN;
-  __IO uint16_t RESERVED3;
-  __IO uint16_t UEP2_MAX_LEN;
-  __IO uint16_t RESERVED4;
-  __IO uint16_t UEP3_MAX_LEN;
-  __IO uint16_t RESERVED5;
-  __IO uint16_t UEP4_MAX_LEN;
-  __IO uint16_t RESERVED6;
-  __IO uint16_t UEP5_MAX_LEN;
-  __IO uint16_t RESERVED7;
-  __IO uint16_t UEP6_MAX_LEN;
-  __IO uint16_t RESERVED8;
-  __IO uint16_t UEP7_MAX_LEN;
-  __IO uint16_t RESERVED9;
-  __IO uint16_t UEP8_MAX_LEN;
-  __IO uint16_t RESERVED10;
-  __IO uint16_t UEP9_MAX_LEN;
-  __IO uint16_t RESERVED11;
-  __IO uint16_t UEP10_MAX_LEN;
-  __IO uint16_t RESERVED12;
-  __IO uint16_t UEP11_MAX_LEN;
-  __IO uint16_t RESERVED13;
-  __IO uint16_t UEP12_MAX_LEN;
-  __IO uint16_t RESERVED14;
-  __IO uint16_t UEP13_MAX_LEN;
-  __IO uint16_t RESERVED15;
-  __IO uint16_t UEP14_MAX_LEN;
-  __IO uint16_t RESERVED16;
-  __IO uint16_t UEP15_MAX_LEN;
-  __IO uint16_t RESERVED17;
-  __IO uint16_t UEP0_TX_LEN;
-  __IO uint8_t  UEP0_TX_CTRL;
-  __IO uint8_t  UEP0_RX_CTRL;
-  __IO uint16_t UEP1_TX_LEN;
-  __IO uint8_t  UEP1_TX_CTRL;
-  __IO uint8_t  UEP1_RX_CTRL;
-  __IO uint16_t UEP2_TX_LEN;
-  __IO uint8_t  UEP2_TX_CTRL;
-  __IO uint8_t  UEP2_RX_CTRL;
-  __IO uint16_t UEP3_TX_LEN;
-  __IO uint8_t  UEP3_TX_CTRL;
-  __IO uint8_t  UEP3_RX_CTRL;
-  __IO uint16_t UEP4_TX_LEN;
-  __IO uint8_t  UEP4_TX_CTRL;
-  __IO uint8_t  UEP4_RX_CTRL;
-  __IO uint16_t UEP5_TX_LEN;
-  __IO uint8_t  UEP5_TX_CTRL;
-  __IO uint8_t  UEP5_RX_CTRL;
-  __IO uint16_t UEP6_TX_LEN;
-  __IO uint8_t  UEP6_TX_CTRL;
-  __IO uint8_t  UEP6_RX_CTRL;
-  __IO uint16_t UEP7_TX_LEN;
-  __IO uint8_t  UEP7_TX_CTRL;
-  __IO uint8_t  UEP7_RX_CTRL;
-  __IO uint16_t UEP8_TX_LEN;
-  __IO uint8_t  UEP8_TX_CTRL;
-  __IO uint8_t  UEP8_RX_CTRL;
-  __IO uint16_t UEP9_TX_LEN;
-  __IO uint8_t  UEP9_TX_CTRL;
-  __IO uint8_t  UEP9_RX_CTRL;
-  __IO uint16_t UEP10_TX_LEN;
-  __IO uint8_t  UEP10_TX_CTRL;
-  __IO uint8_t  UEP10_RX_CTRL;
-  __IO uint16_t UEP11_TX_LEN;
-  __IO uint8_t  UEP11_TX_CTRL;
-  __IO uint8_t  UEP11_RX_CTRL;
-  __IO uint16_t UEP12_TX_LEN;
-  __IO uint8_t  UEP12_TX_CTRL;
-  __IO uint8_t  UEP12_RX_CTRL;
-  __IO uint16_t UEP13_TX_LEN;
-  __IO uint8_t  UEP13_TX_CTRL;
-  __IO uint8_t  UEP13_RX_CTRL;
-  __IO uint16_t UEP14_TX_LEN;
-  __IO uint8_t  UEP14_TX_CTRL;
-  __IO uint8_t  UEP14_RX_CTRL;
-  __IO uint16_t UEP15_TX_LEN;
-  __IO uint8_t  UEP15_TX_CTRL;
-  __IO uint8_t  UEP15_RX_CTRL;
+  __RW uint8_t  CONTROL;
+  __RW uint8_t  HOST_CTRL;
+  __RW uint8_t  INT_EN;
+  __RW uint8_t  DEV_AD;
+  __RW uint16_t FRAME_NO;
+  __RW uint8_t  SUSPEND;
+  __RW uint8_t  RESERVED0;
+  __RW uint8_t  SPEED_TYPE;
+  __RW uint8_t  MIS_ST;
+  __RW uint8_t  INT_FG;
+  __RW uint8_t  INT_ST;
+  __RW uint16_t RX_LEN;
+  __RW uint16_t RESERVED1;
+  __RW uint32_t ENDP_CONFIG;
+  __RW uint32_t ENDP_TYPE;
+  __RW uint32_t BUF_MODE;
+  __RW uint32_t UEP0_DMA;               
+  __RW uint32_t UEP1_RX_DMA;       
+  __RW uint32_t UEP2_RX_DMA;       
+  __RW uint32_t UEP3_RX_DMA;       
+  __RW uint32_t UEP4_RX_DMA;       
+  __RW uint32_t UEP5_RX_DMA;       
+  __RW uint32_t UEP6_RX_DMA;       
+  __RW uint32_t UEP7_RX_DMA;       
+  __RW uint32_t UEP8_RX_DMA;      
+  __RW uint32_t UEP9_RX_DMA;       
+  __RW uint32_t UEP10_RX_DMA;      
+  __RW uint32_t UEP11_RX_DMA;      
+  __RW uint32_t UEP12_RX_DMA;      
+  __RW uint32_t UEP13_RX_DMA;      
+  __RW uint32_t UEP14_RX_DMA;      
+  __RW uint32_t UEP15_RX_DMA;      
+  __RW uint32_t UEP1_TX_DMA;       
+  __RW uint32_t UEP2_TX_DMA;       
+  __RW uint32_t UEP3_TX_DMA;       
+  __RW uint32_t UEP4_TX_DMA;       
+  __RW uint32_t UEP5_TX_DMA;      
+  __RW uint32_t UEP6_TX_DMA;      
+  __RW uint32_t UEP7_TX_DMA;       
+  __RW uint32_t UEP8_TX_DMA;      
+  __RW uint32_t UEP9_TX_DMA;       
+  __RW uint32_t UEP10_TX_DMA;      
+  __RW uint32_t UEP11_TX_DMA;      
+  __RW uint32_t UEP12_TX_DMA;    
+  __RW uint32_t UEP13_TX_DMA;      
+  __RW uint32_t UEP14_TX_DMA;     
+  __RW uint32_t UEP15_TX_DMA;      
+  __RW uint16_t UEP0_MAX_LEN;
+  __RW uint16_t RESERVED2;
+  __RW uint16_t UEP1_MAX_LEN;
+  __RW uint16_t RESERVED3;
+  __RW uint16_t UEP2_MAX_LEN;
+  __RW uint16_t RESERVED4;
+  __RW uint16_t UEP3_MAX_LEN;
+  __RW uint16_t RESERVED5;
+  __RW uint16_t UEP4_MAX_LEN;
+  __RW uint16_t RESERVED6;
+  __RW uint16_t UEP5_MAX_LEN;
+  __RW uint16_t RESERVED7;
+  __RW uint16_t UEP6_MAX_LEN;
+  __RW uint16_t RESERVED8;
+  __RW uint16_t UEP7_MAX_LEN;
+  __RW uint16_t RESERVED9;
+  __RW uint16_t UEP8_MAX_LEN;
+  __RW uint16_t RESERVED10;
+  __RW uint16_t UEP9_MAX_LEN;
+  __RW uint16_t RESERVED11;
+  __RW uint16_t UEP10_MAX_LEN;
+  __RW uint16_t RESERVED12;
+  __RW uint16_t UEP11_MAX_LEN;
+  __RW uint16_t RESERVED13;
+  __RW uint16_t UEP12_MAX_LEN;
+  __RW uint16_t RESERVED14;
+  __RW uint16_t UEP13_MAX_LEN;
+  __RW uint16_t RESERVED15;
+  __RW uint16_t UEP14_MAX_LEN;
+  __RW uint16_t RESERVED16;
+  __RW uint16_t UEP15_MAX_LEN;
+  __RW uint16_t RESERVED17;
+  __RW uint16_t UEP0_TX_LEN;
+  __RW uint8_t  UEP0_TX_CTRL;
+  __RW uint8_t  UEP0_RX_CTRL;
+  __RW uint16_t UEP1_TX_LEN;
+  __RW uint8_t  UEP1_TX_CTRL;
+  __RW uint8_t  UEP1_RX_CTRL;
+  __RW uint16_t UEP2_TX_LEN;
+  __RW uint8_t  UEP2_TX_CTRL;
+  __RW uint8_t  UEP2_RX_CTRL;
+  __RW uint16_t UEP3_TX_LEN;
+  __RW uint8_t  UEP3_TX_CTRL;
+  __RW uint8_t  UEP3_RX_CTRL;
+  __RW uint16_t UEP4_TX_LEN;
+  __RW uint8_t  UEP4_TX_CTRL;
+  __RW uint8_t  UEP4_RX_CTRL;
+  __RW uint16_t UEP5_TX_LEN;
+  __RW uint8_t  UEP5_TX_CTRL;
+  __RW uint8_t  UEP5_RX_CTRL;
+  __RW uint16_t UEP6_TX_LEN;
+  __RW uint8_t  UEP6_TX_CTRL;
+  __RW uint8_t  UEP6_RX_CTRL;
+  __RW uint16_t UEP7_TX_LEN;
+  __RW uint8_t  UEP7_TX_CTRL;
+  __RW uint8_t  UEP7_RX_CTRL;
+  __RW uint16_t UEP8_TX_LEN;
+  __RW uint8_t  UEP8_TX_CTRL;
+  __RW uint8_t  UEP8_RX_CTRL;
+  __RW uint16_t UEP9_TX_LEN;
+  __RW uint8_t  UEP9_TX_CTRL;
+  __RW uint8_t  UEP9_RX_CTRL;
+  __RW uint16_t UEP10_TX_LEN;
+  __RW uint8_t  UEP10_TX_CTRL;
+  __RW uint8_t  UEP10_RX_CTRL;
+  __RW uint16_t UEP11_TX_LEN;
+  __RW uint8_t  UEP11_TX_CTRL;
+  __RW uint8_t  UEP11_RX_CTRL;
+  __RW uint16_t UEP12_TX_LEN;
+  __RW uint8_t  UEP12_TX_CTRL;
+  __RW uint8_t  UEP12_RX_CTRL;
+  __RW uint16_t UEP13_TX_LEN;
+  __RW uint8_t  UEP13_TX_CTRL;
+  __RW uint8_t  UEP13_RX_CTRL;
+  __RW uint16_t UEP14_TX_LEN;
+  __RW uint8_t  UEP14_TX_CTRL;
+  __RW uint8_t  UEP14_RX_CTRL;
+  __RW uint16_t UEP15_TX_LEN;
+  __RW uint8_t  UEP15_TX_CTRL;
+  __RW uint8_t  UEP15_RX_CTRL;
 } USBHSD_TypeDef;
 
 typedef struct  __attribute__((packed))
 {
-    __IO uint8_t  CONTROL;
-    __IO uint8_t  HOST_CTRL;
-    __IO uint8_t  INT_EN;
-    __IO uint8_t  DEV_AD;
-    __IO uint16_t FRAME_NO;
-    __IO uint8_t  SUSPEND;
-    __IO uint8_t  RESERVED0;
-    __IO uint8_t  SPEED_TYPE;
-    __IO uint8_t  MIS_ST;
-    __IO uint8_t  INT_FG;
-    __IO uint8_t  INT_ST;
-    __IO uint16_t RX_LEN;
-    __IO uint16_t RESERVED1;
-    __IO uint32_t HOST_EP_CONFIG;
-    __IO uint32_t HOST_EP_TYPE;
-    __IO uint32_t RESERVED2;
-    __IO uint32_t RESERVED3;
-    __IO uint32_t RESERVED4;
-    __IO uint32_t HOST_RX_DMA;
-    __IO uint32_t RESERVED5;
-    __IO uint32_t RESERVED6;
-    __IO uint32_t RESERVED7;
-    __IO uint32_t RESERVED8;
-    __IO uint32_t RESERVED9;
-    __IO uint32_t RESERVED10;
-    __IO uint32_t RESERVED11;
-    __IO uint32_t RESERVED12;
-    __IO uint32_t RESERVED13;
-    __IO uint32_t RESERVED14;
-    __IO uint32_t RESERVED15;
-    __IO uint32_t RESERVED16;
-    __IO uint32_t RESERVED17;
-    __IO uint32_t RESERVED18;
-    __IO uint32_t RESERVED19;
-    __IO uint32_t HOST_TX_DMA;
-    __IO uint32_t RESERVED20;
-    __IO uint32_t RESERVED21;
-    __IO uint32_t RESERVED22;
-    __IO uint32_t RESERVED23;
-    __IO uint32_t RESERVED24;
-    __IO uint32_t RESERVED25;
-    __IO uint32_t RESERVED26;
-    __IO uint32_t RESERVED27;
-    __IO uint32_t RESERVED28;
-    __IO uint32_t RESERVED29;
-    __IO uint32_t RESERVED30;
-    __IO uint32_t RESERVED31;
-    __IO uint32_t RESERVED32;
-    __IO uint32_t RESERVED33;
-    __IO uint16_t HOST_RX_MAX_LEN;
-    __IO uint16_t RESERVED34;
-    __IO uint32_t RESERVED35;
-    __IO uint32_t RESERVED36;
-    __IO uint32_t RESERVED37;
-    __IO uint32_t RESERVED38;
-    __IO uint32_t RESERVED39;
-    __IO uint32_t RESERVED40;
-    __IO uint32_t RESERVED41;
-    __IO uint32_t RESERVED42;
-    __IO uint32_t RESERVED43;
-    __IO uint32_t RESERVED44;
-    __IO uint32_t RESERVED45;
-    __IO uint32_t RESERVED46;
-    __IO uint32_t RESERVED47;
-    __IO uint32_t RESERVED48;
-    __IO uint32_t RESERVED49;
-    __IO uint8_t  HOST_EP_PID;
-    __IO uint8_t  RESERVED50;
-    __IO uint8_t  RESERVED51;
-    __IO uint8_t  HOST_RX_CTRL;
-    __IO uint16_t HOST_TX_LEN;
-    __IO uint8_t  HOST_TX_CTRL;
-    __IO uint8_t  RESERVED52;
-    __IO uint16_t HOST_SPLIT_DATA;
+    __RW uint8_t  CONTROL;
+    __RW uint8_t  HOST_CTRL;
+    __RW uint8_t  INT_EN;
+    __RW uint8_t  DEV_AD;
+    __RW uint16_t FRAME_NO;
+    __RW uint8_t  SUSPEND;
+    __RW uint8_t  RESERVED0;
+    __RW uint8_t  SPEED_TYPE;
+    __RW uint8_t  MIS_ST;
+    __RW uint8_t  INT_FG;
+    __RW uint8_t  INT_ST;
+    __RW uint16_t RX_LEN;
+    __RW uint16_t RESERVED1;
+    __RW uint32_t HOST_EP_CONFIG;
+    __RW uint32_t HOST_EP_TYPE;
+    __RW uint32_t RESERVED2;
+    __RW uint32_t RESERVED3;
+    __RW uint32_t RESERVED4;
+    __RW uint32_t HOST_RX_DMA;
+    __RW uint32_t RESERVED5;
+    __RW uint32_t RESERVED6;
+    __RW uint32_t RESERVED7;
+    __RW uint32_t RESERVED8;
+    __RW uint32_t RESERVED9;
+    __RW uint32_t RESERVED10;
+    __RW uint32_t RESERVED11;
+    __RW uint32_t RESERVED12;
+    __RW uint32_t RESERVED13;
+    __RW uint32_t RESERVED14;
+    __RW uint32_t RESERVED15;
+    __RW uint32_t RESERVED16;
+    __RW uint32_t RESERVED17;
+    __RW uint32_t RESERVED18;
+    __RW uint32_t RESERVED19;
+    __RW uint32_t HOST_TX_DMA;
+    __RW uint32_t RESERVED20;
+    __RW uint32_t RESERVED21;
+    __RW uint32_t RESERVED22;
+    __RW uint32_t RESERVED23;
+    __RW uint32_t RESERVED24;
+    __RW uint32_t RESERVED25;
+    __RW uint32_t RESERVED26;
+    __RW uint32_t RESERVED27;
+    __RW uint32_t RESERVED28;
+    __RW uint32_t RESERVED29;
+    __RW uint32_t RESERVED30;
+    __RW uint32_t RESERVED31;
+    __RW uint32_t RESERVED32;
+    __RW uint32_t RESERVED33;
+    __RW uint16_t HOST_RX_MAX_LEN;
+    __RW uint16_t RESERVED34;
+    __RW uint32_t RESERVED35;
+    __RW uint32_t RESERVED36;
+    __RW uint32_t RESERVED37;
+    __RW uint32_t RESERVED38;
+    __RW uint32_t RESERVED39;
+    __RW uint32_t RESERVED40;
+    __RW uint32_t RESERVED41;
+    __RW uint32_t RESERVED42;
+    __RW uint32_t RESERVED43;
+    __RW uint32_t RESERVED44;
+    __RW uint32_t RESERVED45;
+    __RW uint32_t RESERVED46;
+    __RW uint32_t RESERVED47;
+    __RW uint32_t RESERVED48;
+    __RW uint32_t RESERVED49;
+    __RW uint8_t  HOST_EP_PID;
+    __RW uint8_t  RESERVED50;
+    __RW uint8_t  RESERVED51;
+    __RW uint8_t  HOST_RX_CTRL;
+    __RW uint16_t HOST_TX_LEN;
+    __RW uint8_t  HOST_TX_CTRL;
+    __RW uint8_t  RESERVED52;
+    __RW uint16_t HOST_SPLIT_DATA;
 } USBHSH_TypeDef;
 
 
 /* USBOTG_FS Registers */
 typedef struct
 {
-   __IO uint8_t  BASE_CTRL;
-   __IO uint8_t  UDEV_CTRL;
-   __IO uint8_t  INT_EN;
-   __IO uint8_t  DEV_ADDR;
-   __IO uint8_t  Reserve0;
-   __IO uint8_t  MIS_ST;
-   __IO uint8_t  INT_FG;
-   __IO uint8_t  INT_ST;
-   __IO uint16_t RX_LEN;
-   __IO uint16_t Reserve1;
-   __IO uint8_t  UEP4_1_MOD;
-   __IO uint8_t  UEP2_3_MOD;
-   __IO uint8_t  UEP5_6_MOD;
-   __IO uint8_t  UEP7_MOD;
-   __IO uint32_t UEP0_DMA;
-   __IO uint32_t UEP1_DMA;
-   __IO uint32_t UEP2_DMA;
-   __IO uint32_t UEP3_DMA;
-   __IO uint32_t UEP4_DMA;
-   __IO uint32_t UEP5_DMA;
-   __IO uint32_t UEP6_DMA;
-   __IO uint32_t UEP7_DMA;
-   __IO uint16_t UEP0_TX_LEN;
-   __IO uint8_t  UEP0_TX_CTRL;
-   __IO uint8_t  UEP0_RX_CTRL;
-   __IO uint16_t UEP1_TX_LEN;
-   __IO uint8_t  UEP1_TX_CTRL;
-   __IO uint8_t  UEP1_RX_CTRL;
-   __IO uint16_t UEP2_TX_LEN;
-   __IO uint8_t  UEP2_TX_CTRL;
-   __IO uint8_t  UEP2_RX_CTRL;
-   __IO uint16_t UEP3_TX_LEN;
-   __IO uint8_t  UEP3_TX_CTRL;
-   __IO uint8_t  UEP3_RX_CTRL;
-   __IO uint16_t UEP4_TX_LEN;
-   __IO uint8_t  UEP4_TX_CTRL;
-   __IO uint8_t  UEP4_RX_CTRL;
-   __IO uint16_t UEP5_TX_LEN;
-   __IO uint8_t  UEP5_TX_CTRL;
-   __IO uint8_t  UEP5_RX_CTRL;
-   __IO uint16_t UEP6_TX_LEN;
-   __IO uint8_t  UEP6_TX_CTRL;
-   __IO uint8_t  UEP6_RX_CTRL;
-   __IO uint16_t UEP7_TX_LEN;
-   __IO uint8_t  UEP7_TX_CTRL;
-   __IO uint8_t  UEP7_RX_CTRL;
-   __IO uint32_t Reserve2;
-   __IO uint32_t OTG_CR;
-   __IO uint32_t OTG_SR;
+   __RW uint8_t  BASE_CTRL;
+   __RW uint8_t  UDEV_CTRL;
+   __RW uint8_t  INT_EN;
+   __RW uint8_t  DEV_ADDR;
+   __RW uint8_t  Reserve0;
+   __RW uint8_t  MIS_ST;
+   __RW uint8_t  INT_FG;
+   __RW uint8_t  INT_ST;
+   __RW uint16_t RX_LEN;
+   __RW uint16_t Reserve1;
+   __RW uint8_t  UEP4_1_MOD;
+   __RW uint8_t  UEP2_3_MOD;
+   __RW uint8_t  UEP5_6_MOD;
+   __RW uint8_t  UEP7_MOD;
+   __RW uint32_t UEP0_DMA;
+   __RW uint32_t UEP1_DMA;
+   __RW uint32_t UEP2_DMA;
+   __RW uint32_t UEP3_DMA;
+   __RW uint32_t UEP4_DMA;
+   __RW uint32_t UEP5_DMA;
+   __RW uint32_t UEP6_DMA;
+   __RW uint32_t UEP7_DMA;
+   __RW uint16_t UEP0_TX_LEN;
+   __RW uint8_t  UEP0_TX_CTRL;
+   __RW uint8_t  UEP0_RX_CTRL;
+   __RW uint16_t UEP1_TX_LEN;
+   __RW uint8_t  UEP1_TX_CTRL;
+   __RW uint8_t  UEP1_RX_CTRL;
+   __RW uint16_t UEP2_TX_LEN;
+   __RW uint8_t  UEP2_TX_CTRL;
+   __RW uint8_t  UEP2_RX_CTRL;
+   __RW uint16_t UEP3_TX_LEN;
+   __RW uint8_t  UEP3_TX_CTRL;
+   __RW uint8_t  UEP3_RX_CTRL;
+   __RW uint16_t UEP4_TX_LEN;
+   __RW uint8_t  UEP4_TX_CTRL;
+   __RW uint8_t  UEP4_RX_CTRL;
+   __RW uint16_t UEP5_TX_LEN;
+   __RW uint8_t  UEP5_TX_CTRL;
+   __RW uint8_t  UEP5_RX_CTRL;
+   __RW uint16_t UEP6_TX_LEN;
+   __RW uint8_t  UEP6_TX_CTRL;
+   __RW uint8_t  UEP6_RX_CTRL;
+   __RW uint16_t UEP7_TX_LEN;
+   __RW uint8_t  UEP7_TX_CTRL;
+   __RW uint8_t  UEP7_RX_CTRL;
+   __RW uint32_t Reserve2;
+   __RW uint32_t OTG_CR;
+   __RW uint32_t OTG_SR;
 }USBOTG_FS_TypeDef;
 
 typedef struct  __attribute__((packed))
 {
-   __IO uint8_t   BASE_CTRL;
-   __IO uint8_t   HOST_CTRL;
-   __IO uint8_t   INT_EN;
-   __IO uint8_t   DEV_ADDR;
-   __IO uint8_t   Reserve0;
-   __IO uint8_t   MIS_ST;
-   __IO uint8_t   INT_FG;
-   __IO uint8_t   INT_ST;
-   __IO uint16_t  RX_LEN;
-   __IO uint16_t  Reserve1;
-   __IO uint8_t   Reserve2;
-   __IO uint8_t   HOST_EP_MOD;
-   __IO uint16_t  Reserve3;
-   __IO uint32_t  Reserve4;
-   __IO uint32_t  Reserve5;
-   __IO uint32_t  HOST_RX_DMA;
-   __IO uint32_t  HOST_TX_DMA;
-   __IO uint32_t  Reserve6;
-   __IO uint32_t  Reserve7;
-   __IO uint32_t  Reserve8;
-   __IO uint32_t  Reserve9;
-   __IO uint32_t  Reserve10;
-   __IO uint16_t  Reserve11;
-   __IO uint16_t  HOST_SETUP;
-   __IO uint8_t   HOST_EP_PID;
-   __IO uint8_t   Reserve12;
-   __IO uint8_t   Reserve13;
-   __IO uint8_t   HOST_RX_CTRL;
-   __IO uint16_t  HOST_TX_LEN;
-   __IO uint8_t   HOST_TX_CTRL;
-   __IO uint8_t   Reserve14;
-   __IO uint32_t  Reserve15;
-   __IO uint32_t  Reserve16;
-   __IO uint32_t  Reserve17;
-   __IO uint32_t  Reserve18;
-   __IO uint32_t  Reserve19;
-   __IO uint32_t  OTG_CR;
-   __IO uint32_t  OTG_SR;
+   __RW uint8_t   BASE_CTRL;
+   __RW uint8_t   HOST_CTRL;
+   __RW uint8_t   INT_EN;
+   __RW uint8_t   DEV_ADDR;
+   __RW uint8_t   Reserve0;
+   __RW uint8_t   MIS_ST;
+   __RW uint8_t   INT_FG;
+   __RW uint8_t   INT_ST;
+   __RW uint16_t  RX_LEN;
+   __RW uint16_t  Reserve1;
+   __RW uint8_t   Reserve2;
+   __RW uint8_t   HOST_EP_MOD;
+   __RW uint16_t  Reserve3;
+   __RW uint32_t  Reserve4;
+   __RW uint32_t  Reserve5;
+   __RW uint32_t  HOST_RX_DMA;
+   __RW uint32_t  HOST_TX_DMA;
+   __RW uint32_t  Reserve6;
+   __RW uint32_t  Reserve7;
+   __RW uint32_t  Reserve8;
+   __RW uint32_t  Reserve9;
+   __RW uint32_t  Reserve10;
+   __RW uint16_t  Reserve11;
+   __RW uint16_t  HOST_SETUP;
+   __RW uint8_t   HOST_EP_PID;
+   __RW uint8_t   Reserve12;
+   __RW uint8_t   Reserve13;
+   __RW uint8_t   HOST_RX_CTRL;
+   __RW uint16_t  HOST_TX_LEN;
+   __RW uint8_t   HOST_TX_CTRL;
+   __RW uint8_t   Reserve14;
+   __RW uint32_t  Reserve15;
+   __RW uint32_t  Reserve16;
+   __RW uint32_t  Reserve17;
+   __RW uint32_t  Reserve18;
+   __RW uint32_t  Reserve19;
+   __RW uint32_t  OTG_CR;
+   __RW uint32_t  OTG_SR;
 }USBOTGH_FS_TypeDef;
 
 /* Ethernet MAC */
 typedef struct
 {
-  __IO uint32_t MACCR;
-  __IO uint32_t MACFFR;
-  __IO uint32_t MACHTHR;
-  __IO uint32_t MACHTLR;
-  __IO uint32_t MACMIIAR;
-  __IO uint32_t MACMIIDR;
-  __IO uint32_t MACFCR;
-  __IO uint32_t MACVLANTR;
+  __RW uint32_t MACCR;
+  __RW uint32_t MACFFR;
+  __RW uint32_t MACHTHR;
+  __RW uint32_t MACHTLR;
+  __RW uint32_t MACMIIAR;
+  __RW uint32_t MACMIIDR;
+  __RW uint32_t MACFCR;
+  __RW uint32_t MACVLANTR;
        uint32_t RESERVED0[2];
-  __IO uint32_t MACRWUFFR;
-  __IO uint32_t MACPMTCSR;
+  __RW uint32_t MACRWUFFR;
+  __RW uint32_t MACPMTCSR;
        uint32_t RESERVED1[2];
-  __IO uint32_t MACSR;
-  __IO uint32_t MACIMR;
-  __IO uint32_t MACA0HR;
-  __IO uint32_t MACA0LR;
-  __IO uint32_t MACA1HR;
-  __IO uint32_t MACA1LR;
-  __IO uint32_t MACA2HR;
-  __IO uint32_t MACA2LR;
-  __IO uint32_t MACA3HR;
-  __IO uint32_t MACA3LR;
+  __RW uint32_t MACSR;
+  __RW uint32_t MACIMR;
+  __RW uint32_t MACA0HR;
+  __RW uint32_t MACA0LR;
+  __RW uint32_t MACA1HR;
+  __RW uint32_t MACA1LR;
+  __RW uint32_t MACA2HR;
+  __RW uint32_t MACA2LR;
+  __RW uint32_t MACA3HR;
+  __RW uint32_t MACA3LR;
        uint32_t RESERVED2[40];
-  __IO uint32_t MMCCR;
-  __IO uint32_t MMCRIR;
-  __IO uint32_t MMCTIR;
-  __IO uint32_t MMCRIMR;
-  __IO uint32_t MMCTIMR;
+  __RW uint32_t MMCCR;
+  __RW uint32_t MMCRIR;
+  __RW uint32_t MMCTIR;
+  __RW uint32_t MMCRIMR;
+  __RW uint32_t MMCTIMR;
        uint32_t RESERVED3[14];
-  __IO uint32_t MMCTGFSCCR;
-  __IO uint32_t MMCTGFMSCCR;
+  __RW uint32_t MMCTGFSCCR;
+  __RW uint32_t MMCTGFMSCCR;
        uint32_t RESERVED4[5];
-  __IO uint32_t MMCTGFCR;
+  __RW uint32_t MMCTGFCR;
        uint32_t RESERVED5[10];
-  __IO uint32_t MMCRFCECR;
-  __IO uint32_t MMCRFAECR;
+  __RW uint32_t MMCRFCECR;
+  __RW uint32_t MMCRFAECR;
        uint32_t RESERVED6[10];
-  __IO uint32_t MMCRGUFCR;
+  __RW uint32_t MMCRGUFCR;
        uint32_t RESERVED7[334];
-  __IO uint32_t PTPTSCR;
-  __IO uint32_t PTPSSIR;
-  __IO uint32_t PTPTSHR;
-  __IO uint32_t PTPTSLR;
-  __IO uint32_t PTPTSHUR;
-  __IO uint32_t PTPTSLUR;
-  __IO uint32_t PTPTSAR;
-  __IO uint32_t PTPTTHR;
-  __IO uint32_t PTPTTLR;
+  __RW uint32_t PTPTSCR;
+  __RW uint32_t PTPSSIR;
+  __RW uint32_t PTPTSHR;
+  __RW uint32_t PTPTSLR;
+  __RW uint32_t PTPTSHUR;
+  __RW uint32_t PTPTSLUR;
+  __RW uint32_t PTPTSAR;
+  __RW uint32_t PTPTTHR;
+  __RW uint32_t PTPTTLR;
        uint32_t RESERVED8[567];
-  __IO uint32_t DMABMR;
-  __IO uint32_t DMATPDR;
-  __IO uint32_t DMARPDR;
-  __IO uint32_t DMARDLAR;
-  __IO uint32_t DMATDLAR;
-  __IO uint32_t DMASR;
-  __IO uint32_t DMAOMR;
-  __IO uint32_t DMAIER;
-  __IO uint32_t DMAMFBOCR;
+  __RW uint32_t DMABMR;
+  __RW uint32_t DMATPDR;
+  __RW uint32_t DMARPDR;
+  __RW uint32_t DMARDLAR;
+  __RW uint32_t DMATDLAR;
+  __RW uint32_t DMASR;
+  __RW uint32_t DMAOMR;
+  __RW uint32_t DMAIER;
+  __RW uint32_t DMAMFBOCR;
        uint32_t RESERVED9[9];
-  __IO uint32_t DMACHTDR;
-  __IO uint32_t DMACHRDR;
-  __IO uint32_t DMACHTBAR;
-  __IO uint32_t DMACHRBAR;
+  __RW uint32_t DMACHTDR;
+  __RW uint32_t DMACHRDR;
+  __RW uint32_t DMACHTBAR;
+  __RW uint32_t DMACHRBAR;
 } ETH_TypeDef;
 
 

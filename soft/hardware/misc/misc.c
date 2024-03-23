@@ -11,7 +11,7 @@
 *******************************************************************************/
 #include <misc.h>
 
-__IO uint32_t NVIC_Priority_Group = 0;
+__RW uint32_t nvic_priority_group = 0;
 
 /*********************************************************************
  * @fn      NVIC_PriorityGroupConfig
@@ -32,9 +32,9 @@ __IO uint32_t NVIC_Priority_Group = 0;
  *
  * @return  none
  */
-void NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup)
+void nvic_priority_group_config(uint32_t NVIC_PriorityGroup)
 {
-    NVIC_Priority_Group = NVIC_PriorityGroup;
+    nvic_priority_group = NVIC_PriorityGroup;
 }
 
 /*********************************************************************
@@ -52,58 +52,58 @@ void NVIC_Init(nvic_init_s *NVIC_InitStruct)
 {
     uint8_t tmppre = 0;
 
-    if(NVIC_Priority_Group == NVIC_PriorityGroup_0)
+    if(nvic_priority_group == NVIC_PriorityGroup_0)
     {
-        NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, NVIC_InitStruct->NVIC_IRQChannelSubPriority << 4);
+        __pfic_set_priority(NVIC_InitStruct->NVIC_IRQChannel, NVIC_InitStruct->NVIC_IRQChannelSubPriority << 4);
     }
-    else if(NVIC_Priority_Group == NVIC_PriorityGroup_1)
+    else if(nvic_priority_group == NVIC_PriorityGroup_1)
     {
         if(NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority == 1)
         {
-            NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, (1 << 7) | (NVIC_InitStruct->NVIC_IRQChannelSubPriority << 4));
+            __pfic_set_priority(NVIC_InitStruct->NVIC_IRQChannel, (1 << 7) | (NVIC_InitStruct->NVIC_IRQChannelSubPriority << 4));
         }
         else
         {
-            NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, (0 << 7) | (NVIC_InitStruct->NVIC_IRQChannelSubPriority << 4));
+            __pfic_set_priority(NVIC_InitStruct->NVIC_IRQChannel, (0 << 7) | (NVIC_InitStruct->NVIC_IRQChannelSubPriority << 4));
         }
     }
-    else if(NVIC_Priority_Group == NVIC_PriorityGroup_2)
+    else if(nvic_priority_group == NVIC_PriorityGroup_2)
     {
         if(NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority <= 1)
         {
             tmppre = NVIC_InitStruct->NVIC_IRQChannelSubPriority + (4 * NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority);
-            NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, (0 << 7) | (tmppre << 4));
+            __pfic_set_priority(NVIC_InitStruct->NVIC_IRQChannel, (0 << 7) | (tmppre << 4));
         }
         else
         {
             tmppre = NVIC_InitStruct->NVIC_IRQChannelSubPriority + (4 * (NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority - 2));
-            NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, (1 << 7) | (tmppre << 4));
+            __pfic_set_priority(NVIC_InitStruct->NVIC_IRQChannel, (1 << 7) | (tmppre << 4));
         }
     }
-    else if(NVIC_Priority_Group == NVIC_PriorityGroup_3)
+    else if(nvic_priority_group == NVIC_PriorityGroup_3)
     {
         if(NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority <= 3)
         {
             tmppre = NVIC_InitStruct->NVIC_IRQChannelSubPriority + (2 * NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority);
-            NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, (0 << 7) | (tmppre << 4));
+            __pfic_set_priority(NVIC_InitStruct->NVIC_IRQChannel, (0 << 7) | (tmppre << 4));
         }
         else
         {
             tmppre = NVIC_InitStruct->NVIC_IRQChannelSubPriority + (2 * (NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority - 4));
-            NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, (1 << 7) | (tmppre << 4));
+            __pfic_set_priority(NVIC_InitStruct->NVIC_IRQChannel, (1 << 7) | (tmppre << 4));
         }
     }
-    else if(NVIC_Priority_Group == NVIC_PriorityGroup_4)
+    else if(nvic_priority_group == NVIC_PriorityGroup_4)
     {
-        NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority << 4);
+        __pfic_set_priority(NVIC_InitStruct->NVIC_IRQChannel, NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority << 4);
     }
 
     if(NVIC_InitStruct->NVIC_IRQChannelCmd != DISABLE)
     {
-        NVIC_EnableIRQ(NVIC_InitStruct->NVIC_IRQChannel);
+        __pfic_enable_irq(NVIC_InitStruct->NVIC_IRQChannel);
     }
     else
     {
-        NVIC_DisableIRQ(NVIC_InitStruct->NVIC_IRQChannel);
+        __pfic_disable_irq(NVIC_InitStruct->NVIC_IRQChannel);
     }
 }

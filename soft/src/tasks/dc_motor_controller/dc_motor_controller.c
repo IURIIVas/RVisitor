@@ -40,34 +40,34 @@ odometry_set_s odometry_set = {.cur_ticks = {0, 0, 0, 0}, .interval_s = 0.1, .di
 
 static void _gpio_tim_enc_init(void)
 {
-    AFIO->PCFR1 |= GPIO_FullRemap_TIM2;
-    AFIO->PCFR2 |= GPIO_FullRemap_TIM9;
+    AFIO->PCFR1 |= GPIO_FULLREMAP_TIM2;
+    AFIO->PCFR2 |= GPIO_FULLREMAP_TIM9;
     gpio_init_s gpio_tim2_tim5_init_struct = {0};
 
-    gpio_tim2_tim5_init_struct.GPIO_Pins = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_15;
-    gpio_tim2_tim5_init_struct.GPIO_Mode = GPIO_Mode_AF_PP;
-    gpio_tim2_tim5_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
+    gpio_tim2_tim5_init_struct.gpio_pins = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_15;
+    gpio_tim2_tim5_init_struct.gpio_mode = GPIO_MODE_AF_PP;
+    gpio_tim2_tim5_init_struct.gpio_speed = GPIO_SPEED_50MHZ;
 
     gpio_init_s gpio_tim2_tim4_init_struct = {0};
 
-    gpio_tim2_tim4_init_struct.GPIO_Pins = GPIO_Pin_6 | GPIO_Pin_7 | GPIO_Pin_3;
-    gpio_tim2_tim4_init_struct.GPIO_Mode = GPIO_Mode_AF_PP;
-    gpio_tim2_tim4_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
+    gpio_tim2_tim4_init_struct.gpio_pins = GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_3;
+    gpio_tim2_tim4_init_struct.gpio_mode = GPIO_MODE_AF_PP;
+    gpio_tim2_tim4_init_struct.gpio_speed = GPIO_SPEED_50MHZ;
 
     gpio_init_s gpio_tim9_init_struct = {0};
 
-    gpio_tim9_init_struct.GPIO_Pins = GPIO_Pin_9 | GPIO_Pin_11;
-    gpio_tim9_init_struct.GPIO_Mode = GPIO_Mode_AF_PP;
-    gpio_tim9_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
+    gpio_tim9_init_struct.gpio_pins = GPIO_PIN_9 | GPIO_PIN_11;
+    gpio_tim9_init_struct.gpio_mode = GPIO_MODE_AF_PP;
+    gpio_tim9_init_struct.gpio_speed = GPIO_SPEED_50MHZ;
 
     RCC_APB2PeriphClockCmd(RCC_TIM2_TIM5_GPIO, ENABLE);
-    GPIO_Init(ENC_TIM2_TIM5_GPIO, &gpio_tim2_tim5_init_struct);
+    gpio_init(ENC_TIM2_TIM5_GPIO, &gpio_tim2_tim5_init_struct);
 
     RCC_APB2PeriphClockCmd(RCC_TIM2_TIM4_GPIO, ENABLE);
-    GPIO_Init(ENC_TIM4_GPIO, &gpio_tim2_tim4_init_struct);
+    gpio_init(ENC_TIM4_GPIO, &gpio_tim2_tim4_init_struct);
 
     RCC_APB2PeriphClockCmd(RCC_TIM9_GPIO, ENABLE);
-    GPIO_Init(ENC_TIM9_GPIO, &gpio_tim9_init_struct);
+    gpio_init(ENC_TIM9_GPIO, &gpio_tim9_init_struct);
 }
 
 /// \brief TIM3 - DC0 (PA6, PA7)
@@ -304,11 +304,11 @@ void dc_motor_controller_task(void *pvParameters)
         {
             direction = FORWARD_DIR;
         }
-        else if (dc_motor_controller_struct.target_speed_rpm[LS] > dc_motor_controller_struct.target_speed_rpm[RS])
+        else if (dc_motor_controller_struct.target_speed_rpm[LS] > 0 && dc_motor_controller_struct.target_speed_rpm[RS] < 0)
         {
             direction = LEFT_DIR;
         }
-        else if (dc_motor_controller_struct.target_speed_rpm[LS] < dc_motor_controller_struct.target_speed_rpm[RS])
+        else if (dc_motor_controller_struct.target_speed_rpm[LS] < 0 && dc_motor_controller_struct.target_speed_rpm[RS] > 0)
         {
             direction = RIGHT_DIR;
         }

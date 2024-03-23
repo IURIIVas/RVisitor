@@ -28,7 +28,7 @@
 /// \return Signal from GPIO_IN_PIN
 inline uint8_t hw_201_gpio_signal_in_get(gpio_s *GPIO_PORT, uint16_t GPIO_IN_PIN)
 {
-	return GPIO_ReadInputDataBit(GPIO_PORT, GPIO_IN_PIN);
+	return gpio_read_input_data_bit(GPIO_PORT, GPIO_IN_PIN);
 }
 
 //------------------------------------------------- Static Functions ---------------------------------------------------
@@ -50,8 +50,8 @@ void hw_201_gpio_signal_in_init(gpio_s *GPIO_PORT, uint16_t GPIO_IN_PIN)
 {
 	gpio_init_s gpio_init_struct = {0};
 
-	gpio_init_struct.GPIO_Pins = GPIO_IN_PIN;
-	gpio_init_struct.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-	GPIO_Init(GPIO_PORT, &gpio_init_struct);
+	gpio_init_struct.gpio_pins = GPIO_IN_PIN;
+	gpio_init_struct.gpio_mode = GPIO_MODE_IN_FLOATING;
+	gpio_init(GPIO_PORT, &gpio_init_struct);
 }
 

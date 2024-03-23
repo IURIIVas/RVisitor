@@ -56,7 +56,7 @@ void tasks_init(void)
 int main(void)
 {
 
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+	nvic_priority_group_config(NVIC_PriorityGroup_2);
 	SystemCoreClockUpdate();
 
 #ifndef G_TESTBENCH

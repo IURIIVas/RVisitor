@@ -51,7 +51,7 @@ const char *params_write = "params_write";
 const char *params_read = "params_read";
 
 module_params_s module_params = {.params = 0x1f};
-spif_s spif = {.spi = SPI1, .cs_gpio = GPIOA, .cs_pin = GPIO_Pin_2};
+spif_s spif = {.spi = SPI1, .cs_gpio = GPIOA, .cs_pin = GPIO_PIN_2};
 
 TaskHandle_t cmd_interface_task_handler;
 
@@ -117,10 +117,10 @@ static void _spi_flash_rcc_clk_init(void)
 static void _spi_flash_gpio_init(void)
 {
     gpio_init_s spif_gpio = {0};
-    spif_gpio.GPIO_Pins = GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
-    spif_gpio.GPIO_Speed = GPIO_Speed_50MHz;
-    spif_gpio.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOA, &spif_gpio);
+    spif_gpio.gpio_pins = GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7;
+    spif_gpio.gpio_speed = GPIO_SPEED_50MHZ;
+    spif_gpio.gpio_mode = GPIO_MODE_AF_PP;
+    gpio_init(GPIOA, &spif_gpio);
 }
 
 static void _rcc_gpio_cmd_iface_clk_init(void)
@@ -136,14 +136,14 @@ static void _gpio_cmd_iface_uart_init(void)
 
 	gpio_init_s gpio_init_struct = {0};
 
-	gpio_init_struct.GPIO_Pins = CMD_IFACE_GPIO_TX_PIN;
-	gpio_init_struct.GPIO_Mode = GPIO_Mode_AF_PP;
-	gpio_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(CMD_IFACE_GPIO, &gpio_init_struct);
+	gpio_init_struct.gpio_pins = CMD_IFACE_GPIO_TX_PIN;
+	gpio_init_struct.gpio_mode = GPIO_MODE_AF_PP;
+	gpio_init_struct.gpio_speed = GPIO_SPEED_50MHZ;
+	gpio_init(CMD_IFACE_GPIO, &gpio_init_struct);
 
-	gpio_init_struct.GPIO_Pins = CMD_IFACE_GPIO_RX_PIN;
-	gpio_init_struct.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-	GPIO_Init(CMD_IFACE_GPIO, &gpio_init_struct);
+	gpio_init_struct.gpio_pins = CMD_IFACE_GPIO_RX_PIN;
+	gpio_init_struct.gpio_mode = GPIO_MODE_IN_FLOATING;
+	gpio_init(CMD_IFACE_GPIO, &gpio_init_struct);
 }
 
 static void _nvic_enable_uart_interrupt(void)

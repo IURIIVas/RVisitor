@@ -261,7 +261,7 @@ void I2S_StructInit(I2S_InitTypeDef *I2S_InitStruct)
  *
  * @return  none
  */
-void SPI_Cmd(spi_s *SPIx, FunctionalState NewState)
+void SPI_Cmd(spi_s *SPIx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -283,7 +283,7 @@ void SPI_Cmd(spi_s *SPIx, FunctionalState NewState)
  *
  * @return  none
  */
-void I2S_Cmd(spi_s *SPIx, FunctionalState NewState)
+void I2S_Cmd(spi_s *SPIx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -311,7 +311,7 @@ void I2S_Cmd(spi_s *SPIx, FunctionalState NewState)
  *          NewState: ENABLE or DISABLE.
  * @return  none
  */
-void SPI_I2S_ITConfig(spi_s *SPIx, uint8_t SPI_I2S_IT, FunctionalState NewState)
+void SPI_I2S_ITConfig(spi_s *SPIx, uint8_t SPI_I2S_IT, functional_state_e NewState)
 {
     uint16_t itpos = 0, itmask = 0;
 
@@ -344,7 +344,7 @@ void SPI_I2S_ITConfig(spi_s *SPIx, uint8_t SPI_I2S_IT, FunctionalState NewState)
  *
  * @return  none
  */
-void SPI_I2S_DMACmd(spi_s *SPIx, uint16_t SPI_I2S_DMAReq, FunctionalState NewState)
+void SPI_I2S_DMACmd(spi_s *SPIx, uint16_t SPI_I2S_DMAReq, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -424,7 +424,7 @@ void SPI_NSSInternalSoftwareConfig(spi_s *SPIx, uint16_t SPI_NSSInternalSoft)
  *
  * @return  none
  */
-void SPI_SSOutputCmd(spi_s *SPIx, FunctionalState NewState)
+void SPI_SSOutputCmd(spi_s *SPIx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -478,7 +478,7 @@ void SPI_TransmitCRC(spi_s *SPIx)
  *
  * @return  none
  */
-void SPI_CalculateCRC(spi_s *SPIx, FunctionalState NewState)
+void SPI_CalculateCRC(spi_s *SPIx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -578,9 +578,9 @@ void SPI_BiDirectionalLineConfig(spi_s *SPIx, uint16_t SPI_Direction)
  *
  * @return  FlagStatus: SET or RESET.
  */
-FlagStatus SPI_I2S_GetFlagStatus(spi_s *SPIx, uint16_t SPI_I2S_FLAG)
+flag_status_e SPI_I2S_GetFlagStatus(spi_s *SPIx, uint16_t SPI_I2S_FLAG)
 {
-    FlagStatus bitstatus = RESET;
+    flag_status_e bitstatus = RESET;
 
     if((SPIx->STATR & SPI_I2S_FLAG) != (uint16_t)RESET)
     {
@@ -638,9 +638,9 @@ void SPI_I2S_ClearFlag(spi_s *SPIx, uint16_t SPI_I2S_FLAG)
  *
  * @return  FlagStatus: SET or RESET.
  */
-ITStatus SPI_I2S_GetITStatus(spi_s *SPIx, uint8_t SPI_I2S_IT)
+it_status_e SPI_I2S_GetITStatus(spi_s *SPIx, uint8_t SPI_I2S_IT)
 {
-    ITStatus bitstatus = RESET;
+    it_status_e bitstatus = RESET;
     uint16_t itpos = 0, itmask = 0, enablestatus = 0;
 
     itpos = 0x01 << (SPI_I2S_IT & 0x0F);

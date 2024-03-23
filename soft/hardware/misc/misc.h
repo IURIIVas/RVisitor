@@ -25,7 +25,7 @@ typedef struct
   uint8_t NVIC_IRQChannel;
   uint8_t NVIC_IRQChannelPreemptionPriority;
   uint8_t NVIC_IRQChannelSubPriority;
-  FunctionalState NVIC_IRQChannelCmd;
+  functional_state_e NVIC_IRQChannelCmd;
 } nvic_init_s;
  
 
@@ -37,7 +37,7 @@ typedef struct
 #define NVIC_PriorityGroup_4           ((uint32_t)0x04)
 
 
-void NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup);
+void nvic_priority_group_config(uint32_t NVIC_PriorityGroup);
 void NVIC_Init(nvic_init_s* NVIC_InitStruct);
 
 #ifdef __cplusplus

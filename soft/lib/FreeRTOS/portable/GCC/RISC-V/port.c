@@ -155,15 +155,15 @@ task stack, not the ISR stack). */
 void vPortSetupTimerInterrupt( void )
 {
     /* set software is lowest priority */
-    NVIC_SetPriority(Software_IRQn,0xf0);
+    __pfic_set_priority(Software_IRQn,0xf0);
     /* set systick is lowest priority */
-    NVIC_SetPriority(SysTicK_IRQn,0xf0);
+    __pfic_set_priority(SysTicK_IRQn,0xf0);
 
-    SysTick->CTLR= 0;
-    SysTick->SR  = 0;
-    SysTick->CNT = 0;
-    SysTick->CMP = configCPU_CLOCK_HZ/configTICK_RATE_HZ;
-    SysTick->CTLR= 0xf;
+    SYSTICK->ctlr= 0;
+    SYSTICK->sr  = 0;
+    SYSTICK->cnt = 0;
+    SYSTICK->cmp = configCPU_CLOCK_HZ/configTICK_RATE_HZ;
+    SYSTICK->ctlr= 0xf;
 }
 
 #endif /* ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIME_BASE_ADDRESS != 0 ) */
@@ -205,14 +205,14 @@ extern void xPortStartFirstTask( void );
 		/* Enable mtime and external interrupts.  1<<7 for timer interrupt, 1<<11
 		for external interrupt.  _RB_ What happens here when mtime is not present as
 		with pulpino? */
-	    NVIC_EnableIRQ(SysTicK_IRQn);
-	    NVIC_EnableIRQ(Software_IRQn);
+	    __pfic_enable_irq(SysTicK_IRQn);
+	    __pfic_enable_irq(Software_IRQn);
 	}
 	#else
 	{
 		/* Enable external interrupts,global interrupt is enabled at first task start. */
-	    NVIC_EnableIRQ(SysTicK_IRQn);
-	    NVIC_EnableIRQ(Software_IRQn);
+	    __pfic_enable_irq(SysTicK_IRQn);
+	    __pfic_enable_irq(Software_IRQn);
 	}
 	#endif /* ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) */
 
@@ -237,7 +237,7 @@ void SysTick_Handler( void )
 {
     GET_INT_SP();
     portDISABLE_INTERRUPTS();
-    SysTick->SR=0;
+    SYSTICK->sr=0;
     if( xTaskIncrementTick() != pdFALSE )
     {
         portYIELD();

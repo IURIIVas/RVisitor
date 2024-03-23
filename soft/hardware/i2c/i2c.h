@@ -301,29 +301,29 @@ typedef struct
 void I2C_DeInit(i2c_s* I2Cx);
 void I2C_Init(i2c_s* I2Cx, i2c_init_s* I2C_InitStruct);
 void I2C_StructInit(i2c_init_s* I2C_InitStruct);
-void I2C_Cmd(i2c_s* I2Cx, FunctionalState NewState);
-void I2C_DMACmd(i2c_s* I2Cx, FunctionalState NewState);
-void I2C_DMALastTransferCmd(i2c_s* I2Cx, FunctionalState NewState);
-void I2C_GenerateSTART(i2c_s* I2Cx, FunctionalState NewState);
-void I2C_GenerateSTOP(i2c_s* I2Cx, FunctionalState NewState);
-void I2C_AcknowledgeConfig(i2c_s* I2Cx, FunctionalState NewState);
+void I2C_Cmd(i2c_s* I2Cx, functional_state_e NewState);
+void I2C_DMACmd(i2c_s* I2Cx, functional_state_e NewState);
+void I2C_DMALastTransferCmd(i2c_s* I2Cx, functional_state_e NewState);
+void I2C_GenerateSTART(i2c_s* I2Cx, functional_state_e NewState);
+void I2C_GenerateSTOP(i2c_s* I2Cx, functional_state_e NewState);
+void I2C_AcknowledgeConfig(i2c_s* I2Cx, functional_state_e NewState);
 void I2C_OwnAddress2Config(i2c_s* I2Cx, uint8_t Address);
-void I2C_DualAddressCmd(i2c_s* I2Cx, FunctionalState NewState);
-void I2C_GeneralCallCmd(i2c_s* I2Cx, FunctionalState NewState);
-void I2C_ITConfig(i2c_s* I2Cx, uint16_t I2C_IT, FunctionalState NewState);
+void I2C_DualAddressCmd(i2c_s* I2Cx, functional_state_e NewState);
+void I2C_GeneralCallCmd(i2c_s* I2Cx, functional_state_e NewState);
+void I2C_ITConfig(i2c_s* I2Cx, uint16_t I2C_IT, functional_state_e NewState);
 void I2C_SendData(i2c_s* I2Cx, uint8_t Data);
 uint8_t I2C_ReceiveData(i2c_s* I2Cx);
 void I2C_Send7bitAddress(i2c_s* I2Cx, uint8_t Address, uint8_t I2C_Direction);
 uint16_t I2C_ReadRegister(i2c_s* I2Cx, uint8_t I2C_Register);
-void I2C_SoftwareResetCmd(i2c_s* I2Cx, FunctionalState NewState);
+void I2C_SoftwareResetCmd(i2c_s* I2Cx, functional_state_e NewState);
 void I2C_NACKPositionConfig(i2c_s* I2Cx, uint16_t I2C_NACKPosition);
 void I2C_SMBusAlertConfig(i2c_s* I2Cx, uint16_t I2C_SMBusAlert);
-void I2C_TransmitPEC(i2c_s* I2Cx, FunctionalState NewState);
+void I2C_TransmitPEC(i2c_s* I2Cx, functional_state_e NewState);
 void I2C_PECPositionConfig(i2c_s* I2Cx, uint16_t I2C_PECPosition);
-void I2C_CalculatePEC(i2c_s* I2Cx, FunctionalState NewState);
+void I2C_CalculatePEC(i2c_s* I2Cx, functional_state_e NewState);
 uint8_t I2C_GetPEC(i2c_s* I2Cx);
-void I2C_ARPCmd(i2c_s* I2Cx, FunctionalState NewState);
-void I2C_StretchClockCmd(i2c_s* I2Cx, FunctionalState NewState);
+void I2C_ARPCmd(i2c_s* I2Cx, functional_state_e NewState);
+void I2C_StretchClockCmd(i2c_s* I2Cx, functional_state_e NewState);
 void I2C_FastModeDutyCycleConfig(i2c_s* I2Cx, uint16_t I2C_DutyCycle);
 status_e i2c_master_trancieve(i2c_s *I2Cx, uint8_t dev_addr, uint8_t *data, uint16_t size, uint32_t timeout);
 status_e i2c_master_receive(i2c_s *I2Cx, uint8_t dev_addr, uint8_t *receive, uint16_t size, uint32_t timeout);
@@ -408,7 +408,7 @@ status_e i2c_master_receive(i2c_s *I2Cx, uint8_t dev_addr, uint8_t *receive, uin
  *  a) Basic state monitoring(First way)
  ********************************************************
  */
-ErrorStatus I2C_CheckEvent(i2c_s* I2Cx, uint32_t I2C_EVENT);
+error_status_e I2C_CheckEvent(i2c_s* I2Cx, uint32_t I2C_EVENT);
 /*********************************************************
  * 
  *  b) Advanced state monitoring(Second way:)
@@ -420,10 +420,10 @@ uint32_t I2C_GetLastEvent(i2c_s* I2Cx);
  *  c) Flag-based state monitoring(Third way)
  *********************************************************
  */
-FlagStatus I2C_GetFlagStatus(i2c_s* I2Cx, uint32_t I2C_FLAG);
+flag_status_e I2C_GetFlagStatus(i2c_s* I2Cx, uint32_t I2C_FLAG);
 
 void I2C_ClearFlag(i2c_s* I2Cx, uint32_t I2C_FLAG);
-ITStatus I2C_GetITStatus(i2c_s* I2Cx, uint32_t I2C_IT);
+it_status_e I2C_GetITStatus(i2c_s* I2Cx, uint32_t I2C_IT);
 void I2C_ClearITPendingBit(i2c_s* I2Cx, uint32_t I2C_IT);
 
 #ifdef __cplusplus

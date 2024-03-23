@@ -34,10 +34,10 @@ static void _gpio_mux_select_init(void)
 {
 	gpio_init_s gpio_init_struct = {0};
 
-	gpio_init_struct.GPIO_Pins = HW_201_MUX_GPIO_PINS;
-	gpio_init_struct.GPIO_Mode = GPIO_Mode_Out_PP;
-	gpio_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(HW_201_GPIO_PORT, &gpio_init_struct);
+	gpio_init_struct.gpio_pins = HW_201_MUX_GPIO_PINS;
+	gpio_init_struct.gpio_mode = GPIO_MODE_OUT_PP;
+	gpio_init_struct.gpio_speed = GPIO_SPEED_50MHZ;
+	gpio_init(HW_201_GPIO_PORT, &gpio_init_struct);
 }
 
 //---------------------------------------------------- Functions -------------------------------------------------------
@@ -56,24 +56,24 @@ void hw_201_survey_task(void *pvParameters)
 		switch (sensor_mux_select)
 		{
 		case HW_201_FRONT_LEFT:
-			GPIO_ResetBits(HW_201_GPIO_PORT, GPIO_Pin_0);
-			GPIO_ResetBits(HW_201_GPIO_PORT, GPIO_Pin_1);
+			gpio_reset_bits(HW_201_GPIO_PORT, GPIO_PIN_0);
+			gpio_reset_bits(HW_201_GPIO_PORT, GPIO_PIN_1);
 			break;
 		case HW_201_FRONT_RIGHT:
-			GPIO_SetBits(HW_201_GPIO_PORT, GPIO_Pin_0);
-			GPIO_ResetBits(HW_201_GPIO_PORT, GPIO_Pin_1);
+			gpio_set_bits(HW_201_GPIO_PORT, GPIO_PIN_0);
+			gpio_reset_bits(HW_201_GPIO_PORT, GPIO_PIN_1);
 			break;
 		case HW_201_BACK_LEFT:
-			GPIO_ResetBits(HW_201_GPIO_PORT, GPIO_Pin_0);
-			GPIO_SetBits(HW_201_GPIO_PORT, GPIO_Pin_1);
+			gpio_reset_bits(HW_201_GPIO_PORT, GPIO_PIN_0);
+			gpio_set_bits(HW_201_GPIO_PORT, GPIO_PIN_1);
 			break;
 		case HW_201_BACK_RIGHT:
-			GPIO_SetBits(HW_201_GPIO_PORT, GPIO_Pin_0);
-			GPIO_SetBits(HW_201_GPIO_PORT, GPIO_Pin_1);
+			gpio_set_bits(HW_201_GPIO_PORT, GPIO_PIN_0);
+			gpio_set_bits(HW_201_GPIO_PORT, GPIO_PIN_1);
 			break;
 		default:
-			GPIO_ResetBits(HW_201_GPIO_PORT, GPIO_Pin_0);
-			GPIO_ResetBits(HW_201_GPIO_PORT, GPIO_Pin_1);
+			gpio_reset_bits(HW_201_GPIO_PORT, GPIO_PIN_0);
+			gpio_reset_bits(HW_201_GPIO_PORT, GPIO_PIN_1);
 		}
 
 		sensor_state = hw_201_gpio_signal_in_get(HW_201_GPIO_PORT, HW_201_IN_GPIO_PIN);

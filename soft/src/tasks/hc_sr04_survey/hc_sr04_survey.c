@@ -53,10 +53,10 @@ static void _gpio_mux_select_init(void)
 {
 	gpio_init_s gpio_init_struct = {0};
 
-	gpio_init_struct.GPIO_Pins = HC_SR04_MUX_S0_GPIO_PIN | HC_SR04_MUX_S1_GPIO_PIN;
-	gpio_init_struct.GPIO_Mode = GPIO_Mode_Out_PP;
-	gpio_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(HC_SR04_GPIO_PORT, &gpio_init_struct);
+	gpio_init_struct.gpio_pins = HC_SR04_MUX_S0_GPIO_PIN | HC_SR04_MUX_S1_GPIO_PIN;
+	gpio_init_struct.gpio_mode = GPIO_MODE_OUT_PP;
+	gpio_init_struct.gpio_speed = GPIO_SPEED_50MHZ;
+	gpio_init(HC_SR04_GPIO_PORT, &gpio_init_struct);
 }
 
 //---------------------------------------------------- Functions -------------------------------------------------------
@@ -75,33 +75,33 @@ void hc_sr04_survey_task(void *pvParameters)
 		switch (sensor_mux_select)
 		{
 		case 0:
-			GPIO_ResetBits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S0_GPIO_PIN);
-			GPIO_ResetBits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S1_GPIO_PIN);
+			gpio_reset_bits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S0_GPIO_PIN);
+			gpio_reset_bits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S1_GPIO_PIN);
 			break;
 		case 1:
-			GPIO_SetBits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S0_GPIO_PIN);
-			GPIO_ResetBits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S1_GPIO_PIN);
+			gpio_set_bits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S0_GPIO_PIN);
+			gpio_reset_bits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S1_GPIO_PIN);
 			break;
 		case 2:
-			GPIO_ResetBits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S0_GPIO_PIN);
-			GPIO_SetBits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S1_GPIO_PIN);
+			gpio_reset_bits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S0_GPIO_PIN);
+			gpio_set_bits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S1_GPIO_PIN);
 			break;
 		case 3:
-			GPIO_SetBits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S0_GPIO_PIN);
-			GPIO_SetBits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S1_GPIO_PIN);
+			gpio_set_bits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S0_GPIO_PIN);
+			gpio_set_bits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S1_GPIO_PIN);
 			break;
 		default:
-			GPIO_ResetBits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S0_GPIO_PIN);
-			GPIO_ResetBits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S1_GPIO_PIN);
+			gpio_reset_bits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S0_GPIO_PIN);
+			gpio_reset_bits(HC_SR04_GPIO_PORT, HC_SR04_MUX_S1_GPIO_PIN);
 		}
 
-		GPIO_SetBits(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
+		gpio_set_bits(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
 		TIM_SetCounter(HC_SR04_TRIG_TIMER, 0);
 		while (TIM_GetCounter(HC_SR04_TRIG_TIMER) != 10 && timeout)
 		{
 		    timeout--;
 		};
-        GPIO_ResetBits(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
+        gpio_reset_bits(HC_SR04_GPIO_PORT, HC_SR04_GPIO_TRIG_PIN);
 
         timeout = 1000;
         while (!hc_sr04_data_get && timeout)

@@ -33,13 +33,13 @@ static void _i2c_gpio_init(void)
     gpio_init_s gpio_init_struct = {0};
     RCC_APB2PeriphClockCmd(I2C_RCC_GPIO_PORT, ENABLE);
 
-    gpio_init_struct.GPIO_Pins = I2C_GPIO_SDA_PIN | I2C_GPIO_SCL_PIN;
-    gpio_init_struct.GPIO_Mode = GPIO_Mode_AF_OD;
-    gpio_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(I2C_GPIO_PORT, &gpio_init_struct);
+    gpio_init_struct.gpio_pins = I2C_GPIO_SDA_PIN | I2C_GPIO_SCL_PIN;
+    gpio_init_struct.gpio_mode = GPIO_MODE_AF_OD;
+    gpio_init_struct.gpio_speed = GPIO_SPEED_50MHZ;
+    gpio_init(I2C_GPIO_PORT, &gpio_init_struct);
 }
 
-static void _i2c_init(u32 bound, u16 address)
+static void _i2c_init(uint32_t bound, uint16_t address)
 {
     i2c_init_s i2c_init_struct = {0};
 

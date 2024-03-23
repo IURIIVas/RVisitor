@@ -84,27 +84,27 @@ static inline void _dc_backward_run(void)
 void gpio_tim_dc_init(void)
 {
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
-    AFIO->PCFR2 |= GPIO_FullRemap_TIM10;
+    AFIO->PCFR2 |= GPIO_FULLREMAP_TIM10;
 
     gpio_init_s gpio_left_side_init_struct = {0};
 
-    gpio_left_side_init_struct.GPIO_Pins = GPIO_Pin_8 | GPIO_Pin_9
-                                     | GPIO_Pin_10 | GPIO_Pin_11;
-    gpio_left_side_init_struct.GPIO_Mode = GPIO_Mode_AF_PP;
-    gpio_left_side_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
+    gpio_left_side_init_struct.gpio_pins = GPIO_PIN_8 | GPIO_PIN_9
+                                     | GPIO_PIN_10 | GPIO_PIN_11;
+    gpio_left_side_init_struct.gpio_mode = GPIO_MODE_AF_PP;
+    gpio_left_side_init_struct.gpio_speed = GPIO_SPEED_50MHZ;
 
     gpio_init_s gpio_right_side_init_struct = {0};
 
-    gpio_right_side_init_struct.GPIO_Pins = GPIO_Pin_1 | GPIO_Pin_3
-                                     | GPIO_Pin_5 | GPIO_Pin_7;
-    gpio_right_side_init_struct.GPIO_Mode = GPIO_Mode_AF_PP;
-    gpio_right_side_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
+    gpio_right_side_init_struct.gpio_pins = GPIO_PIN_1 | GPIO_PIN_3
+                                     | GPIO_PIN_5 | GPIO_PIN_7;
+    gpio_right_side_init_struct.gpio_mode = GPIO_MODE_AF_PP;
+    gpio_right_side_init_struct.gpio_speed = GPIO_SPEED_50MHZ;
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-    GPIO_Init(LS_GPIO, &gpio_left_side_init_struct);
+    gpio_init(LS_GPIO, &gpio_left_side_init_struct);
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
-    GPIO_Init(RS_GPIO, &gpio_right_side_init_struct);
+    gpio_init(RS_GPIO, &gpio_right_side_init_struct);
 }
 
 

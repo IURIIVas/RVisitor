@@ -19,8 +19,8 @@
 
 #define I2C_RCC_GPIO_PORT               (RCC_APB2Periph_GPIOB)
 #define I2C_GPIO_PORT                   (GPIOB)
-#define I2C_GPIO_SDA_PIN                (GPIO_Pin_11)
-#define I2C_GPIO_SCL_PIN                (GPIO_Pin_10)
+#define I2C_GPIO_SDA_PIN                (GPIO_PIN_11)
+#define I2C_GPIO_SCL_PIN                (GPIO_PIN_10)
 
 #define I2C_RCC                         (RCC_APB1Periph_I2C2)
 #define I2C_POWER_MES                   (I2C2)

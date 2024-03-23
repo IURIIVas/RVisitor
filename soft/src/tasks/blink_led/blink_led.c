@@ -34,10 +34,10 @@ static void _gpio_toggle_init(void)
   gpio_init_s  GPIOA_init_struct = {0};
 
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
-  GPIOA_init_struct.GPIO_Pins = GPIO_Pin_15;
-  GPIOA_init_struct.GPIO_Mode = GPIO_Mode_Out_PP;
-  GPIOA_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_Init(GPIOA, &GPIOA_init_struct);
+  GPIOA_init_struct.gpio_pins = GPIO_PIN_15;
+  GPIOA_init_struct.gpio_mode = GPIO_MODE_OUT_PP;
+  GPIOA_init_struct.gpio_speed = GPIO_SPEED_50MHZ;
+  gpio_init(GPIOA, &GPIOA_init_struct);
 }
 
 //---------------------------------------------------- Functions -------------------------------------------------------
@@ -50,9 +50,9 @@ void led1_blink_task(void *pvParameters)
 {
     while(1)
     {
-        GPIO_SetBits(GPIOA, GPIO_Pin_15);
+        gpio_set_bits(GPIOA, GPIO_PIN_15);
         vTaskDelay(250);
-        GPIO_ResetBits(GPIOA, GPIO_Pin_15);
+        gpio_reset_bits(GPIOA, GPIO_PIN_15);
         vTaskDelay(250);
     }
 }

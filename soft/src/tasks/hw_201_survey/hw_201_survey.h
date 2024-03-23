@@ -19,8 +19,8 @@
 #define HW_201_SENSORS_NUM					  (4)
 
 #define HW_201_GPIO_PORT					  (GPIOC)
-#define HW_201_IN_GPIO_PIN					  (GPIO_Pin_2)
-#define HW_201_MUX_GPIO_PINS				  (GPIO_Pin_0 | GPIO_Pin_1)
+#define HW_201_IN_GPIO_PIN					  (GPIO_PIN_2)
+#define HW_201_MUX_GPIO_PINS				  (GPIO_PIN_0 | GPIO_PIN_1)
 #define HW_201_RCC_GPIO						  (RCC_APB2Periph_GPIOC)
 
 #define HW_201_SURVEY_TASK_PRIORITY     	  (5)

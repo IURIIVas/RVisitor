@@ -77,7 +77,7 @@ uint32_t SystemCoreClock         = HSI_VALUE;                    /* System Clock
 
 #endif
 
-__I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
+__RO uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
 
 
 /* system_private_function_proto_types */
@@ -242,7 +242,7 @@ static void SetSysClock(void)
  */
 static void SetSysClockToHSE(void)
 {
-  __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
+  __RW uint32_t StartUpCounter = 0, HSEStatus = 0;
    
   RCC->CTLR |= ((uint32_t)RCC_HSEON);
  
@@ -299,7 +299,7 @@ static void SetSysClockToHSE(void)
  */
 static void SetSysClockTo48_HSE(void)
 {
-  __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
+  __RW uint32_t StartUpCounter = 0, HSEStatus = 0;
      
    
   RCC->CTLR |= ((uint32_t)RCC_HSEON);
@@ -371,7 +371,7 @@ static void SetSysClockTo48_HSE(void)
  */
 static void SetSysClockTo56_HSE(void)
 {
-  __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
+  __RW uint32_t StartUpCounter = 0, HSEStatus = 0;
      
   RCC->CTLR |= ((uint32_t)RCC_HSEON);
 
@@ -444,7 +444,7 @@ static void SetSysClockTo56_HSE(void)
  */
 static void SetSysClockTo72_HSE(void)
 {
-  __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
+  __RW uint32_t StartUpCounter = 0, HSEStatus = 0;
      
   RCC->CTLR |= ((uint32_t)RCC_HSEON);
  
@@ -518,7 +518,7 @@ static void SetSysClockTo72_HSE(void)
  */
 static void SetSysClockTo96_HSE(void)
 {
-  __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
+  __RW uint32_t StartUpCounter = 0, HSEStatus = 0;
 
   RCC->CTLR |= ((uint32_t)RCC_HSEON);
 
@@ -592,7 +592,7 @@ static void SetSysClockTo96_HSE(void)
  */
 static void SetSysClockTo120_HSE(void)
 {
-  __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
+  __RW uint32_t StartUpCounter = 0, HSEStatus = 0;
 
   RCC->CTLR |= ((uint32_t)RCC_HSEON);
 
@@ -666,7 +666,7 @@ static void SetSysClockTo120_HSE(void)
  */
 static void SetSysClockTo144_HSE(void)
 {
-  __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
+  __RW uint32_t StartUpCounter = 0, HSEStatus = 0;
 
   RCC->CTLR |= ((uint32_t)RCC_HSEON);
 

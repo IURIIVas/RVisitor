@@ -217,7 +217,7 @@ void I2C_StructInit(i2c_init_s *I2C_InitStruct)
  *
  * @return  none
  */
-void I2C_Cmd(i2c_s *I2Cx, FunctionalState NewState)
+void I2C_Cmd(i2c_s *I2Cx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -239,7 +239,7 @@ void I2C_Cmd(i2c_s *I2Cx, FunctionalState NewState)
  *
  * @return  none
  */
-void I2C_DMACmd(i2c_s *I2Cx, FunctionalState NewState)
+void I2C_DMACmd(i2c_s *I2Cx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -261,7 +261,7 @@ void I2C_DMACmd(i2c_s *I2Cx, FunctionalState NewState)
  *
  * @return  none
  */
-void I2C_DMALastTransferCmd(i2c_s *I2Cx, FunctionalState NewState)
+void I2C_DMALastTransferCmd(i2c_s *I2Cx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -283,7 +283,7 @@ void I2C_DMALastTransferCmd(i2c_s *I2Cx, FunctionalState NewState)
  *
  * @return  none
  */
-void I2C_GenerateSTART(i2c_s *I2Cx, FunctionalState NewState)
+void I2C_GenerateSTART(i2c_s *I2Cx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -305,7 +305,7 @@ void I2C_GenerateSTART(i2c_s *I2Cx, FunctionalState NewState)
  *
  * @return  none
  */
-void I2C_GenerateSTOP(i2c_s *I2Cx, FunctionalState NewState)
+void I2C_GenerateSTOP(i2c_s *I2Cx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -327,7 +327,7 @@ void I2C_GenerateSTOP(i2c_s *I2Cx, FunctionalState NewState)
  *
  * @return  none
  */
-void I2C_AcknowledgeConfig(i2c_s *I2Cx, FunctionalState NewState)
+void I2C_AcknowledgeConfig(i2c_s *I2Cx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -369,7 +369,7 @@ void I2C_OwnAddress2Config(i2c_s *I2Cx, uint8_t Address)
  *
  * @return  none
  */
-void I2C_DualAddressCmd(i2c_s *I2Cx, FunctionalState NewState)
+void I2C_DualAddressCmd(i2c_s *I2Cx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -391,7 +391,7 @@ void I2C_DualAddressCmd(i2c_s *I2Cx, FunctionalState NewState)
  *
  * @return  none
  */
-void I2C_GeneralCallCmd(i2c_s *I2Cx, FunctionalState NewState)
+void I2C_GeneralCallCmd(i2c_s *I2Cx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -417,7 +417,7 @@ void I2C_GeneralCallCmd(i2c_s *I2Cx, FunctionalState NewState)
  *
  * @return  none
  */
-void I2C_ITConfig(i2c_s *I2Cx, uint16_t I2C_IT, FunctionalState NewState)
+void I2C_ITConfig(i2c_s *I2Cx, uint16_t I2C_IT, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -507,12 +507,12 @@ void I2C_Send7bitAddress(i2c_s *I2Cx, uint8_t Address, uint8_t I2C_Direction)
  */
 uint16_t I2C_ReadRegister(i2c_s *I2Cx, uint8_t I2C_Register)
 {
-    __IO uint32_t tmp = 0;
+    __RW uint32_t tmp = 0;
 
     tmp = (uint32_t)I2Cx;
     tmp += I2C_Register;
 
-    return (*(__IO uint16_t *)tmp);
+    return (*(__RW uint16_t *)tmp);
 }
 
 /*********************************************************************
@@ -525,7 +525,7 @@ uint16_t I2C_ReadRegister(i2c_s *I2Cx, uint8_t I2C_Register)
  *
  * @return  none
  */
-void I2C_SoftwareResetCmd(i2c_s *I2Cx, FunctionalState NewState)
+void I2C_SoftwareResetCmd(i2c_s *I2Cx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -600,7 +600,7 @@ void I2C_SMBusAlertConfig(i2c_s *I2Cx, uint16_t I2C_SMBusAlert)
  *
  * @return  none
  */
-void I2C_TransmitPEC(i2c_s *I2Cx, FunctionalState NewState)
+void I2C_TransmitPEC(i2c_s *I2Cx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -646,7 +646,7 @@ void I2C_PECPositionConfig(i2c_s *I2Cx, uint16_t I2C_PECPosition)
  *
  * @return  none
  */
-void I2C_CalculatePEC(i2c_s *I2Cx, FunctionalState NewState)
+void I2C_CalculatePEC(i2c_s *I2Cx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -682,7 +682,7 @@ uint8_t I2C_GetPEC(i2c_s *I2Cx)
  *
  * @return  The PEC value.
  */
-void I2C_ARPCmd(i2c_s *I2Cx, FunctionalState NewState)
+void I2C_ARPCmd(i2c_s *I2Cx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -704,7 +704,7 @@ void I2C_ARPCmd(i2c_s *I2Cx, FunctionalState NewState)
  *
  * @return  none
  */
-void I2C_StretchClockCmd(i2c_s *I2Cx, FunctionalState NewState)
+void I2C_StretchClockCmd(i2c_s *I2Cx, functional_state_e NewState)
 {
     if(NewState == DISABLE)
     {
@@ -771,11 +771,11 @@ void I2C_FastModeDutyCycleConfig(i2c_s *I2Cx, uint16_t I2C_DutyCycle)
  *
  * @return  ErrorStatus - READY or NoREADY.
  */
-ErrorStatus I2C_CheckEvent(i2c_s *I2Cx, uint32_t I2C_EVENT)
+error_status_e I2C_CheckEvent(i2c_s *I2Cx, uint32_t I2C_EVENT)
 {
     uint32_t    lastevent = 0;
     uint32_t    flag1 = 0, flag2 = 0;
-    ErrorStatus status = NoREADY;
+    error_status_e status = NO_READY;
 
     flag1 = I2Cx->STAR1;
     flag2 = I2Cx->STAR2;
@@ -789,7 +789,7 @@ ErrorStatus I2C_CheckEvent(i2c_s *I2Cx, uint32_t I2C_EVENT)
     }
     else
     {
-        status = NoREADY;
+        status = NO_READY;
     }
 
     return status;
@@ -850,10 +850,10 @@ uint32_t I2C_GetLastEvent(i2c_s *I2Cx)
  *
  * @return  FlagStatus - SET or RESET.
  */
-FlagStatus I2C_GetFlagStatus(i2c_s *I2Cx, uint32_t I2C_FLAG)
+flag_status_e I2C_GetFlagStatus(i2c_s *I2Cx, uint32_t I2C_FLAG)
 {
-    FlagStatus    bitstatus = RESET;
-    __IO uint32_t i2creg = 0, i2cxbase = 0;
+    flag_status_e    bitstatus = RESET;
+    __RW uint32_t i2creg = 0, i2cxbase = 0;
 
     i2cxbase = (uint32_t)I2Cx;
     i2creg = I2C_FLAG >> 28;
@@ -869,7 +869,7 @@ FlagStatus I2C_GetFlagStatus(i2c_s *I2Cx, uint32_t I2C_FLAG)
         i2cxbase += 0x18;
     }
 
-    if(((*(__IO uint32_t *)i2cxbase) & I2C_FLAG) != (uint32_t)RESET)
+    if(((*(__RW uint32_t *)i2cxbase) & I2C_FLAG) != (uint32_t)RESET)
     {
         bitstatus = SET;
     }
@@ -946,9 +946,9 @@ void I2C_ClearFlag(i2c_s *I2Cx, uint32_t I2C_FLAG)
  *
  * @return  none
  */
-ITStatus I2C_GetITStatus(i2c_s *I2Cx, uint32_t I2C_IT)
+it_status_e I2C_GetITStatus(i2c_s *I2Cx, uint32_t I2C_IT)
 {
-    ITStatus bitstatus = RESET;
+    it_status_e bitstatus = RESET;
     uint32_t enablestatus = 0;
 
     enablestatus = (uint32_t)(((I2C_IT & ITEN_Mask) >> 16) & (I2Cx->CTLR2));

@@ -264,7 +264,7 @@ void USART_ClockStructInit(uart_clk_init_s *USART_ClockInitStruct)
  *
  * @return  none
  */
-void USART_Cmd(USART_TypeDef *USARTx, FunctionalState NewState)
+void USART_Cmd(USART_TypeDef *USARTx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -295,7 +295,7 @@ void USART_Cmd(USART_TypeDef *USARTx, FunctionalState NewState)
  *
  * @return  none
  */
-void USART_ITConfig(USART_TypeDef *USARTx, uint16_t USART_IT, FunctionalState NewState)
+void USART_ITConfig(USART_TypeDef *USARTx, uint16_t USART_IT, functional_state_e NewState)
 {
     uint32_t usartreg = 0x00, itpos = 0x00, itmask = 0x00;
     uint32_t usartxbase = 0x00;
@@ -320,11 +320,11 @@ void USART_ITConfig(USART_TypeDef *USARTx, uint16_t USART_IT, FunctionalState Ne
 
     if(NewState != DISABLE)
     {
-        *(__IO uint32_t *)usartxbase |= itmask;
+        *(__RW uint32_t *)usartxbase |= itmask;
     }
     else
     {
-        *(__IO uint32_t *)usartxbase &= ~itmask;
+        *(__RW uint32_t *)usartxbase &= ~itmask;
     }
 }
 
@@ -341,7 +341,7 @@ void USART_ITConfig(USART_TypeDef *USARTx, uint16_t USART_IT, FunctionalState Ne
  *
  * @return  none
  */
-void USART_DMACmd(USART_TypeDef *USARTx, uint16_t USART_DMAReq, FunctionalState NewState)
+void USART_DMACmd(USART_TypeDef *USARTx, uint16_t USART_DMAReq, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -397,7 +397,7 @@ void USART_WakeUpConfig(USART_TypeDef *USARTx, uint16_t USART_WakeUp)
  *
  * @return  none
  */
-void USART_ReceiverWakeUpCmd(USART_TypeDef *USARTx, FunctionalState NewState)
+void USART_ReceiverWakeUpCmd(USART_TypeDef *USARTx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -437,7 +437,7 @@ void USART_LINBreakDetectLengthConfig(USART_TypeDef *USARTx, uint16_t USART_LINB
  *
  * @return  none
  */
-void USART_LINCmd(USART_TypeDef *USARTx, FunctionalState NewState)
+void USART_LINCmd(USART_TypeDef *USARTx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -571,7 +571,7 @@ void USART_SetPrescaler(USART_TypeDef *USARTx, uint8_t USART_Prescaler)
  *
  * @return  none
  */
-void USART_SmartCardCmd(USART_TypeDef *USARTx, FunctionalState NewState)
+void USART_SmartCardCmd(USART_TypeDef *USARTx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -593,7 +593,7 @@ void USART_SmartCardCmd(USART_TypeDef *USARTx, FunctionalState NewState)
  *
  * @return  none
  */
-void USART_SmartCardNACKCmd(USART_TypeDef *USARTx, FunctionalState NewState)
+void USART_SmartCardNACKCmd(USART_TypeDef *USARTx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -615,7 +615,7 @@ void USART_SmartCardNACKCmd(USART_TypeDef *USARTx, FunctionalState NewState)
  *
  * @return  none
  */
-void USART_HalfDuplexCmd(USART_TypeDef *USARTx, FunctionalState NewState)
+void USART_HalfDuplexCmd(USART_TypeDef *USARTx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -639,7 +639,7 @@ void USART_HalfDuplexCmd(USART_TypeDef *USARTx, FunctionalState NewState)
  *          function in order to have correct baudrate Divider value. 
  * @return  none
  */
-void USART_OverSampling8Cmd(USART_TypeDef *USARTx, FunctionalState NewState)
+void USART_OverSampling8Cmd(USART_TypeDef *USARTx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -661,7 +661,7 @@ void USART_OverSampling8Cmd(USART_TypeDef *USARTx, FunctionalState NewState)
  *
  * @return  none
  */
-void USART_OneBitMethodCmd(USART_TypeDef *USARTx, FunctionalState NewState)
+void USART_OneBitMethodCmd(USART_TypeDef *USARTx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -701,7 +701,7 @@ void USART_IrDAConfig(USART_TypeDef *USARTx, uint16_t USART_IrDAMode)
  *
  * @return  none
  */
-void USART_IrDACmd(USART_TypeDef *USARTx, FunctionalState NewState)
+void USART_IrDACmd(USART_TypeDef *USARTx, functional_state_e NewState)
 {
     if(NewState != DISABLE)
     {
@@ -732,9 +732,9 @@ void USART_IrDACmd(USART_TypeDef *USARTx, FunctionalState NewState)
  *
  * @return  bitstatus: SET or RESET
  */
-FlagStatus USART_GetFlagStatus(USART_TypeDef *USARTx, uint16_t USART_FLAG)
+flag_status_e USART_GetFlagStatus(USART_TypeDef *USARTx, uint16_t USART_FLAG)
 {
-    FlagStatus bitstatus = RESET;
+    flag_status_e bitstatus = RESET;
 
     if((USARTx->STATR & USART_FLAG) != (uint16_t)RESET)
     {
@@ -797,10 +797,10 @@ void USART_ClearFlag(USART_TypeDef *USARTx, uint16_t USART_FLAG)
  *
  * @return  bitstatus: SET or RESET.
  */
-ITStatus USART_GetITStatus(USART_TypeDef *USARTx, uint16_t USART_IT)
+it_status_e USART_GetITStatus(USART_TypeDef *USARTx, uint16_t USART_IT)
 {
     uint32_t bitpos = 0x00, itmask = 0x00, usartreg = 0x00;
-    ITStatus bitstatus = RESET;
+    it_status_e bitstatus = RESET;
 
     usartreg = (((uint8_t)USART_IT) >> 0x05);
     itmask = USART_IT & IT_Mask;
