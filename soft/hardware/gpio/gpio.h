@@ -21,6 +21,7 @@
 /* Output Maximum frequency selection */
 typedef enum
 { 
+    GPIO_INPUT_MODE = 0,
     GPIO_SPEED_10MHZ = 1,
     GPIO_SPEED_2MHZ = 2,
     GPIO_SPEED_50MHZ = 3
@@ -44,10 +45,8 @@ typedef struct
 {
     uint16_t gpio_pins;             /* Specifies the GPIO pins to be configured.
                                     This parameter can be any value of @ref GPIO_pins_define */
-
     gpio_speed_e gpio_speed;  /* Specifies the speed for the selected pins.
                                     This parameter can be a value of @ref gpio_speed_e */
-
     gpio_mode_e gpio_mode;    /* Specifies the operating mode for the selected pins.
                                     This parameter can be a value of @ref gpio_mode_e */
 } gpio_init_s;
@@ -58,6 +57,8 @@ typedef enum
     BIT_RESET = 0,
     BIT_SET = 1
 } bit_action_e;
+
+#define GPIO_NUM                    (16)
 
 /* GPIO_pins_define */
 #define GPIO_PIN_0                  ((uint16_t)0x0001)  /* Pin 0 selected */
@@ -168,7 +169,7 @@ typedef enum
 void gpio_deinit(gpio_s* gpiox);
 void gpio_afio_deinit(void);
 void gpio_init(gpio_s* gpiox, gpio_init_s* gpio_init_struct);
-void gpio_struct_init(gpio_init_s* gpio_init_struct);
+void gpio_struct_init_default(gpio_init_s* gpio_init_struct);
 uint8_t gpio_read_input_data_bit(gpio_s* gpiox, uint16_t gpio_pin);
 uint16_t gpio_read_input_data(gpio_s* gpiox);
 uint8_t gpio_read_output_data_bit(gpio_s* gpiox, uint16_t gpio_pin);

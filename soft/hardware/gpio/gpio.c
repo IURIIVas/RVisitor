@@ -8,7 +8,7 @@
 * Attention: This software (modified or not) and binary are used for 
 * microcontroller manufactured by Nanjing Qinheng Microelectronics.
 *******************************************************************************/
-#include <rcc/rcc.h>
+#include "rcc/rcc.h"
 
 #include "gpio.h"
 
@@ -20,16 +20,9 @@
 #define DBGAFR_LOCATION_MASK      ((uint32_t)0x00200000)
 #define DBGAFR_NUMBITS_MASK       ((uint32_t)0x00100000)
 
-/*********************************************************************
- * @fn      GPIO_DeInit
- *
- * @brief   Deinitializes the GPIOx peripheral registers to their default
- *        reset values.
- *
- * @param   GPIOx - where x can be (A..G) to select the GPIO peripheral.
- *
- * @return  none
- */
+/// \brief Deinitializes GPIO peripheral registers to their default value
+/// \param gpiox - where x can be (A..G) to select the GPIO peripheral
+/// \return None
 void gpio_deinit(gpio_s *gpiox)
 {
     if(gpiox == GPIOA)
@@ -59,146 +52,88 @@ void gpio_deinit(gpio_s *gpiox)
     }
 }
 
-/*********************************************************************
- * @fn      GPIO_AFIODeInit
- *
- * @brief   Deinitializes the Alternate Functions (remap, event control
- *        and EXTI configuration) registers to their default reset values.
- *
- * @return  none
- */
+/// \brief Deinitializes the Alternate Functions (remap, event control
+///        and EXTI configuration) registers to their default reset values.
+/// \param None
+/// \return None
 void gpio_afio_deinit(void)
 {
     RCC_APB2PeriphResetCmd(RCC_APB2Periph_AFIO, ENABLE);
     RCC_APB2PeriphResetCmd(RCC_APB2Periph_AFIO, DISABLE);
 }
 
-/*********************************************************************
- * @fn      GPIO_Init
- *
- * @brief   GPIOx - where x can be (A..G) to select the GPIO peripheral.
- *
- * @param   GPIO_InitStruct - pointer to a GPIO_InitTypeDef structure that
- *        contains the configuration information for the specified GPIO peripheral.
- *
- * @return  none
- */
+/// \brief Initialize GPIO
+/// \param gpiox - where x can be (A..G) to select the GPIO peripheral
+/// \param gpio_init_struct - pointer to a gpio_init_s structure that
+///        contains the configuration information for the specified GPIO peripheral.
+/// \return None
 void gpio_init(gpio_s *gpiox, gpio_init_s *gpio_init_struct)
 {
-    uint32_t currentmode = 0x00, currentpin = 0x00, pinpos = 0x00, pos = 0x00;
-    uint32_t tmpreg = 0x00, pinmask = 0x00;
+    uint32_t current_reg = 0;
+    uint32_t gpio_pin_mask = 0xf;
+    uint32_t gpio_pin_reg_pos = 0;
+    uint32_t gpio_pin_new_mode = 0;
 
-    currentmode = ((uint32_t)gpio_init_struct->gpio_mode) & ((uint32_t)0x0F);
-
-    if((((uint32_t)gpio_init_struct->gpio_mode) & ((uint32_t)0x10)) != 0x00)
+    for (size_t gpio_num = 0; gpio_num < GPIO_NUM; gpio_num++)
     {
-        currentmode |= (uint32_t)gpio_init_struct->gpio_speed;
-    }
-
-    if(((uint32_t)gpio_init_struct->gpio_pins & ((uint32_t)0x00FF)) != 0x00)
-    {
-        tmpreg = gpiox->CFGLR;
-
-        for(pinpos = 0x00; pinpos < 0x08; pinpos++)
+        if (0 != gpio_init_struct->gpio_pins & (1 << gpio_num))
         {
-            pos = ((uint32_t)0x01) << pinpos;
-            currentpin = (gpio_init_struct->gpio_pins) & pos;
-
-            if(currentpin == pos)
+            if (gpio_num <= (GPIO_NUM - 1) / 2)
             {
-                pos = pinpos << 2;
-                pinmask = ((uint32_t)0x0F) << pos;
-                tmpreg &= ~pinmask;
-                tmpreg |= (currentmode << pos);
-
-                if(gpio_init_struct->gpio_mode == GPIO_MODE_IPD)
-                {
-                    gpiox->BCR = (((uint32_t)0x01) << pinpos);
-                }
-                else
-                {
-                    if(gpio_init_struct->gpio_mode == GPIO_MODE_IPU)
-                    {
-                        gpiox->BSHR = (((uint32_t)0x01) << pinpos);
-                    }
-                }
+                current_reg = gpiox->CFGLR;
             }
-        }
-        gpiox->CFGLR = tmpreg;
-    }
-
-    if(gpio_init_struct->gpio_pins > 0x00FF)
-    {
-        tmpreg = gpiox->CFGHR;
-
-        for(pinpos = 0x00; pinpos < 0x08; pinpos++)
-        {
-            pos = (((uint32_t)0x01) << (pinpos + 0x08));
-            currentpin = ((gpio_init_struct->gpio_pins) & pos);
-
-            if(currentpin == pos)
+            else
             {
-                pos = pinpos << 2;
-                pinmask = ((uint32_t)0x0F) << pos;
-                tmpreg &= ~pinmask;
-                tmpreg |= (currentmode << pos);
+                current_reg = gpiox->CFGHR;
+            }
+            gpio_pin_new_mode = (gpio_init_struct->gpio_mode & 0xf) | gpio_init_struct->gpio_speed;
 
-                if(gpio_init_struct->gpio_mode == GPIO_MODE_IPD)
-                {
-                    gpiox->BCR = (((uint32_t)0x01) << (pinpos + 0x08));
-                }
+            gpio_pin_reg_pos = gpio_num << 2;
+            current_reg &= ~(gpio_pin_mask << gpio_pin_reg_pos);
+            current_reg |= gpio_pin_new_mode << gpio_pin_reg_pos;
 
+            if(gpio_init_struct->gpio_mode == GPIO_MODE_IPD)
+            {
+                gpiox->BCR = 1 << gpio_num;
+            }
+            else
+            {
                 if(gpio_init_struct->gpio_mode == GPIO_MODE_IPU)
                 {
-                    gpiox->BSHR = (((uint32_t)0x01) << (pinpos + 0x08));
+                    gpiox->BSHR = 1 << gpio_num;
                 }
             }
+
+            if (gpio_num <= (GPIO_NUM - 1) / 2)
+            {
+                gpiox->CFGLR = current_reg;
+            }
+            else
+            {
+                gpiox->CFGHR = current_reg;
+            }
         }
-        gpiox->CFGHR = tmpreg;
     }
 }
 
-/*********************************************************************
- * @fn      GPIO_StructInit
- *
- * @brief   Fills each GPIO_InitStruct member with its default
- *
- * @param   GPIO_InitStruct - pointer to a GPIO_InitTypeDef structure
- *      which will be initialized.
- *
- * @return  none
- */
-void gpio_struct_init(gpio_init_s *gpio_init_struct)
+/// \brief Fill gpio_init_struct with default params for all GPIOs.
+/// \param gpio_init_struct - pointer to a gpio_init_s structure that
+///        contains the configuration information for the specified GPIO peripheral.
+/// \return None
+void gpio_struct_init_default(gpio_init_s *gpio_init_struct)
 {
     gpio_init_struct->gpio_pins = GPIO_PIN_ALL;
     gpio_init_struct->gpio_speed = GPIO_SPEED_2MHZ;
     gpio_init_struct->gpio_mode = GPIO_MODE_IN_FLOATING;
 }
 
-/*********************************************************************
- * @fn      GPIO_ReadInputDataBit
- *
- * @brief   GPIOx - where x can be (A..G) to select the GPIO peripheral.
- *
- * @param    GPIO_Pin - specifies the port bit to read.
- *             This parameter can be GPIO_Pin_x where x can be (0..15).
- *
- * @return  The input port pin value.
- */
+/// \brief Read input data from gpio_pin
+/// \param gpiox - where x can be (A..G) to select the GPIO peripheral
+/// \param gpio_pin - gpio pin num
+/// \return input status (0 or 1)
 uint8_t gpio_read_input_data_bit(gpio_s *gpiox, uint16_t gpio_pin)
 {
-    uint8_t bitstatus = 0x00;
-
-    if((gpiox->INDR & gpio_pin) != (uint32_t)BIT_RESET)
-    {
-        bitstatus = (uint8_t)BIT_SET;
-    }
-    else
-    {
-        bitstatus = (uint8_t)BIT_RESET;
-    }
-
-    return bitstatus;
+    return (gpiox->INDR & gpio_pin) != BIT_RESET;
 }
 
 /*********************************************************************
