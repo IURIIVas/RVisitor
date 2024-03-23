@@ -304,11 +304,11 @@ void dc_motor_controller_task(void *pvParameters)
         {
             direction = FORWARD_DIR;
         }
-        else if (dc_motor_controller_struct.target_speed_rpm[LS] > 0 && dc_motor_controller_struct.target_speed_rpm[RS] < 0)
+        else if (dc_motor_controller_struct.target_speed_rpm[LS] > dc_motor_controller_struct.target_speed_rpm[RS])
         {
             direction = LEFT_DIR;
         }
-        else if (dc_motor_controller_struct.target_speed_rpm[LS] < 0 && dc_motor_controller_struct.target_speed_rpm[RS] > 0)
+        else if (dc_motor_controller_struct.target_speed_rpm[LS] < dc_motor_controller_struct.target_speed_rpm[RS])
         {
             direction = RIGHT_DIR;
         }
