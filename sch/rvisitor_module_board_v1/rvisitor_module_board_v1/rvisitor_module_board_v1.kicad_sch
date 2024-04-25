@@ -1,85 +1,174 @@
-(kicad_sch (version 20230121) (generator eeschema)
-
-  (uuid 41f1d4db-cae0-4c46-bd8a-b53a93ecadfd)
-
-  (paper "A4")
-
-  (lib_symbols
-  )
-
-
-  (sheet (at 129.54 77.47) (size 27.94 26.67) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 110 104 255 0.5000))
-    (uuid 3f2f6381-e8fe-49ff-b0f8-ef486a098465)
-    (property "Sheetname" "ch32v307vct6" (at 129.54 76.7584 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "mcu.kicad_sch" (at 129.54 104.7246 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (instances
-      (project "rvisitor_module_board_v1"
-        (path "/41f1d4db-cae0-4c46-bd8a-b53a93ecadfd" (page "2"))
-      )
-    )
-  )
-
-  (sheet (at 168.91 77.47) (size 27.94 27.94) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 255 246 143 1.0000))
-    (uuid 48f8274d-175c-428b-9cb0-10308ea83e8b)
-    (property "Sheetname" "dc_motor" (at 168.91 76.7584 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "dc_motor.kicad_sch" (at 168.91 105.9946 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (instances
-      (project "rvisitor_module_board_v1"
-        (path "/41f1d4db-cae0-4c46-bd8a-b53a93ecadfd" (page "3"))
-      )
-    )
-  )
-
-  (sheet (at 91.44 77.47) (size 26.67 26.67) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 57f62111-ef76-4d09-afd0-9269d183c817)
-    (property "Sheetname" "sensors" (at 91.44 76.7584 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "sensors.kicad_sch" (at 91.44 104.7246 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (instances
-      (project "rvisitor_module_board_v1"
-        (path "/41f1d4db-cae0-4c46-bd8a-b53a93ecadfd" (page "4"))
-      )
-    )
-  )
-
-  (sheet (at 129.54 113.03) (size 27.94 26.67) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid f0cf1506-beb7-4769-a397-139e5d5738cf)
-    (property "Sheetname" "power" (at 129.54 112.3184 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "power.kicad_sch" (at 129.54 140.2846 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (property "Поле2" "" (at 129.54 113.03 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "rvisitor_module_board_v1"
-        (path "/41f1d4db-cae0-4c46-bd8a-b53a93ecadfd" (page "5"))
-      )
-    )
-  )
-
-  (sheet_instances
-    (path "/" (page "1"))
-  )
+(kicad_sch
+	(version 20231120)
+	(generator "eeschema")
+	(generator_version "8.0")
+	(uuid "41f1d4db-cae0-4c46-bd8a-b53a93ecadfd")
+	(paper "A4")
+	(lib_symbols)
+	(sheet
+		(at 129.54 77.47)
+		(size 27.94 26.67)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 110 104 255 0.5000)
+		)
+		(uuid "3f2f6381-e8fe-49ff-b0f8-ef486a098465")
+		(property "Sheetname" "ch32v307vct6"
+			(at 129.54 76.7584 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mcu.kicad_sch"
+			(at 129.54 104.7246 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "rvisitor_module_board_v1"
+				(path "/41f1d4db-cae0-4c46-bd8a-b53a93ecadfd"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 168.91 77.47)
+		(size 27.94 27.94)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 255 246 143 1.0000)
+		)
+		(uuid "48f8274d-175c-428b-9cb0-10308ea83e8b")
+		(property "Sheetname" "dc_motor"
+			(at 168.91 76.7584 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "dc_motor.kicad_sch"
+			(at 168.91 105.9946 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "rvisitor_module_board_v1"
+				(path "/41f1d4db-cae0-4c46-bd8a-b53a93ecadfd"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 91.44 77.47)
+		(size 26.67 26.67)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "57f62111-ef76-4d09-afd0-9269d183c817")
+		(property "Sheetname" "sensors"
+			(at 91.44 76.7584 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "sensors.kicad_sch"
+			(at 91.44 104.7246 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "rvisitor_module_board_v1"
+				(path "/41f1d4db-cae0-4c46-bd8a-b53a93ecadfd"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 129.54 113.03)
+		(size 27.94 26.67)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "f0cf1506-beb7-4769-a397-139e5d5738cf")
+		(property "Sheetname" "power"
+			(at 129.54 112.3184 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "power.kicad_sch"
+			(at 129.54 140.2846 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Поле2" ""
+			(at 129.54 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "rvisitor_module_board_v1"
+				(path "/41f1d4db-cae0-4c46-bd8a-b53a93ecadfd"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
 )
