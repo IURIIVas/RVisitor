@@ -74,7 +74,7 @@ void gpio_init(gpio_s *gpiox, gpio_init_s *gpio_init_struct)
     uint32_t gpio_pin_reg_pos = 0;
     uint32_t gpio_pin_new_mode = 0;
 
-    for (size_t gpio_num = 0; gpio_num < GPIO_NUM; gpio_num++)
+    for (uint32_t gpio_num = 0; gpio_num < GPIO_NUM; gpio_num++)
     {
         if (0 != gpio_init_struct->gpio_pins & (1 << gpio_num))
         {
