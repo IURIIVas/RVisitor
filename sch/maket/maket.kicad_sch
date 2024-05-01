@@ -5239,12 +5239,6 @@
 		(uuid "e4b05357-a3c6-4b4a-b50e-6fa2f3cb735a")
 	)
 	(junction
-		(at 326.39 115.57)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e850f5c9-85ee-4699-ba9f-1c8823d591f3")
-	)
-	(junction
 		(at 231.14 43.18)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6834,6 +6828,16 @@
 	)
 	(wire
 		(pts
+			(xy 322.58 115.57) (xy 328.93 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6183645e-4016-449f-9525-be0a0166d459")
+	)
+	(wire
+		(pts
 			(xy 280.67 229.87) (xy 280.67 246.38)
 		)
 		(stroke
@@ -7084,7 +7088,7 @@
 	)
 	(wire
 		(pts
-			(xy 326.39 115.57) (xy 326.39 118.11)
+			(xy 326.39 100.33) (xy 326.39 118.11)
 		)
 		(stroke
 			(width 0)
@@ -7354,16 +7358,6 @@
 	)
 	(wire
 		(pts
-			(xy 322.58 115.57) (xy 326.39 115.57)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "910957af-314d-4508-b0ef-4dbf8aee7420")
-	)
-	(wire
-		(pts
 			(xy 252.73 199.39) (xy 285.75 199.39)
 		)
 		(stroke
@@ -7611,16 +7605,6 @@
 			(type default)
 		)
 		(uuid "a1f97583-d73b-4437-a91f-535a8df0948a")
-	)
-	(wire
-		(pts
-			(xy 326.39 115.57) (xy 328.93 115.57)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a2afa38a-586b-443f-a45f-c650f1d4fa5a")
 	)
 	(wire
 		(pts
@@ -8241,16 +8225,6 @@
 			(type default)
 		)
 		(uuid "df5d8edd-7964-4ddb-91a2-1cc073b5db8f")
-	)
-	(wire
-		(pts
-			(xy 326.39 100.33) (xy 326.39 115.57)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dfb2ad70-bbc9-4b5c-a07b-d191937b9051")
 	)
 	(wire
 		(pts
@@ -10227,7 +10201,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
 			(at 334.01 95.25 0)
 			(effects
 				(font
@@ -10302,7 +10276,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
 			(at 334.01 113.03 0)
 			(effects
 				(font
@@ -10989,7 +10963,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
 			(at 332.74 128.27 0)
 			(effects
 				(font
@@ -11977,7 +11951,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
 			(at 332.74 143.51 0)
 			(effects
 				(font
@@ -12609,7 +12583,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
 			(at 97.79 157.48 0)
 			(effects
 				(font
