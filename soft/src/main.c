@@ -12,13 +12,7 @@
 #include "system_ch32v30x.h"
 
 #ifndef G_TESTBENCH
-    #include "cmd_interface.h"
-    #include "hw_201_survey.h"
-    #include "hc_sr04_survey.h"
-    #include "dc_motor_driver.h"
-    #include "dc_motor_controller.h"
-    #include "power_measure.h"
-    #include "odometry.h"
+	#include "motion_control.h"
 #else
     #include "testbench.h"
 #endif
@@ -41,11 +35,7 @@
 
 void tasks_init(void)
 {
-	cmd_iface_listening_task_init();
-	hw_201_task_init();
-    hc_sr04_task_init();
-    power_measure_task_init();
-    dc_motor_controller_task_init();
+    motion_control_task_init();
 }
 
 #endif

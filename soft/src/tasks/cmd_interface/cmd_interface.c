@@ -237,8 +237,8 @@ static void _dc_set_state_speed(void)
     double target_speed_left_side_ms = target_speed_lin_ms + (target_speed_ang_rads * WHEEL_RADIUS_M);
     double target_speed_right_side_ms = target_speed_lin_ms - (target_speed_ang_rads * WHEEL_RADIUS_M);
 
-    dc_motor_controller_struct.target_speed_rpm[LS] = (target_speed_left_side_ms * 60) / WHEEL_C_M;
-    dc_motor_controller_struct.target_speed_rpm[RS] = (target_speed_right_side_ms * 60) / WHEEL_C_M;
+    dc_m_ctrl.target_speed_rpm[LS] = (target_speed_left_side_ms * 60) / WHEEL_C_M;
+    dc_m_ctrl.target_speed_rpm[RS] = (target_speed_right_side_ms * 60) / WHEEL_C_M;
 }
 
 static void _get_distances(void)
@@ -411,7 +411,7 @@ static void _cmd_parse()
     {
         _cmd_parse_for_subcmd(received_cmd);
         _params_set((uint8_t)subcmd[0], PARAM_FLAGS_ENABLE);
-        dc_motor_controller_struct.flags_enable = (uint8_t)subcmd[0];
+        dc_m_ctrl.flags_enable = (uint8_t)subcmd[0];
     }
 	else
 	{
@@ -450,10 +450,10 @@ void cmd_iface_listening_task(void *pvParameters)
     {
         if (module_params.params & PARAM_SENS_SURVEY_INF_ENABLE)
         {
-            _get_obstacles();
-            _get_distances();
-            _get_odometry();
-            _get_current_and_voltage();
+//            _get_obstacles();
+//            _get_distances();
+//            _get_odometry();
+//            _get_current_and_voltage();
 
             vTaskDelay(CMD_INF_SURVEY_PERIOD_MS / portTICK_PERIOD_MS);
         }

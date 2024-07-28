@@ -10,6 +10,7 @@
 #include "odometry.h"
 #include "dc_motor_controller.h"
 #include "dc_motor_driver.h"
+#include "encoder_driver.h"
 #include <math.h>
 
 //------------------------------------------------------ Macros --------------------------------------------------------
@@ -40,10 +41,10 @@ void odometry_get(odometry_set_s *odometry_set)
     double l = 0;
     double dtheta = 0;
 
-    l_rr = (double) (odometry_set->cur_ticks[RR_MOTOR]) / ENC_TICS_ONE_WHEEL * WHEEL_C_M;
-    l_fr = (double) (odometry_set->cur_ticks[FR_MOTOR]) / ENC_TICS_ONE_WHEEL * WHEEL_C_M;
-    l_rl = (double) (odometry_set->cur_ticks[RL_MOTOR]) / ENC_TICS_ONE_WHEEL * WHEEL_C_M;
-    l_fl = (double) (odometry_set->cur_ticks[FL_MOTOR]) / ENC_TICS_ONE_WHEEL * WHEEL_C_M;
+    l_rr = (double) (odometry_set->cur_ticks[RR_MOTOR]) / ENC_TICS_ONE_PERIOD * WHEEL_C_M;
+    l_fr = (double) (odometry_set->cur_ticks[FR_MOTOR]) / ENC_TICS_ONE_PERIOD * WHEEL_C_M;
+    l_rl = (double) (odometry_set->cur_ticks[RL_MOTOR]) / ENC_TICS_ONE_PERIOD * WHEEL_C_M;
+    l_fl = (double) (odometry_set->cur_ticks[FL_MOTOR]) / ENC_TICS_ONE_PERIOD * WHEEL_C_M;
 
     double l_left_side = ((l_fl + l_rl) / 2);
     double l_right_side = ((l_fr + l_rr) / 2);
