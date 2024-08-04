@@ -35,7 +35,7 @@ typedef struct
     double kd;
 
     double input;
-    uint32_t output;
+    double output;
     double target;
 
     double last_input;

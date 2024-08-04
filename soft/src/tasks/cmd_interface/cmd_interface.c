@@ -469,8 +469,8 @@ void cmd_iface_listening_task_init(void)
 	_gpio_cmd_iface_uart_init();
 	_uart_cmd_iface_init();
 	_nvic_enable_uart_interrupt();
-	_spi_flash_rcc_clk_init();
-	_spi_flash_gpio_init();
+//	_spi_flash_rcc_clk_init();
+//	_spi_flash_gpio_init();
 	USART_Cmd(CMD_IFACE_UART, ENABLE);					/// \todo: 妤快把快技快扼找我找抆 志 扳批扶抗扯我攻 uart_init
 
     xTaskCreate((TaskFunction_t )cmd_iface_listening_task,

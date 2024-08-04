@@ -69,50 +69,76 @@ void gpio_afio_deinit(void)
 /// \return None
 void gpio_init(gpio_s *gpiox, gpio_init_s *gpio_init_struct)
 {
-    uint32_t current_reg = 0;
-    uint32_t gpio_pin_mask = 0xf;
-    uint32_t gpio_pin_reg_pos = 0;
-    uint32_t gpio_pin_new_mode = 0;
+	uint32_t currentmode = 0x00, currentpin = 0x00, pinpos = 0x00, pos = 0x00;
+    uint32_t tmpreg = 0x00, pinmask = 0x00;
 
-    for (uint32_t gpio_num = 0; gpio_num < GPIO_NUM; gpio_num++)
+    currentmode = ((uint32_t)gpio_init_struct->gpio_mode) & ((uint32_t)0x0F);
+
+    if((((uint32_t)gpio_init_struct->gpio_mode) & ((uint32_t)0x10)) != 0x00)
     {
-        if (0 != gpio_init_struct->gpio_pins & (1 << gpio_num))
+        currentmode |= (uint32_t)gpio_init_struct->gpio_speed;
+    }
+
+    if(((uint32_t)gpio_init_struct->gpio_pins & ((uint32_t)0x00FF)) != 0x00)
+    {
+        tmpreg = gpiox->CFGLR;
+
+        for(pinpos = 0x00; pinpos < 0x08; pinpos++)
         {
-            if (gpio_num <= (GPIO_NUM - 1) / 2)
-            {
-                current_reg = gpiox->CFGLR;
-            }
-            else
-            {
-                current_reg = gpiox->CFGHR;
-            }
-            gpio_pin_new_mode = (gpio_init_struct->gpio_mode & 0xf) | gpio_init_struct->gpio_speed;
+            pos = ((uint32_t)0x01) << pinpos;
+            currentpin = (gpio_init_struct->gpio_pins) & pos;
 
-            gpio_pin_reg_pos = gpio_num << 2;
-            current_reg &= ~(gpio_pin_mask << gpio_pin_reg_pos);
-            current_reg |= gpio_pin_new_mode << gpio_pin_reg_pos;
+            if(currentpin == pos)
+            {
+                pos = pinpos << 2;
+                pinmask = ((uint32_t)0x0F) << pos;
+                tmpreg &= ~pinmask;
+                tmpreg |= (currentmode << pos);
 
-            if(gpio_init_struct->gpio_mode == GPIO_MODE_IPD)
-            {
-                gpiox->BCR = 1 << gpio_num;
-            }
-            else
-            {
-                if(gpio_init_struct->gpio_mode == GPIO_MODE_IPU)
+                if(gpio_init_struct->gpio_mode == GPIO_MODE_IPD)
                 {
-                    gpiox->BSHR = 1 << gpio_num;
+                    gpiox->BCR = (((uint32_t)0x01) << pinpos);
+                }
+                else
+                {
+                    if(gpio_init_struct->gpio_mode == GPIO_MODE_IPU)
+                    {
+                        gpiox->BSHR = (((uint32_t)0x01) << pinpos);
+                    }
                 }
             }
+        }
+        gpiox->CFGLR = tmpreg;
+    }
 
-            if (gpio_num <= (GPIO_NUM - 1) / 2)
+    if(gpio_init_struct->gpio_pins > 0x00FF)
+    {
+        tmpreg = gpiox->CFGHR;
+
+        for(pinpos = 0x00; pinpos < 0x08; pinpos++)
+        {
+            pos = (((uint32_t)0x01) << (pinpos + 0x08));
+            currentpin = ((gpio_init_struct->gpio_pins) & pos);
+
+            if(currentpin == pos)
             {
-                gpiox->CFGLR = current_reg;
-            }
-            else
-            {
-                gpiox->CFGHR = current_reg;
+                pos = pinpos << 2;
+                pinmask = ((uint32_t)0x0F) << pos;
+                tmpreg &= ~pinmask;
+                tmpreg |= (currentmode << pos);
+
+                if(gpio_init_struct->gpio_mode == GPIO_MODE_IPD)
+                {
+                    gpiox->BCR = (((uint32_t)0x01) << (pinpos + 0x08));
+                }
+
+                if(gpio_init_struct->gpio_mode == GPIO_MODE_IPU)
+                {
+                    gpiox->BSHR = (((uint32_t)0x01) << (pinpos + 0x08));
+                }
             }
         }
+        gpiox->CFGHR = tmpreg;
     }
 }
 

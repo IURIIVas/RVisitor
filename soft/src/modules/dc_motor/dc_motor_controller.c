@@ -38,24 +38,39 @@ static void _pid_calculate(m_pid_s *pid)
     double error = 0;
     double d_input = 0;
     double output = 0;
-    const double max_output_sum = 300;
-    double interval = 0.1;
+    const double max_output_sum = 230;
+    const double interval_s = 0.1;
 
     input = pid->input;
     error = pid->target - abs(input);
-    d_input = (input - pid->last_input) / interval;
+    d_input = (input - pid->last_input) / interval_s;
 
-    pid->output_sum += (error * interval);
+    pid->output_sum += error * interval_s;
     pid->output_sum = max(min(pid->output_sum, max_output_sum), -max_output_sum);
 
     output = (pid->kp * error) + (pid->ki * pid->output_sum) + (pid->kd * d_input);
 
-    output = max(min(pid->out_max, output), pid->out_min);
-
-    pid->output = (uint32_t) output;
+    pid->output = output;
     pid->last_input = input;
 }
 
+
+static uint32_t _ctrl_signal_calc(m_pid_s *pid)
+{
+//    const double max_output_sum = 230;
+//    const double max_pid_out = pid->kp * MOTOR_MAX_VALUE + pid->ki * max_output_sum + pid->kd * MOTOR_MAX_VALUE;
+//    const double min_pid_out = -max_pid_out;
+//
+//    const double pid_out_diff = (max_pid_out - min_pid_out);
+//    const double out_diff = (MOTOR_MAX_VALUE - MOTOR_MIN_VALUE);
+//    double ctrl_signal = (pid->output - min_pid_out) / pid_out_diff * out_diff;
+    double ctrl_signal = (pid->output + pid->input) / 2.35;
+    ctrl_signal = MOTOR_MAX_VALUE * ctrl_signal / 100;
+
+    ctrl_signal = max(min(MOTOR_MAX_VALUE, ctrl_signal), MOTOR_MIN_VALUE);
+
+    return (uint32_t) ctrl_signal;
+}
 //static void _obstacle_flag_set_bit(uint16_t side, uint16_t bit)
 //{
 //    if (bit)
@@ -196,10 +211,10 @@ void dc_motors_speed_set(dc_motor_controller_s *dc_m_st, m_pid_s *pid_0,
     _pid_calculate(pid_2);
     _pid_calculate(pid_3);
 
-    dc_m_ctrl.dc_motor_speed_pwm[0] = pid_0->output;
-    dc_m_ctrl.dc_motor_speed_pwm[1] = pid_1->output;
-    dc_m_ctrl.dc_motor_speed_pwm[2] = pid_2->output;
-    dc_m_ctrl.dc_motor_speed_pwm[3] = pid_3->output;
+    dc_m_ctrl.dc_motor_speed_pwm[0] = _ctrl_signal_calc(pid_0);
+    dc_m_ctrl.dc_motor_speed_pwm[1] = _ctrl_signal_calc(pid_1);
+    dc_m_ctrl.dc_motor_speed_pwm[2] = _ctrl_signal_calc(pid_2);
+    dc_m_ctrl.dc_motor_speed_pwm[3] = _ctrl_signal_calc(pid_3);
 
     direction_change(direction);
     pwm_for_dc_change_speed(dc_m_ctrl.dc_motor_speed_pwm);

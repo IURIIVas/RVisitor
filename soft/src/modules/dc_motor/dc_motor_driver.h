@@ -20,6 +20,7 @@
 #define PWM_MODE 					          (TIM_OCMode_PWM1)
 
 #define MOTOR_MAX_VALUE				          (512)
+#define MOTOR_MIN_VALUE                       (30)
 #define MOTOR_PWM_PRESCALER			          (12)
 
 #define LS_PWM_TIM                            (TIM1)

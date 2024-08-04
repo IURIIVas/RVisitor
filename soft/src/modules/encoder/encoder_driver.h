@@ -28,7 +28,7 @@
 #define RCC_TIM9_GPIO                         (RCC_APB2Periph_GPIOD)
 
 #define ENC_COUNT_VALUE                       (0xffff)
-#define ENC_TICS_ONE_PERIOD                   (418)
+#define ENC_TICS_ONE_PERIOD                   (588)
 #define ENC_PPR                               (7)
 
 //----------------------------------------------------- Typedefs -------------------------------------------------------

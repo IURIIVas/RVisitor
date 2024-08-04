@@ -13,6 +13,7 @@
 
 #ifndef G_TESTBENCH
 	#include "motion_control.h"
+    #include "cmd_interface.h"
 #else
     #include "testbench.h"
 #endif
@@ -35,6 +36,7 @@
 
 void tasks_init(void)
 {
+    cmd_iface_listening_task_init();
     motion_control_task_init();
 }
 
