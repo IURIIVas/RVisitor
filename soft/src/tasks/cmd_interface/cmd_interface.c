@@ -40,7 +40,7 @@ const char *print_hello_cmd = "print_hello";
 const char *get_obstacles = "get_obstacles";
 const char *get_distances = "get_distances";
 const char *get_measurements = "get_measurements";
-const char *dc_motor_set_speed = "dc_set_speed";
+const char *dc_motor_set_speed = "m";
 const char *param_cliff_enable = "param_cliff_enable";
 const char *param_obstacles_enable = "param_obstacles_enable";
 const char *param_overcurrent_enable = "param_overcurrent_enable";
@@ -171,6 +171,7 @@ static void _uart_cmd_iface_init(void)
 
 	uart_init(CMD_IFACE_UART, &uart_init_struct);
 	USART_ITConfig(CMD_IFACE_UART, USART_IT_RXNE, ENABLE);
+    USART_Cmd(CMD_IFACE_UART, ENABLE);
 }
 
 static void _print_hello(void)
@@ -469,9 +470,6 @@ void cmd_iface_listening_task_init(void)
 	_gpio_cmd_iface_uart_init();
 	_uart_cmd_iface_init();
 	_nvic_enable_uart_interrupt();
-//	_spi_flash_rcc_clk_init();
-//	_spi_flash_gpio_init();
-	USART_Cmd(CMD_IFACE_UART, ENABLE);					/// \todo: 妤快把快技快扼找我找抆 志 扳批扶抗扯我攻 uart_init
 
     xTaskCreate((TaskFunction_t )cmd_iface_listening_task,
 				(const char*    )"cmd interface listening",

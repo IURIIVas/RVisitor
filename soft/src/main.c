@@ -48,18 +48,17 @@ void tasks_init(void)
 int main(void)
 {
 
-	nvic_priority_group_config(NVIC_PriorityGroup_2);
-	SystemCoreClockUpdate();
+    nvic_priority_group_config(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
 
 #ifndef G_TESTBENCH
-	tasks_init();
+    tasks_init();
 
     vTaskStartScheduler();
 #else
     testbench_init();
 #endif
 
-	while(1)
-	{
+    while(1) {
 	}
 }

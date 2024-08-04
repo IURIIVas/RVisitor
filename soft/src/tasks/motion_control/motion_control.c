@@ -40,22 +40,20 @@ void motion_control_task(void *pvParameters)
 	double ki = 0.1;
 	double kd = 0;
 
-	dc_m_ctrl.target_speed_rpm[1] = 100;
-	dc_m_ctrl.target_speed_rpm[0] = 125;
-
 	m_pid_s pid_0 = {.kp = kp, .ki = ki, .kd = kd, .input = 0, .last_input = 0,
 				   .out_max = MOTOR_MAX_VALUE, .out_min = MOTOR_MIN_VALUE, .output = 0,
-				   .output_sum = 0, .target = dc_m_ctrl.target_speed_rpm[0]};
+				   .output_sum = 0, .target = dc_m_ctrl.target_speed_rpm[LS]};
 	m_pid_s pid_1 = {.kp = kp, .ki = ki, .kd = kd, .input = 0, .last_input = 0,
 				   .out_max = MOTOR_MAX_VALUE, .out_min = MOTOR_MIN_VALUE, .output = 0,
-				   .output_sum = 0, .target = dc_m_ctrl.target_speed_rpm[0]};
+				   .output_sum = 0, .target = dc_m_ctrl.target_speed_rpm[LS]};
 	m_pid_s pid_2 = {.kp = kp, .ki = ki, .kd = kd, .input = 0, .last_input = 0,
 				   .out_max = MOTOR_MAX_VALUE, .out_min = MOTOR_MIN_VALUE, .output = 0,
-				   .output_sum = 0, .target = dc_m_ctrl.target_speed_rpm[1]};
+				   .output_sum = 0, .target = dc_m_ctrl.target_speed_rpm[RS]};
 	m_pid_s pid_3 = {.kp = kp, .ki = ki, .kd = kd, .input = 0, .last_input = 0,
 				   .out_max = MOTOR_MAX_VALUE, .out_min = MOTOR_MIN_VALUE, .output = 0,
-				   .output_sum = 0, .target = dc_m_ctrl.target_speed_rpm[1]};
-	uart_send_str(CMD_IFACE_UART, "ENC;PID_OUT;CTRL\n");
+				   .output_sum = 0, .target = dc_m_ctrl.target_speed_rpm[RS]};
+
+//	uart_send_str(CMD_IFACE_UART, "ENC;PID_OUT;CTRL\n");
 	while(1) {
 		for (size_t enc = RR_ENC; enc < ENC_NUM; enc++) {
 			dc_m_ctrl.dc_motor_speed_rpm[enc] = get_speed_rpm(enc);
@@ -63,12 +61,12 @@ void motion_control_task(void *pvParameters)
 
 		dc_motors_speed_set(&dc_m_ctrl, &pid_0, &pid_1, &pid_2, &pid_3);
 
-		uart_send_int(CMD_IFACE_UART, (int32_t) dc_m_ctrl.dc_motor_speed_rpm[0]);
-		uart_send_str(CMD_IFACE_UART, ";");
-        uart_send_int(CMD_IFACE_UART, (int32_t) pid_0.output);
-        uart_send_str(CMD_IFACE_UART, ";");
-        uart_send_int(CMD_IFACE_UART, (int32_t) dc_m_ctrl.dc_motor_speed_pwm[0]);
-        uart_send_str(CMD_IFACE_UART, "\n");
+//      uart_send_int(CMD_IFACE_UART, (int32_t) dc_m_ctrl.dc_motor_speed_rpm[0]);
+//      uart_send_str(CMD_IFACE_UART, ";");
+//      uart_send_int(CMD_IFACE_UART, (int32_t) pid_0.output);
+//      uart_send_str(CMD_IFACE_UART, ";");
+//      uart_send_int(CMD_IFACE_UART, (int32_t) dc_m_ctrl.dc_motor_speed_pwm[0]);
+//      uart_send_str(CMD_IFACE_UART, "\n");
 		vTaskDelay(PID_PERIOD_MS / portTICK_PERIOD_MS);
 	}
 }
