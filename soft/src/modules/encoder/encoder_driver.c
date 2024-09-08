@@ -109,19 +109,19 @@ double get_speed_rpm(encoders_e enc)
 
 	switch (enc)
 	{
-	case RR_ENC:
+    case FL_ENC:
+        ticks = TIM9->CNT - ENC_COUNT_VALUE / 2;
+        TIM9->CNT = ENC_COUNT_VALUE / 2;
+        break;
+	case RL_ENC:
 		ticks = TIM4->CNT - ENC_COUNT_VALUE / 2;
 		TIM4->CNT = ENC_COUNT_VALUE / 2;
 		break;
 	case FR_ENC:
-		ticks = TIM9->CNT - ENC_COUNT_VALUE / 2;
-		TIM9->CNT = ENC_COUNT_VALUE / 2;
-		break;
-	case RL_ENC:
 		ticks = TIM5->CNT - ENC_COUNT_VALUE / 2;
 		TIM5->CNT = ENC_COUNT_VALUE / 2;
 		break;
-	case FL_ENC:
+	case RR_ENC:
 		ticks = TIM2->CNT - ENC_COUNT_VALUE / 2;
 		TIM2->CNT = ENC_COUNT_VALUE / 2;
 		break;

@@ -55,18 +55,18 @@ void motion_control_task(void *pvParameters)
 
 //	uart_send_str(CMD_IFACE_UART, "ENC;PID_OUT;CTRL\n");
 	while(1) {
-		for (size_t enc = RR_ENC; enc < ENC_NUM; enc++) {
+		for (size_t enc = FL_ENC; enc < ENC_NUM; enc++) {
 			dc_m_ctrl.dc_motor_speed_rpm[enc] = get_speed_rpm(enc);
 		}
 
 		dc_motors_speed_set(&dc_m_ctrl, &pid_0, &pid_1, &pid_2, &pid_3);
 
-//      uart_send_int(CMD_IFACE_UART, (int32_t) dc_m_ctrl.dc_motor_speed_rpm[0]);
-//      uart_send_str(CMD_IFACE_UART, ";");
-//      uart_send_int(CMD_IFACE_UART, (int32_t) pid_0.output);
-//      uart_send_str(CMD_IFACE_UART, ";");
-//      uart_send_int(CMD_IFACE_UART, (int32_t) dc_m_ctrl.dc_motor_speed_pwm[0]);
-//      uart_send_str(CMD_IFACE_UART, "\n");
+//		uart_send_int(CMD_IFACE_UART, (int32_t) dc_m_ctrl.dc_motor_speed_rpm[2]);
+//		uart_send_str(CMD_IFACE_UART, ";");
+//		uart_send_int(CMD_IFACE_UART, (int32_t) pid_2.output);
+//		uart_send_str(CMD_IFACE_UART, ";");
+//		uart_send_int(CMD_IFACE_UART, (int32_t) dc_m_ctrl.dc_motor_speed_pwm[2]);
+//		uart_send_str(CMD_IFACE_UART, "\n");
 		vTaskDelay(PID_PERIOD_MS / portTICK_PERIOD_MS);
 	}
 }

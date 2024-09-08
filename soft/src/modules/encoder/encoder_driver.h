@@ -35,10 +35,10 @@
 
 typedef enum
 {
-    RR_ENC = 0,
-    FR_ENC = 1,
-    FL_ENC = 2,
-    RL_ENC = 3
+    FL_ENC = 0, // TIM 9
+    RL_ENC = 1,
+    FR_ENC = 2,
+    RR_ENC = 3
 } encoders_e;
 
 
