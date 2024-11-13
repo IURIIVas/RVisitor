@@ -109,6 +109,8 @@
 #define configUSE_APPLICATION_TASK_TAG	0
 #define configUSE_COUNTING_SEMAPHORES	1
 #define configGENERATE_RUN_TIME_STATS	0
+#define configSUPPORT_DYNAMIC_ALLOCATION	1
+#define configAPPLICATION_ALLOCATED_HEAP	4
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION 0
 
 /* Co-routine definitions. */
