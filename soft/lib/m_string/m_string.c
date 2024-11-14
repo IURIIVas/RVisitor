@@ -204,7 +204,7 @@ double m_atof(const char *str, uint32_t num_end_idx)
 ///         double n - number to convert
 ///         uint32_t afterpoint - number of digits after point
 /// \return None
-void ftoa(double n, char* res, int32_t afterpoint)
+void m_ftoa(double n, char* res, int32_t afterpoint)
 {
     // Extract integer part
     int32_t ipart = (int32_t)n;

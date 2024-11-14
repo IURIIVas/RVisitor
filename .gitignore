@@ -1,3 +1,10 @@
 soft/Debug
-soft/Test
+soft/Main/RV*
+soft/Main/obj/*
 .git
+.project
+.cproject
+.template
+.settings
+doc
+tools

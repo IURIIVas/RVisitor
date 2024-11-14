@@ -27,7 +27,7 @@ uint32_t m_strlen(const char *str);
 int32_t m_strtol(const char* str, uint32_t num_end_idx);
 uint32_t m_itoa(int32_t n, char *str, int32_t d, uint8_t is_sign);
 double m_atof(const char *str, uint32_t num_end_idx);
-void ftoa(double n, char* res, int32_t afterpoint);
+void m_ftoa(double n, char* res, int32_t afterpoint);
 void reverse(char *str, int32_t len);
 
 #endif /* M_STRING_H_ */

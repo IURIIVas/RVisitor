@@ -497,7 +497,7 @@ void uart_send_int(USART_TypeDef *uart, int32_t int_num)
 void uart_send_double(USART_TypeDef *uart, double double_num)
 {
     char str_num[12];
-    ftoa(double_num, str_num, 3);
+    m_ftoa(double_num, str_num, 3);
     uart_send_str(uart, str_num);
 }
 
